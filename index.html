@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Once Human — Энциклопедия девиантов</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">◈</div>
+      <div>
+        <h1>ONCE HUMAN</h1>
+        <p class="subtitle">Интерактивная энциклопедия девиантов</p>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="meta-item">📅 Проверено: <b id="lastUpdate">16.10.2026</b></span>
+      <span class="meta-item">🧬 Девиантов: <b id="totalCount">0</b></span>
+      <span class="meta-item">⭐ В избранном: <b id="favCount">0</b></span>
+    </div>
+  </div>
+</header>
+
+<section class="controls">
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск по названию, способности, условию содержания...">
+  </div>
+  <div class="filters">
+    <div class="filter-group">
+      <label>Категория:</label>
+      <select id="categoryFilter">
+        <option value="all">Все категории</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Редкость:</label>
+      <select id="rarityFilter">
+        <option value="all">Любая</option>
+        <option value="common">Обычный (B)</option>
+        <option value="rare">Редкий (A)</option>
+        <option value="epic">Эпический (S)</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Достоверность:</label>
+      <select id="confidenceFilter">
+        <option value="all">Все</option>
+        <option value="high">Высокая</option>
+        <option value="medium">Средняя</option>
+        <option value="low">Низкая</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Сортировка:</label>
+      <select id="sortSelect">
+        <option value="name">По названию</option>
+        <option value="category">По категории</option>
+        <option value="rarity">По редкости</option>
+      </select>
+    </div>
+    <button class="btn btn-reset" id="resetBtn">✕ Сброс</button>
+    <button class="btn btn-fav" id="favToggle">★ Только избранное</button>
+  </div>
+</section>
+
+<section class="quick-sections">
+  <button class="quick-btn" data-section="newbie">🌱 Новичкам</button>
+  <button class="quick-btn" data-section="combat">⚔️ Боевые</button>
+  <button class="quick-btn" data-section="base">🏭 Для базы</button>
+  <button class="quick-btn" data-section="compare">⇄ Сравнить</button>
+</section>
+
+<section class="stats-bar" id="statsBar"></section>
+
+<main class="grid" id="deviantsGrid"></main>
+
+<div class="empty-state" id="emptyState" style="display:none">
+  <div class="empty-icon">◌</div>
+  <h3>Ничего не найдено</h3>
+  <p>Попробуйте изменить фильтры или поисковый запрос.</p>
+</div>
+
+<div class="modal" id="deviantModal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="compareModal">
+  <div class="modal-content modal-wide">
+    <button class="modal-close" id="compareClose">×</button>
+    <h2>Сравнение девиантов</h2>
+    <div id="compareBody"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Энциклопедия создана на основе официальных руководств и сообщества. Все права на игру принадлежат Starry Studio / NetEase.</p>
+  <p class="disclaimer">В игре Once Human «перки» девиантов реализованы через систему Усилителей настроения (Mood Boosters) и Черт (Traits). Данные актуальны на октябрь 2026 г.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
