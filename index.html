@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Once Human — Энциклопедия девиантов</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -27,26 +30,23 @@
 
 <section class="controls">
   <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск по названию, способности, условию содержания...">
+    <input type="text" id="searchInput" placeholder="Поиск девианта, роли, способности или перки...">
   </div>
-  <div class="filters">
+  <div class="filters" id="deviantFilters">
     <div class="filter-group">
-      <label>Категория:</label>
+      <label for="categoryFilter">Тип:</label>
       <select id="categoryFilter">
-        <option value="all">Все категории</option>
+        <option value="all">Все типы</option>
       </select>
     </div>
     <div class="filter-group">
-      <label>Редкость:</label>
-      <select id="rarityFilter">
-        <option value="all">Любая</option>
-        <option value="common">Обычный (B)</option>
-        <option value="rare">Редкий (A)</option>
-        <option value="epic">Эпический (S)</option>
+      <label for="roleFilter">Роль:</label>
+      <select id="roleFilter">
+        <option value="all">Все роли</option>
       </select>
     </div>
     <div class="filter-group">
-      <label>Достоверность:</label>
+      <label for="confidenceFilter">Достоверность:</label>
       <select id="confidenceFilter">
         <option value="all">Все</option>
         <option value="high">Высокая</option>
@@ -55,11 +55,10 @@
       </select>
     </div>
     <div class="filter-group">
-      <label>Сортировка:</label>
+      <label for="sortSelect">Сортировка:</label>
       <select id="sortSelect">
         <option value="name">По названию</option>
-        <option value="category">По категории</option>
-        <option value="rarity">По редкости</option>
+        <option value="category">По типу</option>
       </select>
     </div>
     <button class="btn btn-reset" id="resetBtn">✕ Сброс</button>
@@ -68,11 +67,16 @@
 </section>
 
 <section class="quick-sections">
-  <button class="quick-btn" data-section="newbie">🌱 Новичкам</button>
+  <button class="quick-btn" data-section="all">Все девианты</button>
   <button class="quick-btn" data-section="combat">⚔️ Боевые</button>
   <button class="quick-btn" data-section="base">🏭 Для базы</button>
-  <button class="quick-btn" data-section="compare">⇄ Сравнить</button>
+  <button class="quick-btn" data-section="compare">Сравнить</button>
 </section>
+
+<nav class="view-tabs" aria-label="Разделы энциклопедии">
+  <button class="view-tab active" id="deviantsView" type="button">Девианты</button>
+  <button class="view-tab" id="traitsView" type="button">Перки</button>
+</nav>
 
 <section class="stats-bar" id="statsBar"></section>
 
