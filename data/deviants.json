@@ -12,12 +12,12 @@
   "deviants": [
     {
       "id": "butterfly", "name_ru": "Эмиссар Баттерфляй", "name_en": "Butterfly's Emissary",
-      "category": ["combat"], "rarity": "common",
+      "category": ["combat"], "roles": ["Урон", "Поддержка"], "rarity": "common",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615081/1B5AF9D91B0CBC8FE7D7365220ECC6E93D9EB5B0/", "imageFallback": "🦋",
       "shortDesc": "Первый боевой девиант. Атакует врагов и помечает слабые места.",
-      "fullDesc": "Суперполезный стартовый девиант. Атакует всех врагов вблизи себя и помечает слабые места (Weakspot), увеличивая получаемый ими урон.",
-      "abilities": ["Автоатака по ближайшим целям", "Mark Weakspot: цель получает +25-35% урона по слабым местам на 5 сек."],
-      "acquisition": { "location": "Остров Туториала или заброшенный монолит near Silo Alpha (Chalk Peak)", "method": "Выдаётся при завершении обучения, либо шанс спавна внизу монолита.", "tips": "Самый простой девиант для получения, не пропускайте туториал." },
+      "fullDesc": "Боевая девиация автоматически атакует врагов и позволяет назначить цель. Дополнительные техники зависят от сценария.",
+      "abilities": ["Auto Attack: автоматически атакует врагов", "Designated Target: позволяет назначить цель атаки"],
+      "acquisition": { "location": "Обучение Manibus (Novice); пустой Monolith; Rosetta facilities", "method": "Выдаётся в обучении. В обычных сценариях также появляется на нижнем этаже пустого Monolith (165, -3708), может выпасть со вторичного босса Silo Alpha или спавниться в Rosetta facilities.", "tips": "Появление в открытом мире зависит от сценария и точки спавна." },
       "moodBoosters": ["Зелёный свет", "Цветы"],
       "traits": {
         "recommended": [
@@ -35,18 +35,18 @@
       "cons": ["Низкий базовый урон", "Быстро теряет настроение без правильных условий"],
       "bestFor": "Абсолютным новичкам для прохождения первых часов игры и помощи против боссов.",
       "alternatives": ["Lonewolf's Whisper", "Mr. Wish"],
-      "confidence": "high",
-      "sources": ["LVL.su Guide", "Steam Community Guide", "Once Human Fandom Wiki"],
+      "confidence": "medium",
+      "sources": ["Steam Community Guide", "Once Human Fandom: Butterfly's Emissary", "Once Human Fandom: Deviation/Combat List"],
       "lastChecked": "2026-10-16"
     },
     {
       "id": "festering", "name_ru": "Гнойный гель", "name_en": "Festering Gel",
-      "category": ["combat"], "rarity": "rare",
+      "category": ["combat"], "roles": ["Защита", "Лечение"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615086/4AD6C593FAF73E9DA76DD56ADD634F3D92353569/", "imageFallback": "",
       "shortDesc": "Мощный защитник. Создаёт укрытия и исцеляет союзников.",
-      "fullDesc": "Чрезвычайно мощный оборонительный девиант. Может использоваться как временное прикрытие, но главное его преимущество — исцеление и восстановление рассудка (Sanity) для вас и друзей поблизости.",
-      "abilities": ["Flawless Fortification: отбрасывает врагов и создаёт укрытие", "Build Fortification: союзники рядом восстанавливают 6% HP и 3% Sanity в секунду"],
-      "acquisition": { "location": "Монолит Жадности (Monolith of Greed), Dayton Wetlands", "method": "Выпадает после победы над первым боссом Ravenous Hunter.", "tips": "Используйте оружие против нежити/мутантов для ускорения боя." },
+      "fullDesc": "Защитная девиация создаёт укрепление, блокирующее атаки. Способность также восстанавливает здоровье и рассудок союзников рядом; объём восстановления зависит от уровня способности.",
+      "abilities": ["Flawless Fortification: создаёт защиту от атак", "Build Fortification: создаёт укрытие и лечит союзников поблизости; значения зависят от уровня способности"],
+      "acquisition": { "location": "Monolith of Greed; в SCP-сценарии также встречается в strongholds", "method": "В основных сценариях появляется после Ravenous Hunter в Monolith of Greed. Для некоторых сценариев источники указывают Foul Shadowhunter.", "tips": "Дроп зависит от сценария; проверьте соответствующую таблицу наград." },
       "moodBoosters": ["Красный свет", "Электричество (2W)"],
       "traits": {
         "recommended": [
@@ -64,13 +64,13 @@
       "cons": ["Требует победы над боссом", "Не наносит прямого урона"],
       "bestFor": "Игрокам, испытывающим проблемы с Sanity или играющим в кооперативе.",
       "alternatives": ["Dr. Teddy", "Voodoo Doll"],
-      "confidence": "high",
-      "sources": ["LVL.su Guide", "Steam Community Guide", "Once Human Fandom Wiki"],
+      "confidence": "medium",
+      "sources": ["Steam Community Guide", "Once Human Fandom: Lonewolf's Whisper", "Once Human Fandom: Deviation/Combat List"],
       "lastChecked": "2026-10-16"
     },
     {
       "id": "rebecca", "name_ru": "Ребекка", "name_en": "Rebecca",
-      "category": ["territory"], "rarity": "epic",
+      "category": ["territory"], "roles": ["Поддержка базы", "Восстановление энергии"], "rarity": "epic",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985585/FDC41E76D3B1E30DAF712E43F1FB89FF40E0FE67/", "imageFallback": "🧬",
       "shortDesc": "Гуманоидный помощник. Ускоряет восстановление энергии девиантов.",
       "fullDesc": "Ребекка призывает аватар Мицуко, который играет на пианино в вашей базе, значительно увеличивая скорость восстановления энергии девиантов (Deviant Energy).",
@@ -92,13 +92,13 @@
       "cons": ["Очень сложна в получении (эндшпиль)", "Бесполезна в бою"],
       "bestFor": "Опытным игрокам с развитой базой и множеством территориальных девиантов.",
       "alternatives": ["Нет прямых аналогов для восстановления энергии"],
-      "confidence": "high",
-      "sources": ["LVL.su Guide", "Steam Community Guide", "Once Human Fandom Wiki"],
+      "confidence": "medium",
+      "sources": ["Once Human Fandom: Enchanting Void", "Once Human Fandom: Deviation/Combat List"],
       "lastChecked": "2026-10-16"
     },
     {
       "id": "beaver", "name_ru": "Бобёр-лесоруб", "name_en": "Logging Beaver",
-      "category": ["territory"], "rarity": "rare",
+      "category": ["territory"], "roles": ["Добыча древесины"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985565/AF879A92DEFAC41EA8DA98CF83A9DC48206C1C7D/", "imageFallback": "🦫",
       "shortDesc": "Автоматически добывает древесину и иногда мебель для вашей базы.",
       "fullDesc": "Бобёр-лесоруб отправляется рубить деревья для вас и приносит ресурсы на ваш участок. При использовании Платформы для лесозаготовок его эффективность резко возрастает.",
@@ -127,7 +127,7 @@
     },
     {
       "id": "digby", "name_ru": "Мальчик Дигби", "name_en": "The Digby Boy",
-      "category": ["territory"], "rarity": "rare",
+      "category": ["territory"], "roles": ["Добыча руды"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985568/A14CBF3523E0A26C7A2D6E161F1A18A8544A7656/", "imageFallback": "⛏️",
       "shortDesc": "Пассивно добывает руду (вплоть до серебряной) для вашей базы.",
       "fullDesc": "Мальчик Дигби отправляется по своим делам и добывает различные рудные узлы, принося их обратно на ваш участок. Для добычи алюминия и выше требуется Платформа для добычи.",
@@ -156,12 +156,12 @@
     },
     {
       "id": "enchanting", "name_ru": "Чарующая пустота", "name_en": "Enchanting Void",
-      "category": ["combat"], "rarity": "epic",
+      "category": ["combat"], "roles": ["Ближний бой", "Лечение"], "rarity": "epic",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615126/5703F748823C4DBC3499DC8C870380E8DA3C94E8/", "imageFallback": "🐆",
       "shortDesc": "Превращает игрока в пантеру, увеличивая урон в ближнем бою и восстанавливая HP.",
       "fullDesc": "При броске превращает игрока в пантеру. В этой форме автоатаки увеличивают получаемый целью урон в ближнем бою на 100% на 20 секунд. Также оказывает боевую помощь, следуя за игроком и восстанавливая 10% HP при успешном ударе.",
       "abilities": ["Midnight Maul: превращение в пантеру, +100% к урону в ближнем бою по цели", "Combat Assist: +10% к скорости передвижения с оружием ближнего боя, лечение при ударе"],
-      "acquisition": { "location": "Securement Silo - Theta (Red Sands)", "method": "Шанс выпадения в комнате со статуями после победы над боссом. Только для PVE-серверов.", "tips": "Используйте оружие ближнего боя для максимальной синергии." },
+      "acquisition": { "location": "Securement Silo - Theta", "method": "Награда за прохождение Силоса Тета в PvE-сценариях Endless Dream, Manibus и The Way of Winter.", "tips": "Fandom не подтверждает доступность в Evolution's Call, Prismverse's Clash и RaidZone." },
       "moodBoosters": ["Красный свет", "Цветы", "Низкая температура", "Электричество (5W)"],
       "traits": {
         "recommended": [
@@ -184,7 +184,7 @@
     },
     {
       "id": "frog", "name_ru": "Лягушка-прыгун", "name_en": "Frog the Leaper",
-      "category": ["crafting"], "rarity": "rare",
+      "category": ["crafting"], "roles": ["Мобильность", "Рыбалка"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892242/CF7B0FF0FADB8B88D80A330D7FF827773B3CC7D7/", "imageFallback": "🐸",
       "shortDesc": "Производит ресурсы для создания эликсира суперпрыжка и рыболовной наживки.",
       "fullDesc": "Лягушка добывает ресурсы «Серебряный источник» (для крафта «Весенняя нога», увеличивающей высоту прыжка) и «Головастик с ветром» (универсальная наживка для рыбалки).",
@@ -213,7 +213,7 @@
     },
     {
       "id": "beehive", "name_ru": "Пчёлка Баззи", "name_en": "Buzzy Bee",
-      "category": ["territory"], "rarity": "rare",
+      "category": ["territory"], "roles": ["Фермерство", "Мутация культур"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985552/CCD5CA2567376E8296F3A57325E38A517DBFFA75/", "imageFallback": "🐝",
       "shortDesc": "Увеличивает шанс мутации выращиваемых культур.",
       "fullDesc": "Жужжащая пчела появляется рядом с вашими посевами и эффективно повышает их эффективность. Чем выше рейтинг девиантной энергии, тем выше вероятность мутации ваших культур.",
@@ -242,7 +242,7 @@
     },
     {
       "id": "harveseed", "name_ru": "Жатвенное семя", "name_en": "Harveseed",
-      "category": ["crafting"], "rarity": "epic",
+      "category": ["crafting"], "roles": ["Защита", "Тактический расходник"], "rarity": "epic",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892266/89E51DA52E3DA35D76FD1A3B8684560016342CE4/", "imageFallback": "🌱",
       "shortDesc": "Производит Heart Vine для создания защитной экипировки Chloro-armor.",
       "fullDesc": "При размещении на базе девиант со временем производит ресурс «Heart Vine», который необходим для крафта тактического предмета «Chloro-armor», генерирующего щит при критических ранениях.",
@@ -270,12 +270,12 @@
     },
     {
       "id": "voodoo", "name_ru": "Кукла Вуду", "name_en": "Voodoo Doll",
-      "category": ["combat"], "rarity": "epic",
+      "category": ["combat"], "roles": ["Защита", "Перенос урона"], "rarity": "epic",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615146/3A323816931B482256E348448BE1231A48BDB6B4/", "imageFallback": "🪆",
       "shortDesc": "Разделяет получаемый игроком урон пополам с девиантом.",
       "fullDesc": "Этот девиант разделит половину урона (DMG), полученного игроком, на себя. Также можно назначить союзника, и кукла будет делить урон между вами и союзником. Отличный защитный механизм.",
       "abilities": ["Doppelganger: делит 50% получаемого игроком урона на себя", "Designated Target: может делить урон с выбранным союзником"],
-      "acquisition": { "location": "Свалка (Junkyard) или Broken Delta", "method": "Лучший способ — выполнить квест Carnival of Doom. Также можно найти на крыше Sunbury Middle School.", "tips": "Квестовая версия гарантирует получение." },
+      "acquisition": { "location": "Junkyard; крыша Sunbury Middle School; Coastside Plaza (7300, -4810)", "method": "В Junkyard взаимодействуйте с парящим пистолетом и победите клоуна в Carnival of Doom. Также есть шанс появления на крыше школы и втором этаже западного здания Coastside Plaza.", "tips": "Квест Carnival of Doom остаётся наиболее прямым способом получения." },
       "moodBoosters": ["Синий свет", "Красный свет", "Музыка", "Игрушки"],
       "traits": {
         "recommended": [
@@ -301,7 +301,7 @@
     },
     {
       "id": "growshroom", "name_ru": "Растущий гриб", "name_en": "Growshroom",
-      "category": ["territory"], "rarity": "rare",
+      "category": ["territory"], "roles": ["Фермерство", "Посадка и сбор"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985616/86E25FC07FE566A61E8EFF99D2F2B44006F83CD0/", "imageFallback": "🍄",
       "shortDesc": "Автоматически сажает семена и ускоряет рост культур на базе.",
       "fullDesc": "Этот девиант работает на вашей территории. Он может активно сажать и собирать урожай, а также значительно ускоряет рост грибов и других культур.",
@@ -330,7 +330,7 @@
     },
     {
       "id": "atomic", "name_ru": "Атомная зажигалка", "name_en": "Atomic Lighter",
-      "category": ["crafting"], "rarity": "epic",
+      "category": ["crafting"], "roles": ["Метательное оружие", "Фарм ресурсов"], "rarity": "epic",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892224/1FC39120FB5E4ED852FA8C5F98E4F817DEDB1A0E/", "imageFallback": "🔥",
       "shortDesc": "Производит Split-Core Cotton для создания мощной термоядерной зажигалки.",
       "fullDesc": "Со временем генерирует ресурс «Split-Core Cotton», позволяющий создать «Fusion Lighter». Это метательный предмет, наносящий огромный случайный урон с дополнительным шансом на лут с монстров.",
@@ -359,12 +359,12 @@
     },
     {
       "id": "lonewolf", "name_ru": "Шёпот волчицы", "name_en": "Lonewolf's Whisper",
-      "category": ["combat"], "rarity": "rare",
+      "category": ["combat"], "roles": ["Урон", "Отвлечение"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615092/016C0F5A5D8DB24CF7069E7D1F5C0FB2B7F7C07C/", "imageFallback": "🐺",
       "shortDesc": "Отвлекает врагов на себя и призывает клон при убийстве цели.",
-      "fullDesc": "Обладает автоатакой, которая выпускает собаку для атаки, а также способностью разделяться на три клыка, атакуя всех ближайших врагов и увеличивая получаемый ими урон.",
-      "abilities": ["Автоатака с призывом собаки", "Splinter Strike: разделяется на 3 клыка, +21.6% к получаемому целью урону"],
-      "acquisition": { "location": "Монолит Жажды (Monolith of Thirst), Chalk Peak", "method": "Выпадает после победы над боссом Рабизекс (Rabizex).", "tips": "Отличный танк для отвлечения аггро." },
+      "fullDesc": "Автоматически атакует врагов и привлекает их внимание. После гибели цели появляется клон, а атакованная цель получает на 21,6% больше Weapon DMG.",
+      "abilities": ["Designated Target: задаёт цель атаки", "Auto Attack: атакует и привлекает агро; после гибели цели создаёт клона и повышает получаемый целью Weapon DMG на 21,6%"],
+      "acquisition": { "location": "Monolith of Thirst, Chalk Peak", "method": "Награда за победу над Shadow Hound (Rabizex).", "tips": "В SCP-сценарии также спавнится в Red Sands и Blackheart Region; убийство странных волчьих стай может вызвать появление." },
       "moodBoosters": ["Красный свет", "Низкая температура", "Электричество (5W)"],
       "traits": {
         "recommended": [
@@ -388,12 +388,12 @@
     },
     {
       "id": "teddy", "name_ru": "Доктор Тедди", "name_en": "Dr. Teddy",
-      "category": ["combat"], "rarity": "epic",
+      "category": ["combat"], "roles": ["Лечение", "Воскрешение"], "rarity": "epic",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615119/6DE03E2B5D55A1C2901781A8F70ABFFE08310E63/", "imageFallback": "🧸",
       "shortDesc": "Специализируется на исцелении и воскрешении союзников.",
       "fullDesc": "Очень хороший девиант, так как он специализируется на исцелении и оживлении. Он исцелит вас, когда у вас мало здоровья, а также оживит при падении (бесплатный укол адреналина).",
       "abilities": ["Remote Healing: мгновенное лечение 50% HP при броске, воскрешение", "Intime Healing: 8% HP в секунду, продолжение лечения"],
-      "acquisition": { "location": "Securement Silo - Theta (Red Sands)", "method": "Шанс выпадения в комнате со статуями. (PVP-версия).", "tips": "Держите под рукой для спасения в безнадёжных ситуациях." },
+      "acquisition": { "location": "Securement Silo - Theta", "method": "Награда за прохождение в Evolution's Call / Prismverse's Clash / RaidZone. В Endless Dream, Manibus и The Way of Winter доступен только в PvP и SCP-сценариях.", "tips": "Перед фармом проверьте сценарий: доступность Dr. Teddy зависит от режима." },
       "moodBoosters": ["Зелёный свет", "Игрушки"],
       "traits": {
         "recommended": [
@@ -416,7 +416,7 @@
     },
     {
       "id": "eel", "name_ru": "Электрический угорь", "name_en": "Electric Eel",
-      "category": ["territory"], "rarity": "rare",
+      "category": ["territory"], "roles": ["Энергоснабжение базы"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985545/EF418A28E50C2CE6242E121EE7A95F73529AA5DE/", "imageFallback": "⚡",
       "shortDesc": "Увеличивает лимит мощности генераторов на вашей базе.",
       "fullDesc": "Этот девиант пассивно увеличивает предел мощности (Power Limit) ваших генераторов в зависимости от уровня его энергии девианта.",
@@ -449,7 +449,7 @@
     },
     {
       "id": "gingerbread", "name_ru": "Пряничный домик", "name_en": "Gingerbread House",
-      "category": ["crafting"], "rarity": "rare",
+      "category": ["crafting"], "roles": ["Маскировка"], "rarity": "rare",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892216/26827821BE996CD051EDB464FBA3F508A83F5DFE/", "imageFallback": "🏠",
       "shortDesc": "Производит крошки морфа для создания маскировочных эликсиров.",
       "fullDesc": "Со временем генерирует ресурс «Крошки морфа», который позволяет создать «маскировку». Потребление превращает игрока в объект, соответствующий окружению (например, в камень или ящик).",
@@ -479,12 +479,12 @@
     },
     {
       "id": "pyro-dino", "name_ru": "Пиро Дино", "name_en": "Pyro Dino",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Урон", "Огонь"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615095/DFD5AA153BD00D665FF247B8F976923CF0D91AA0/", "imageFallback": "🦖",
       "shortDesc": "Стреляет огненными шарами по врагам.",
-      "fullDesc": "Боевой девиант, атакующий врагов огненными шарами. Руководство отмечает, что этот вариант предназначен для PvP.",
-      "abilities": ["Атакует врагов огненными шарами"],
-      "acquisition": {"location": "Securement Silo - Phi, Iron River", "method": "Проверьте дополнительный пузырь отклонения в комнате наград или детской комнате после побочного задания.", "tips": "Может появиться в пузыре отклонения; там же может находиться Chefosaurus Rex."},
+      "fullDesc": "Атакующая боевая девиация с Auto Attack и Designated Target. Источник указывает шанс получения в зоне Seepage Силоса Фи.",
+      "abilities": ["Auto Attack: автоматически атакует врагов", "Designated Target: позволяет назначить цель атаки"],
+      "acquisition": {"location": "Seepage Zone в Securement Silo - Phi", "method": "Имеет шанс выпасть в зоне Seepage Силоса Фи.", "tips": "Источник не подтверждает старую подсказку о комнате наград или PvP-эксклюзивности."},
       "moodBoosters": ["Зелёный свет", "Игрушки", "Высокая температура"],
       "traits": {
         "recommended": [
@@ -495,19 +495,19 @@
         "avoid": [{"name": "Worn-out 2", "name_ru": "Износ 2", "effect": "Макс. энергия -10%", "why": "Сокращает запас энергии боевого девианта."}]
       },
       "pros": ["Наносит дальний огненный урон", "Полезен для атакующих сборок"],
-      "cons": ["Руководство указывает PvP-вариант", "Получение зависит от случайного появления пузыря отклонения"],
-      "bestFor": "Игрокам на PvP-серверах, которым нужен дополнительный дальний урон огнём.",
+      "cons": ["Получение зависит от случайного выпадения в зоне Seepage Силоса Фи", "Источник не уточняет численные параметры атак"],
+      "bestFor": "Игрокам, которым нужен дополнительный атакующий девиант с огненным уроном.",
       "alternatives": ["Mr Wish", "Lonewolf’s Whisper"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: Pyro Dino", "Once Human Fandom: Deviation/Combat List"], "lastChecked": "2026-10-16"
     }, {
       "id": "mr-wish", "name_ru": "Мистер Желание", "name_en": "Mr Wish",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Урон", "Метка цели"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615099/AB3A61B1B86992B428A651E96FE276D2F6046C87/", "imageFallback": "🎯",
       "shortDesc": "Стреляет из двух пистолетов и накладывает на врагов «Бычий глаз».",
-      "fullDesc": "Достаёт два пистолета и стреляет по целям в пределах досягаемости. Особая способность ускоряет стрельбу и накладывает на врагов «Бычий глаз».",
-      "abilities": ["Стрельба из двух пистолетов", "Особая способность накладывает «Бычий глаз»"],
-      "acquisition": {"location": "Securement Silo - Sigma, Broken Delta", "method": "Имеет шанс появиться в комнате для вечеринок.", "tips": "Проверьте комнату для вечеринок в Силосе Сигма."},
-      "moodBoosters": ["Красный свет", "Музыка", "Игрушки", "Цветы", "Электричество"],
+      "fullDesc": "Автоматически атакует враждебные цели. Rapid Fire выпускает очередь по цели рядом с прицелом и накладывает эффект Bull's Eye.",
+      "abilities": ["Rapid Fire: очередь по цели рядом с прицелом с эффектом Bull's Eye", "Auto Attack: автоматически атакует враждебные цели"],
+      "acquisition": {"location": "Скрытая keycard-комната Securement Silo - Sigma, Broken Delta (4901, -5421)", "method": "Имеет шанс выпасть после зачистки скрытой комнаты с keycard.", "tips": "В SCP-сценарии обычный дроп не указан; девиация доступна через Fusion и Arena Species Code."},
+      "moodBoosters": ["Красный свет", "Электричество (10W)", "Музыка", "Игрушки", "Цветы"],
       "traits": {
         "recommended": [
           {"name": "Covert Energy 3", "name_ru": "Скрытая энергия 3", "effect": "Макс. энергия девианта +25%", "why": "Увеличивает запас энергии для боевой способности."},
@@ -520,10 +520,10 @@
       "cons": ["Случайное получение в комнате для вечеринок", "Требуется Силос Сигма"],
       "bestFor": "Боям с несколькими целями и сборкам, которым полезно помечать врагов.",
       "alternatives": ["Pyro Dino", "Shattered Maiden"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: Mr. Wish", "Once Human Fandom: Deviation/Combat List"], "lastChecked": "2026-10-16"
     }, {
       "id": "grumpy-bulb", "name_ru": "Ворчливая луковица", "name_en": "Grumpy Bulb",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Контроль толпы"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615108/E4F674F57EDCECDC3603923882B9AB945C182C10/", "imageFallback": "🧅",
       "shortDesc": "Сбивает врагов с толку, заставляя их атаковать друг друга.",
       "fullDesc": "Попавшие под её действие враги приходят в замешательство и начинают атаковать друг друга; эффект также наносит урон статусом.",
@@ -545,13 +545,13 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "polar-jelly", "name_ru": "Полярное желе", "name_en": "Polar Jelly",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Контроль", "Ледяной урон"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615116/83297E4F0251D1107D07F06CDE4D7142B3709E49/", "imageFallback": "🧊",
       "shortDesc": "Наносит ледяной урон и замедляет противников.",
       "fullDesc": "Наносит Frost DMG при попадании, продолжает наносить ледяной урон статусом и снижает скорость передвижения противников поблизости на 50%.",
       "abilities": ["Наносит Frost DMG и урон ледяным статусом", "Замедляет противников поблизости на 50%"],
-      "acquisition": {"location": "Событие Cargo Scuffle в Broken Delta", "method": "Можно получить во время события.", "tips": "По руководству, если дольше удерживать желе на голове, шанс получения выше."},
-      "moodBoosters": ["Синий свет", "Низкая температура", "Электричество"],
+      "acquisition": {"location": "Публичное событие Cargo Scramble", "method": "Есть шанс получить, если вы были host во время Cargo Scramble.", "tips": "Название и правило дропа отличаются в старых руководствах; актуальная wiki указывает Cargo Scramble и роль host."},
+      "moodBoosters": ["Синий свет", "Низкая температура", "Электричество (3W)"],
       "traits": {
         "recommended": [
           {"name": "Covert Energy 3", "name_ru": "Скрытая энергия 3", "effect": "Макс. энергия девианта +25%", "why": "Увеличивает запас энергии для боевого применения."},
@@ -561,18 +561,18 @@
         "avoid": [{"name": "Feeling blue 2", "name_ru": "Уныние 2", "effect": "Макс. счёт активности -10%", "why": "Снижает активность девианта."}]
       },
       "pros": ["Наносит Frost-урон и замедляет противников", "Замедление помогает контролировать опасные цели"],
-      "cons": ["Получение привязано к событию Cargo Scuffle", "Эффект зависит от близости противника"],
+      "cons": ["Получение зависит от публичного события Cargo Scramble", "Эффект зависит от близости противника"],
       "bestFor": "Контролю мобильных противников и боям, где важно замедление.",
       "alternatives": ["Shattered Maiden", "Grumpy Bulb"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: Polar Jelly", "Once Human Fandom: Deviation/Combat List"], "lastChecked": "2026-10-16"
     }, {
       "id": "by-the-wind", "name_ru": "By The Wind", "name_en": "By The Wind",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Мобильность"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615134/66F4DF7EEAE8BB4222A42EE7C66487F57F770E66/", "imageFallback": "🌬️",
-      "shortDesc": "Позволяет парить и перемещаться по воздуху в течение 12 секунд.",
-      "fullDesc": "Позволяет игроку высоко левитировать и перемещаться в течение 12 секунд.",
-      "abilities": ["Левитация и перемещение по воздуху в течение 12 секунд"],
-      "acquisition": {"location": "События Prime War / Frontier на PvE-сервере", "method": "Имеет шанс выпасть после убийства финального босса события.", "tips": "Доступен только на PvE-сервере."},
+      "shortDesc": "Использует воздушный подъём и боевую поддержку.",
+      "fullDesc": "Боевая девиация использует Gravity Lift и Combat Assist для воздушного перемещения и поддержки игрока.",
+      "abilities": ["Gravity Lift: поднимает и перемещает игрока по воздуху", "Combat Assist: сопровождает игрока и помогает в бою"],
+      "acquisition": {"location": "Prime War / Frontier", "method": "Получается из наградного контейнера за участие в Prime War.", "tips": "В SCP-сценарии Fandom также указывает появление в загрязнённых зонах."},
       "moodBoosters": ["Синий свет", "Красный свет", "Цветы", "Электричество"],
       "traits": {
         "recommended": [
@@ -583,18 +583,18 @@
         "avoid": [{"name": "Worn-out 2", "name_ru": "Износ 2", "effect": "Макс. энергия -10%", "why": "Снижает запас энергии для поддержки команды."}]
       },
       "pros": ["Даёт игроку временную воздушную мобильность", "Полезен для перемещения по полю боя"],
-      "cons": ["Получение зависит от финального босса Prime War", "Доступен только на PvE-сервере"],
-      "bestFor": "Командам на PvE-серверах, которым важны мобильность и быстрое перемещение.",
+      "cons": ["Получение связано с наградами Prime War", "Подробные численные параметры навыков в источнике не указаны"],
+      "bestFor": "Игрокам, которым нужна воздушная мобильность и поддержка в бою.",
       "alternatives": ["Enchanting Void", "Frog the Leaper"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: By-The-Wind", "Once Human Fandom: Deviation/Combat List"], "lastChecked": "2026-10-16"
     }, {
       "id": "shattered-maiden", "name_ru": "Разбитая дева", "name_en": "Shattered Maiden",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Контроль", "Взрывной урон"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615138/518ABFE4861F2CEE35C5728D1876E01C66BC851C/", "imageFallback": "🗡️",
       "shortDesc": "Атакует и замедляет врагов, усиливая получаемый ими взрывной урон.",
       "fullDesc": "Наносит врагам замедление и эффект Chained, а также увеличивает получаемый ими урон от взрыва на 70%.",
       "abilities": ["Накладывает замедление и Chained", "+70% получаемого целью урона от взрыва"],
-      "acquisition": {"location": "Производственные объекты в Iron River и Iron River 2", "method": "Имеет шанс выпасть при выполнении производственных работ.", "tips": "Пробуйте выполнять работы на производственных объектах в указанных регионах."},
+      "acquisition": {"location": "Задание Farmside Fright от Lowe в Tall Grass Inn; Securement Silo - Theta", "method": "Можно получить во время задания Farmside Fright; также есть шанс в награде за Силос Тета.", "tips": "Ищите Lowe в Tall Grass Inn; производственные объекты в источнике не указаны."},
       "moodBoosters": ["Синий свет", "Красный свет", "Цветы"],
       "traits": {
         "recommended": [
@@ -605,18 +605,18 @@
         "avoid": [{"name": "Feeling blue 2", "name_ru": "Уныние 2", "effect": "Макс. счёт активности -10%", "why": "Уменьшает эффективность девианта."}]
       },
       "pros": ["Замедляет и связывает врагов", "Усиливает взрывной урон команды на 70%"],
-      "cons": ["Получение зависит от случайного выпадения на производственных объектах", "Сильнее раскрывается в группе с взрывным уроном"],
+      "cons": ["Доступность зависит от прохождения Farmside Fright или награды Силоса Тета", "Сильнее раскрывается в группе с взрывным уроном"],
       "bestFor": "Группам, использующим взрывное оружие и нуждающимся в контроле целей.",
       "alternatives": ["Mini Feaster", "Polar Jelly"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: Deviation/Combat List", "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?"], "lastChecked": "2026-10-16"
     }, {
       "id": "mini-feaster", "name_ru": "Mini Feaster", "name_en": "Mini Feaster",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Урон", "Усиление оружия"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615149/21F393D2187E99E22AC4FC76ACB8AD740ABD9B69/", "imageFallback": "🐙",
       "shortDesc": "Призывает атакующие щупальца, усиливающие урон оружия.",
-      "fullDesc": "Порождает щупальца, которые атакуют врагов. Когда цель срабатывает «Отскок», рядом с ней гарантированно появляется щупальце. Каждое щупальце увеличивает урон оружия игрока на 17,5%, максимум на 70%.",
-      "abilities": ["Порождает щупальца для атаки", "Каждое щупальце повышает урон оружия на 17,5%, максимум на 70%"],
-      "acquisition": {"location": "Мини-события по всему миру", "method": "Завершите несколько локаций мини-события с фиолетовым лучом и сферой наверху.", "tips": "Ищите фиолетовый луч и сферу на вершине."},
+      "fullDesc": "Отмечает выбранную цель и следует за игроком, периодически призывая щупальца рядом с врагами. Если цель активирует Bounce, рядом гарантированно появляются щупальца и усиливают Weapon DMG игрока; точные численные значения в источнике не указаны.",
+      "abilities": ["Designated Target: назначает цель атаки", "Touch of the Abyss: следует за игроком и призывает атакующие щупальца; Bounce гарантирует появление щупалец и усиливает Weapon DMG"],
+      "acquisition": {"location": "Mist Zones; задание Lord of the Quest от Lowe; Acting Physicians", "method": "Награда за задание Lord of the Quest. Также высокий шанс награды за завершение Mist Zone и шанс дропа с элитного Acting Physician.", "tips": "В SCP-сценарии Fandom указывает Deviation Fusion."},
       "moodBoosters": ["Красный свет", "Музыка", "Игрушки"],
       "traits": {
         "recommended": [
@@ -627,19 +627,19 @@
         "avoid": [{"name": "Worn-out 2", "name_ru": "Износ 2", "effect": "Макс. энергия -10%", "why": "Уменьшает запас энергии для атак."}]
       },
       "pros": ["Щупальца наносят дополнительный урон", "Может увеличить урон оружия до 70%"],
-      "cons": ["Нужно завершить цепочку мини-событий", "Максимальный бонус зависит от появления щупалец"],
-      "bestFor": "Сборкам, которые используют «Отскок» и хотят усилить урон оружия.",
+      "cons": ["Механика усиления зависит от срабатывания Bounce", "Страница Fandom помечена как Work In Progress; численные параметры не подтверждены"],
+      "bestFor": "Сборкам с Bounce, которым нужны дополнительные атаки щупалец и усиление Weapon DMG.",
       "alternatives": ["Shattered Maiden", "Lonewolf’s Whisper"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "low", "sources": ["Once Human Fandom: Mini Feaster", "Once Human Fandom: Deviation/Combat List"], "lastChecked": "2026-10-16"
     }, {
       "id": "mini-wonder", "name_ru": "Мини-чудо", "name_en": "Mini Wonder",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Защита"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615153/3DD4BCAB31BD552666D9E12620A37AC583520BCB/", "imageFallback": "🛡️",
-      "shortDesc": "Поглощает пули, летящие в его владельца.",
-      "fullDesc": "Защитный боевой девиант, который позволяет поглощать пули, летящие в его владельца. Руководство помечает получение как скорое.",
-      "abilities": ["Поглощает пули, летящие в владельца"],
-      "acquisition": {"location": "В руководстве указано Coming Soon", "method": "Способ получения пока не указан.", "tips": "Информация Steam-руководства помечена как Coming Soon."},
-      "moodBoosters": [],
+      "shortDesc": "Поглощает пули поблизости и может быть назначен союзнику для поддержки.",
+      "fullDesc": "Защитная боевая девиация с двумя способностями: поглощает пули в определённом радиусе и позволяет назначить союзника целью поддержки. Численные параметры техники в источнике не указаны.",
+      "abilities": ["Designated Target: назначает союзника целью поддержки", "Bullet Absorption: поглощает пули в определённом радиусе"],
+      "acquisition": {"location": "Blackfell; Synthesis Bench", "method": "Завершите задание Other World Traveler от Lowe в Blackfell. Также есть шанс получить при крафте гранат Vortex Generator на Synthesis Bench.", "tips": "Источник также указывает получение через Fusion в сценарии Deviation: Survive, Capture, Preserve."},
+      "moodBoosters": ["Синий свет", "Красный свет"],
       "traits": {
         "recommended": [
           {"name": "Covert Energy 3", "name_ru": "Скрытая энергия 3", "effect": "Макс. энергия девианта +25%", "why": "Увеличивает запас энергии для защитной роли."},
@@ -648,36 +648,36 @@
         ],
         "avoid": [{"name": "Feeling blue 2", "name_ru": "Уныние 2", "effect": "Макс. счёт активности -10%", "why": "Снижает активность девианта."}]
       },
-      "pros": ["Защищает владельца от летящих пуль"],
-      "cons": ["Steam-руководство помечает получение как Coming Soon", "В источнике нет условий настроения и подробностей получения"],
-      "bestFor": "Игрокам, которым нужна защита от пуль после подтверждения доступности девианта.",
+      "pros": ["Поглощает пули поблизости", "Можно назначить союзника целью поддержки"],
+      "cons": ["Подробные параметры Bullet Absorption не указаны в источнике", "Один из способов получения зависит от случайного шанса при крафте"],
+      "bestFor": "Игрокам, которым нужна защита от огнестрельных атак в бою.",
       "alternatives": ["Festering Gel", "Voodoo Doll"],
-      "confidence": "low", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Wiki: Mini Wonder", "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?"], "lastChecked": "2026-10-16"
     }, {
       "id": "zeno-purifier", "name_ru": "Очиститель Zeno", "name_en": "Zeno Purifier",
-      "category": ["combat"], "rarity": "unknown",
+      "category": ["combat"], "roles": ["Ближний бой", "Телепортация"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357615159/0586284A0617D7152DEC2155FE440BF32FA20DBB/", "imageFallback": "⚔️",
       "shortDesc": "Телепортируется к врагу и атакует его тёмным клинком.",
-      "fullDesc": "Использует Blink Strike и тёмный клинок. Руководство отмечает его как особенно полезного для PvP благодаря телепортации к противнику.",
-      "abilities": ["Blink Strike: телепортация к врагу и атака тёмным клинком"],
-      "acquisition": {"location": "Оружейные ящики по всему миру", "method": "Можно получить на первой фазе в сезонных целях или из оружейных ящиков.", "tips": "Проверяйте сезонные цели и открывайте оружейные ящики."},
+      "fullDesc": "Shadow Strike выполняет рывок с эффектом притягивания в ближнем бою. Formless Blade призывает Zeno-Purifier, который телепортируется к ближайшим врагам и атакует тёмным клинком.",
+      "abilities": ["Shadow Strike: рывок с усилением притягивания в ближнем бою", "Formless Blade: призывает девианта для телепортационных атак по врагам; на Skill Rating 5 наносит 3500% Psi Intensity и накладывает 40% Weapon/Melee Vulnerability на 15 секунд"],
+      "acquisition": {"location": "Season Goals первого сезона; Weapon Crates", "method": "В первой фазе выполните цель Challenge: победить 200 врагов оружием ближнего боя. Также возможен дроп из Weapon Crates.", "tips": "В SCP-сценарии обычного дропа нет; доступны Fusion и Arena Species Code."},
       "moodBoosters": ["Красный свет", "Музыка"],
       "traits": {
         "recommended": [
-          {"name": "Covert Energy 3", "name_ru": "Скрытая энергия 3", "effect": "Макс. энергия девианта +25%", "why": "Поддерживает применение Blink Strike."},
+          {"name": "Covert Energy 3", "name_ru": "Скрытая энергия 3", "effect": "Макс. энергия девианта +25%", "why": "Поддерживает применение Formless Blade."},
           {"name": "Cheer Up 3", "name_ru": "Подбодрение 3", "effect": "Макс. настроение +50%, восстановление энергии -5%", "why": "Увеличивает активность в затяжных стычках."},
           {"name": "Rise and Shine 5", "name_ru": "Подъём и сияние 5", "effect": "Скорость восстановления настроения +25%", "why": "Сокращает время восстановления настроения."}
         ],
         "avoid": [{"name": "Worn-out 2", "name_ru": "Износ 2", "effect": "Макс. энергия -10%", "why": "Уменьшает запас энергии для боевой способности."}]
       },
       "pros": ["Может телепортироваться к противнику", "Подходит для агрессивного ближнего боя"],
-      "cons": ["Получение зависит от сезонных целей или оружейных ящиков", "Руководство отдельно отмечает его пользу в PvP"],
-      "bestFor": "PvP-игрокам, которым нужен мобильный девиант для атаки выбранной цели.",
+      "cons": ["Получение зависит от выполнения сезонной цели или дропа из Weapon Crates", "Ориентирован на ближний бой и требует подходящей сборки"],
+      "bestFor": "Игрокам с ближним билдом, которым нужен рывок и атаки девианта по ближайшим врагам.",
       "alternatives": ["Enchanting Void", "Lonewolf’s Whisper"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Once Human Deviant Traits (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: Zeno-Purifier", "Once Human Fandom: Deviation/Combat List"], "lastChecked": "2026-10-16"
     }, {
       "id": "masonic-pyramid", "name_ru": "Масонская пирамида", "name_en": "Masonic Pyramid",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Скрытность", "PvP"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892234/3FA092847D40A779164218274C7318A02142FE7A/", "imageFallback": "🔺",
       "shortDesc": "Производит ресурсы для эликсиров невидимости и шестого чувства.",
       "fullDesc": "Производит «Матрицу разума» и «Волчье пламя» для эликсира «Хищник» (невидимость и гарантированный критический удар) или «Парапсихологии», предупреждающей об угрозах.",
@@ -699,7 +699,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "hug-in-a-bowl", "name_ru": "Обнимашки в чашке", "name_en": "Hug-In-A-Bowl",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Восстановление рассудка"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892250/08F52269FFE1754F662FAE6986D745F155C74FE5/", "imageFallback": "🍜",
       "shortDesc": "Производит ингредиент для лапши, восстанавливающей рассудок.",
       "fullDesc": "Производит «Вкусный суп» для «Домашней лапши», восстанавливающей рассудок на 100%.",
@@ -721,7 +721,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "disco-ball", "name_ru": "Диско-шар", "name_en": "Disco Ball",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Продление прихотей"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892257/319243415FF583316C4DAB5847DC6E39A7380121/", "imageFallback": "🪩",
       "shortDesc": "Производит ресурс, продлевающий действие других прихотей.",
       "fullDesc": "Производит «Фрагмент вдохновения» для предмета «Прихоть: Utter Delight», увеличивающего продолжительность других прихотей.",
@@ -743,7 +743,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "space-turner", "name_ru": "Космический Тернер", "name_en": "Space Turner",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Телепортация команды"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892272/CD25A4E40424AC055E963679ED79553926424811/", "imageFallback": "🌀",
       "shortDesc": "Производит ресурс для телепортации товарищей по команде к вам.",
       "fullDesc": "Производит «Космический краеугольный камень» для «Космического твистера», позволяющего создать дверь телепортации и призвать к себе команду.",
@@ -765,7 +765,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "dream-catcher", "name_ru": "Ловец снов", "name_en": "Dream Catcher",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Контроль", "Ловушки"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892276/618341842221374B79FACE8945E51CA0C7942809/", "imageFallback": "🕸️",
       "shortDesc": "Производит паутину, замедляющую врагов при перекате.",
       "fullDesc": "Производит «Ловушку шелка» для паутины, которую игрок оставляет при перекате; попавшие в неё враги замедляются.",
@@ -787,7 +787,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "pup-buddy", "name_ru": "Щенок Дружок", "name_en": "Pup Buddy",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Переносимый вес"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892280/F04E6F8D33FA61239A4D924FF13DD7D7541E0B7C/", "imageFallback": "🐶",
       "shortDesc": "Производит предмет, позволяющий переносить больший вес.",
       "fullDesc": "Производит «Маленький воздушный шар» для предмета «Вес пера», повышающего переносимый вес.",
@@ -809,7 +809,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "strange-door", "name_ru": "Странная дверь", "name_en": "Strange Door",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Телепортация базы"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892295/6475B386746C149F6D5749DAA5C25A051F190AED/", "imageFallback": "🚪",
       "shortDesc": "Даёт осколок для строительства портальных дверей на базе.",
       "fullDesc": "Даёт «Осколок странной двери» для строительства портальных дверей и телепортации между ними внутри дома.",
@@ -831,7 +831,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "party-monkey", "name_ru": "Обезьянка для вечеринки", "name_en": "Party Monkey",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Приманка", "Контроль врагов"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892298/E790B2EFE5B03D2D5AFEB24997F0B3B96B3BB046/", "imageFallback": "🐒",
       "shortDesc": "Производит приманки, привлекающие монстров поблизости.",
       "fullDesc": "Даёт ресурс «Великая вечеринка» для создания бомб-обманок, привлекающих монстров поблизости.",
@@ -853,7 +853,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "orb-lightning", "name_ru": "Шаровая молния", "name_en": "Orb Lightning",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Усиление турелей и дронов"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892307/FE8BA6183962CA33EB2CC467DF4A7D791CA033E4/", "imageFallback": "⚡",
       "shortDesc": "Создаёт бутылки молний, усиливающие дружественные турели и дроны.",
       "fullDesc": "Бутылки молний повышают урон дружественных турелей, дронов и переносных пулемётных башен на 25% на 15 секунд; попадания имеют 33% шанс вызвать Power Surge.",
@@ -875,7 +875,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "artisans-touch", "name_ru": "Прикосновение ремесленника", "name_en": "Artisan’s Touch",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Ремонт", "Тактические предметы"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892316/69830BFDD2A99727615BAD77C758F83431DE97AF/", "imageFallback": "🛠️",
       "shortDesc": "Производит материалы для тактических предметов и ремонта экипировки.",
       "fullDesc": "Производит особые материалы для создания тактических предметов и ремонта экипированного снаряжения.",
@@ -897,7 +897,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "upper-world-spawn", "name_ru": "Спаун Верхнего мира", "name_en": "Upper World Spawn",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Защитный расходник"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892322/11CD53C71008EE24CAFB574AA2EDE55CFD447B55/", "imageFallback": "🛡️",
       "shortDesc": "Производит предмет, временно дающий невосприимчивость к урону.",
       "fullDesc": "Производит материалы для тактического предмета, который на короткое время защищает от любого урона, но не позволяет двигаться.",
@@ -919,7 +919,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "atomic-snail", "name_ru": "Атомная улитка", "name_en": "Atomic Snail",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Мобильность"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892328/D403194A4E8957E1234CC5259C311CC6ED559885/", "imageFallback": "🐌",
       "shortDesc": "Производит материалы для зелья прихоти «Воздушный рывок».",
       "fullDesc": "Производит материалы для зелья прихоти со способностью «Воздушный рывок». В Steam-руководстве получение помечено как скорое.",
@@ -941,7 +941,7 @@
       "confidence": "low", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "snow-globe", "name_ru": "Снежный шар", "name_en": "Snow Globe",
-      "category": ["crafting"], "rarity": "unknown",
+      "category": ["crafting"], "roles": ["Контроль", "Заморозка"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357892331/224B35F35F0B440A96131B2F30CAA42D871B8194/", "imageFallback": "❄️",
       "shortDesc": "Производит замораживающие метательные предметы.",
       "fullDesc": "Производит материалы для метательного предмета, замораживающего цель при попадании.",
@@ -963,7 +963,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "chefosaurus-rex", "name_ru": "Шефозавр Рекс", "name_en": "Chefosaurus Rex",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Приготовление пищи"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985534/E675735DA2636F327FA0A8FD9905617725692F1A/", "imageFallback": "🦖",
       "shortDesc": "Повышает эффективность приготовления пищи.",
       "fullDesc": "Повышает эффективность приготовления пищи игроком; сила бонуса зависит от рейтинга девиантной энергии.",
@@ -982,15 +982,15 @@
       "cons": ["Получение зависит от случайного выпадения в Securement Silo - Phi", "Польза ограничена приготовлением еды"],
       "bestFor": "Игрокам, которые регулярно готовят пищу и хотят усилить этот процесс на базе.",
       "alternatives": ["Flame Essence", "Rebecca"],
-      "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
+      "confidence": "medium", "sources": ["Once Human Fandom: Extradimensional Cat", "Once Human Fandom: Deviation/Territory List"], "lastChecked": "2026-10-16"
     }, {
       "id": "extradimensional-cat", "name_ru": "Внепространственная кошка", "name_en": "Extradimensional Cat",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Отдых", "Восстановление игрока"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985541/6E1C87122BC712D69758217105F61BA4E46ED8C2/", "imageFallback": "🐈",
-      "shortDesc": "Спит рядом с игроком и помогает восстановить энергию к следующему дню.",
-      "fullDesc": "Спит рядом с игроком и помогает ему восстановить энергию к следующему дню.",
-      "abilities": ["Помогает игроку восстановить энергию, пока спит рядом"],
-      "acquisition": {"location": "Meyer’s Market или Greywater Camp", "method": "Можно найти в здании в одной из этих локаций.", "tips": "Проверьте здания в Meyer’s Market и Greywater Camp."},
+      "shortDesc": "Спит рядом с владельцем; в некоторых сценариях также поддерживает союзников в бою.",
+      "fullDesc": "Территориальная способность Velvet Cushion сопровождает владельца во сне и помогает ему отдохнуть. В боевых сценариях Cat Gathering снимает отрицательные эффекты и усиливает атаки союзников на 10 секунд; Cat Virtues восстанавливает HP при применении баффа.",
+      "abilities": ["Velvet Cushion: сопровождает владельца во сне", "Cat Gathering: снимает отрицательные эффекты и усиливает атаки союзников на 10 секунд", "Cat Virtues: восстанавливает HP союзникам при баффе"],
+      "acquisition": {"location": "Безопасные поселения: Deadsville, Meyer’s Market, Greywater Camp, Tall Grass Inn, Blackfell и Red Sands", "method": "Имеет шанс появиться возле Worldstone или в зданиях указанных поселений.", "tips": "Проверяйте несколько зданий и меняйте мир у Worldstone. В SCP-сценарии обычный дроп не указан; можно получить через Fusion или Arena Species Code."},
       "moodBoosters": ["Игрушки"],
       "traits": {
         "recommended": [
@@ -1007,7 +1007,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "fetch-a-lot-bunny", "name_ru": "Зайка Фетч-А-Лот", "name_en": "Fetch-A-Lot Bunny",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Сбор растений"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985557/1923AB1421DB4B3DC81012DE6AEA1B2D6FBF4FBA/", "imageFallback": "🐇",
       "shortDesc": "Автоматически собирает кустарники и приносит ресурсы.",
       "fullDesc": "Отправляется собирать кустарники для игрока; эффективность сбора зависит от рейтинга девиантной энергии.",
@@ -1029,7 +1029,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "nutcracker", "name_ru": "Щелкунчик", "name_en": "Nutcracker",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Защита базы"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985579/8C349C7C8A2FA99D7756E21EDCB2AEB995FABBC2/", "imageFallback": "🥜",
       "shortDesc": "Патрулирует территорию и стреляет по угрозам у базы.",
       "fullDesc": "Ходит по базе и стреляет из пушки по любой опасности поблизости.",
@@ -1051,7 +1051,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "h37", "name_ru": "H37", "name_en": "H37",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Экспедиции", "Награды"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985593/5EFEEB004E42D2E0C5AA4E8744FBC8C7D8CEA734/", "imageFallback": "🧬",
       "shortDesc": "Отправляется в поход и возвращается с наградами за спасение.",
       "fullDesc": "Самостоятельно отправляется в поход и возвращается с наградами за спасение.",
@@ -1073,7 +1073,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "lethal-rabbit", "name_ru": "Смертоносный кролик", "name_en": "Lethal Rabbit",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Добыча шкур"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985598/DE2935C507E8AD9156DD5FAACE02FE1564910E6D/", "imageFallback": "🐇",
       "shortDesc": "Охотится на животных и приносит их шкуры.",
       "fullDesc": "Пассивно убивает животных, снимает с них шкуры и приносит их игроку.",
@@ -1095,7 +1095,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "paper-doll", "name_ru": "Бумажная кукла", "name_en": "Paper Doll",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Ремонт базы"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985605/F3532E031C8E9E244D67C4F211CE7B2F1F1D37DF/", "imageFallback": "🪆",
       "shortDesc": "Восстанавливает прочность повреждённых стен и пола.",
       "fullDesc": "Пассивно восстанавливает прочность пола или стен, когда те получают урон, и может находить неожиданные награды.",
@@ -1117,7 +1117,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "flame-essence", "name_ru": "Эссенция пламени", "name_en": "Flame Essence",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Работа печей"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985611/60F979BB526A3D486C9181F800D747503654AFD8/", "imageFallback": "🔥",
       "shortDesc": "Повышает эффективность обычной и электрической печи.",
       "fullDesc": "Увеличивает эффективность производства в обычной и электрической печи.",
@@ -1139,7 +1139,7 @@
       "confidence": "medium", "sources": ["Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?", "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"], "lastChecked": "2026-10-15"
     }, {
       "id": "rain-man", "name_ru": "Человек дождя", "name_en": "Rain Man",
-      "category": ["territory"], "rarity": "unknown",
+      "category": ["territory"], "roles": ["Фермерство", "Полив"], "rarity": "unknown",
       "image": "https://images.steamusercontent.com/ugc/2470871583357985625/70C5CF7262F21CED4AC78459983C1FC341ABC33B/", "imageFallback": "🌧️",
       "shortDesc": "Вызывает дождь, поливающий посевы и помогающий им расти.",
       "fullDesc": "Вызывает дождь, который поливает посевы и помогает им расти.",
