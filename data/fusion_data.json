@@ -1,0 +1,303 @@
+{
+  "meta": {
+    "version": "1.0",
+    "updated": "2026-10-17",
+    "description": "База данных для симулятора слияния девиантов (Once Human Fusion Lab): животные, черты, мутагены и параметры селекции."
+  },
+  "mechanics": {
+    "baseInheritOneParent": 0.35,
+    "baseInheritBothParents": 0.75,
+    "donorInheritOne": 0.25,
+    "donorInheritTwo": 0.45,
+    "donorInheritThree": 0.60,
+    "parentAndDonorSynergy": 0.65,
+    "donorRatingBonusPerHighTier": 0.05,
+    "animalDonorMultiplier": 10.0,
+    "animalDonorMaxCap": 0.95,
+    "baseNegativeRisk": 0.20,
+    "purifierNegativeRisk": 0.01,
+    "ratingMutationUpChance": 0.25,
+    "ratingMutationDownChance": 0.10
+  },
+  "animals": [
+    {
+      "id": "wolf",
+      "name_ru": "Волк (Лесной / Снежный)",
+      "name_en": "Wolf",
+      "icon": "🐺",
+      "tier": "Ранг S / A",
+      "description": "Хищник. Передаёт мощные боевые черты, увеличивающие урон и критический шанс боевых девиантов.",
+      "traits": [
+        {
+          "id": "aggressive",
+          "name_ru": "Агрессивный",
+          "name_en": "Aggressive",
+          "effect": "Урон боевого девианта +12%, шанс крита +5%",
+          "targetKind": "combat"
+        },
+        {
+          "id": "feral_instincts",
+          "name_ru": "Звериные инстинкты",
+          "name_en": "Feral Instincts",
+          "effect": "Критический урон девианта +20%, снижает время отката атак",
+          "targetKind": "combat"
+        },
+        {
+          "id": "swift",
+          "name_ru": "Быстроногий",
+          "name_en": "Swift",
+          "effect": "Скорость перемещения и преследования цели +15%",
+          "targetKind": "combat"
+        }
+      ]
+    },
+    {
+      "id": "bear",
+      "name_ru": "Медведь (Гризли / Полярный)",
+      "name_en": "Bear",
+      "icon": "🐻",
+      "tier": "Ранг S",
+      "description": "Крупный зверь с колоссальной выносливостью. Источник защитных черт и перков на переносимый вес.",
+      "traits": [
+        {
+          "id": "thick_hide",
+          "name_ru": "Толстая шкура",
+          "name_en": "Thick Hide",
+          "effect": "Снижение входящего урона на 15%, макс. здоровье девианта +25%",
+          "targetKind": "survival"
+        },
+        {
+          "id": "beast_of_burden",
+          "name_ru": "Вьючное животное",
+          "name_en": "Beast of Burden",
+          "effect": "Синхронизация с игроком увеличивает переносимый вес на +8–15 кг",
+          "targetKind": "utility"
+        },
+        {
+          "id": "iron_constitution",
+          "name_ru": "Железная конституция",
+          "name_en": "Iron Constitution",
+          "effect": "Иммунитет к легким оглушениям, регенерация энергии +10%",
+          "targetKind": "survival"
+        }
+      ]
+    },
+    {
+      "id": "boar",
+      "name_ru": "Дикий кабан",
+      "name_en": "Boar",
+      "icon": "🐗",
+      "tier": "Ранг B / A",
+      "description": "Неприхотливый зверь. Идеален для усиления территориальных девиантов, занятых сбором и раскопками.",
+      "traits": [
+        {
+          "id": "forager",
+          "name_ru": "Природный собиратель",
+          "name_en": "Forager",
+          "effect": "Эффективность добычи ресурсов на территории +15%",
+          "targetKind": "territory"
+        },
+        {
+          "id": "toughness",
+          "name_ru": "Живучесть",
+          "name_en": "Toughness",
+          "effect": "Замедляет падение настроения в неблагоприятных условиях на 30%",
+          "targetKind": "territory"
+        },
+        {
+          "id": "mud_lover",
+          "name_ru": "Любитель грязи",
+          "name_en": "Mud Lover",
+          "effect": "Иммунитет к негативным факторам погоды и дождя",
+          "targetKind": "utility"
+        }
+      ]
+    },
+    {
+      "id": "deer",
+      "name_ru": "Олень / Лань",
+      "name_en": "Deer",
+      "icon": "🦌",
+      "tier": "Ранг A",
+      "description": "Мирное грациозное животное. Источник черт спокойствия, сохранения настроения и быстрой регенерации.",
+      "traits": [
+        {
+          "id": "docile",
+          "name_ru": "Покладистый",
+          "name_en": "Docile",
+          "effect": "Порог активности снижен, девиант быстрее выходит на работу (+20%)",
+          "targetKind": "territory"
+        },
+        {
+          "id": "cheer_up",
+          "name_ru": "Подбодрение",
+          "name_en": "Cheer Up",
+          "effect": "Максимальный запас настроения +30%",
+          "targetKind": "territory"
+        },
+        {
+          "id": "serenity",
+          "name_ru": "Умиротворение",
+          "name_en": "Serenity",
+          "effect": "Восстановление бодрости в безопасном контейнере +25%",
+          "targetKind": "territory"
+        }
+      ]
+    },
+    {
+      "id": "leopard",
+      "name_ru": "Леопард",
+      "name_en": "Leopard",
+      "icon": "🐆",
+      "tier": "Ранг S",
+      "description": "Стремительный хищник. Передаёт перки на урон по уязвимым местам и внезапные атаки.",
+      "traits": [
+        {
+          "id": "weakspot_hunter",
+          "name_ru": "Охотник за уязвимостями",
+          "name_en": "Weakspot Hunter",
+          "effect": "Урон девианта по слабым точкам боссов +25%",
+          "targetKind": "combat"
+        },
+        {
+          "id": "adrenaline",
+          "name_ru": "Адреналин",
+          "name_en": "Adrenaline",
+          "effect": "При низком здоровье девианта урон утраивается на 8 секунд",
+          "targetKind": "combat"
+        }
+      ]
+    },
+    {
+      "id": "crocodile",
+      "name_ru": "Крокодил",
+      "name_en": "Crocodile",
+      "icon": "🐊",
+      "tier": "Ранг S",
+      "description": "Древний бронированный хищник. Дает колоссальные сопротивления стихиям и контроль атак.",
+      "traits": [
+        {
+          "id": "armored_scales",
+          "name_ru": "Бронированная чешуя",
+          "name_en": "Armored Scales",
+          "effect": "Сопротивление всем видам стихийного урона +30%",
+          "targetKind": "survival"
+        },
+        {
+          "id": "ambush",
+          "name_ru": "Засада",
+          "name_en": "Ambush",
+          "effect": "Первый удар из режима скрытности гарантирует критический урон +50%",
+          "targetKind": "combat"
+        }
+      ]
+    }
+  ],
+  "mutagens": [
+    {
+      "id": "none",
+      "name_ru": "Без мутагена",
+      "name_en": "No Mutagen",
+      "icon": "⚪",
+      "type": "none",
+      "effect": "Стандартное наследование вида и перков без искусственных гарантий."
+    },
+    {
+      "id": "species_grade_s",
+      "name_ru": "Мутаген вида: Ранг S",
+      "name_en": "Grade S Species Mutagen",
+      "icon": "🧬",
+      "type": "species",
+      "recipe": "1x Species Code, 20x Серебряная руда, 100x Звёздная пыль, 10x Резина",
+      "effect": "100% фиксирует целевой вид девианта (из сценария или кода на верстаке)."
+    },
+    {
+      "id": "species_grade_a",
+      "name_ru": "Мутаген вида: Ранг A",
+      "name_en": "Grade A Species Mutagen",
+      "icon": "🧪",
+      "type": "species",
+      "recipe": "1x Species Code, 20x Стальной слиток, 50x Звёздная пыль, 10x Резина",
+      "effect": "Высокий шанс (85%) фиксации целевого вида девианта."
+    },
+    {
+      "id": "chaos_mutagen",
+      "name_ru": "Мутаген Хаоса",
+      "name_en": "Chaos Mutagen",
+      "icon": "🌌",
+      "type": "chaos",
+      "recipe": "1x Chaos Code, 10x Золотая руда, 150x Звёздная пыль, 10x Резина",
+      "effect": "Шанс получить девиантов, не спавнящихся естественным путём в вашем сценарии!"
+    },
+    {
+      "id": "skill_mutagen",
+      "name_ru": "Мутаген навыка",
+      "name_en": "Skill Mutagen",
+      "icon": "⚡",
+      "type": "skill",
+      "recipe": "Arena Shop / Победа над дикими девиантами / Торговля",
+      "effect": "Гарантированно наделяет потомка дополнительной техникой/навыком 1-го уровня."
+    },
+    {
+      "id": "stabilizer",
+      "name_ru": "Стабилизатор мутаций",
+      "name_en": "Mutation Stabilizer",
+      "icon": "🔒",
+      "type": "stabilizer",
+      "effect": "Фиксирует лучший золотой перк родителя со 100% гарантией перехода потомку."
+    },
+    {
+      "id": "purifier",
+      "name_ru": "Очищающий катализатор",
+      "name_en": "Purifier Catalyst",
+      "icon": "✨",
+      "type": "purifier",
+      "effect": "Снижает риск получения негативных дебаффов (красных перков) с 20% до 1%."
+    }
+  ],
+  "commonTraits": [
+    { "id": "t_aggro", "name_ru": "Агрессивный", "name_en": "Aggressive", "kind": "positive", "tier": "gold", "effect": "Урон боевого девианта +12%" },
+    { "id": "t_cheer", "name_ru": "Подбодрение", "name_en": "Cheer Up", "kind": "positive", "tier": "gold", "effect": "Максимальное настроение +30%" },
+    { "id": "t_burden", "name_ru": "Вьючное животное", "name_en": "Beast of Burden", "kind": "positive", "tier": "gold", "effect": "Макс. переносимый вес игрока +8 кг" },
+    { "id": "t_moon", "name_ru": "Хвала Луне - Звёздная ночь", "name_en": "Praise the Moon - Starry Night", "kind": "positive", "tier": "gold", "effect": "Ночью наносите на 6% больше урона" },
+    { "id": "t_workaholic", "name_ru": "Трудоголик", "name_en": "Workaholic", "kind": "positive", "tier": "purple", "effect": "Скорость работы на территории +15%" },
+    { "id": "t_thick", "name_ru": "Толстая шкура", "name_en": "Thick Hide", "kind": "positive", "tier": "purple", "effect": "Снижение входящего урона на 15%" },
+    { "id": "t_swift", "name_ru": "Быстроногий", "name_en": "Swift", "kind": "positive", "tier": "purple", "effect": "Скорость перемещения +15%" },
+    { "id": "t_night_owl", "name_ru": "Полуночник", "name_en": "Night Owl", "kind": "positive", "tier": "blue", "effect": "Ночью эффективность работы +20%" },
+    { "id": "t_sunbather", "name_ru": "Любитель солнца", "name_en": "Sunbather", "kind": "positive", "tier": "blue", "effect": "В солнечную погоду настроение не падает" },
+    { "id": "t_feral", "name_ru": "Звериные инстинкты", "name_en": "Feral Instincts", "kind": "positive", "tier": "gold", "effect": "Критический урон +20%" },
+    { "id": "t_sluggish", "name_ru": "Медлительный", "name_en": "Sluggish", "kind": "negative", "tier": "red", "effect": "Скорость атак и работы снижена на 15%" },
+    { "id": "t_fragile", "name_ru": "Хрупкий", "name_en": "Fragile", "kind": "negative", "tier": "red", "effect": "Максимальное здоровье девианта -25%" },
+    { "id": "t_short_tempered", "name_ru": "Вспыльчивый", "name_en": "Short-Tempered", "kind": "negative", "tier": "red", "effect": "Настроение девианта падает на 25% быстрее" },
+    { "id": "t_gluttonous", "name_ru": "Прожорливый", "name_en": "Gluttonous", "kind": "negative", "tier": "red", "effect": "Требует на 30% больше энергии для работы" },
+    { "id": "t_lazy", "name_ru": "Лентяй", "name_en": "Slacker", "kind": "negative", "tier": "red", "effect": "Скорость работы и выработки ресурсов на базе снижена на 20%" },
+    { "id": "t_cowardly", "name_ru": "Трусливый", "name_en": "Cowardly", "kind": "negative", "tier": "red", "effect": "Время перезарядки боевого навыка девианта увеличено на 25%" },
+    { "id": "t_defective", "name_ru": "Брак мутации", "name_en": "Defective Mutation", "kind": "negative", "tier": "red", "effect": "Снижает базовые характеристики силы или активности на 1★" }
+  ],
+  "presets": [
+    {
+      "name": "Идеальный боец (Butterfly / Lonewolf)",
+      "p1Id": "butterfly",
+      "p1Rating": 4,
+      "p1Perks": ["Агрессивный", "Подбодрение"],
+      "p2Id": "lonewolf",
+      "p2Rating": 4,
+      "p2Perks": ["Агрессивный", "Хвала Луне - Звёздная ночь"],
+      "animal": "wolf",
+      "animalTrait": "aggressive",
+      "mutagen": "purifier"
+    },
+    {
+      "name": "Топовый харвестер (Digby Boy)",
+      "p1Id": "digby",
+      "p1Rating": 3,
+      "p1Perks": ["Трудоголик", "Подбодрение"],
+      "p2Id": "digby",
+      "p2Rating": 4,
+      "p2Perks": ["Трудоголик", "Вьючное животное"],
+      "animal": "boar",
+      "animalTrait": "forager",
+      "mutagen": "stabilizer"
+    }
+  ]
+}

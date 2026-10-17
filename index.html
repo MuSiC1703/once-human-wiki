@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Once Human — интерактивная база знаний девиантов: способности, перки, условия содержания и инструмент сравнения.">
+<meta name="theme-color" content="#11090b">
+<meta property="og:title" content="Once Human — Энциклопедия девиантов">
+<meta property="og:description" content="Интерактивная база знаний девиантов Once Human: способности, перки, сравнение и условия содержания.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="icons/icon-512.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,17 +22,33 @@
 
 <header class="header">
   <div class="header-inner">
-    <div class="logo">
-      <div class="logo-icon">◈</div>
-      <div>
-        <h1>ONCE HUMAN</h1>
-        <p class="subtitle">Интерактивная энциклопедия девиантов</p>
+    <div class="logo-group">
+      <div class="logo">
+        <div class="logo-icon">◈</div>
+        <div>
+          <h1>ONCE HUMAN</h1>
+          <p class="subtitle">Интерактивная энциклопедия девиантов</p>
+        </div>
+      </div>
+      <!-- Кнопки внешних ссылок (Twitch / Discord) — скрыты для GitHub-релиза. Чтобы включить обратно, удалите style="display: none;" -->
+      <div class="header-social-links" style="display: none;">
+        <a href="https://www.twitch.tv/1vampire" target="_blank" rel="noopener noreferrer" class="social-btn social-twitch" title="Твич 1vampire">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+          <span>Твич</span>
+        </a>
+        <a href="https://discord.com/invite/Argpn3suSH" target="_blank" rel="noopener noreferrer" class="social-btn social-discord" title="Дискорд-сообщество">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <span>Дискорд</span>
+        </a>
       </div>
     </div>
     <div class="header-meta">
       <span class="meta-item">📅 Проверено: <b id="lastUpdate">16.10.2026</b></span>
       <span class="meta-item">🧬 Девиантов: <b id="totalCount">0</b></span>
       <span class="meta-item">⭐ В избранном: <b id="favCount">0</b></span>
+      <button id="colorblindToggle" class="btn btn-colorblind" type="button" title="Режим для людей с дальтонизмом">
+        👁️ Контрастный режим: <b id="cbStatus">ВЫКЛ</b>
+      </button>
     </div>
   </div>
 </header>
@@ -43,6 +68,28 @@
       <label for="roleFilter">Роль:</label>
       <select id="roleFilter">
         <option value="all">Все роли</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="scenarioFilter">Сценарий:</label>
+      <select id="scenarioFilter">
+        <option value="all">Все сценарии</option>
+        <option value="winter">❄️ The Way of Winter</option>
+        <option value="manibus">🔥 Manibus</option>
+        <option value="prism">🔮 Prismverse / SCP</option>
+        <option value="collab">⚡ Коллаборации</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sourceFilter">Источник:</label>
+      <select id="sourceFilter">
+        <option value="all">Все источники</option>
+        <option value="silo">🏛️ Силосы (Silos)</option>
+        <option value="monolith">⚔️ Монолиты (Monoliths)</option>
+        <option value="world">🌲 Открытый мир</option>
+        <option value="quest">📜 Задания Lowe</option>
+        <option value="gathering">⛏️ Сбор и рыбалка</option>
+        <option value="event">🛡️ Эвенты и PvP</option>
       </select>
     </div>
     <div class="filter-group">
@@ -70,17 +117,22 @@
   <button class="quick-btn" data-section="all">Все девианты</button>
   <button class="quick-btn" data-section="combat">⚔️ Боевые</button>
   <button class="quick-btn" data-section="base">🏭 Для базы</button>
+  <button class="quick-btn" data-section="winter">❄️ Way of Winter</button>
+  <button class="quick-btn" data-section="silos">🏛️ Из Силосов</button>
   <button class="quick-btn" data-section="compare">Сравнить</button>
 </section>
 
 <nav class="view-tabs" aria-label="Разделы энциклопедии">
   <button class="view-tab active" id="deviantsView" type="button">Девианты</button>
   <button class="view-tab" id="traitsView" type="button">Перки</button>
+  <button class="view-tab" id="labView" type="button">🔬 Лаборатория слияния</button>
 </nav>
 
 <section class="stats-bar" id="statsBar"></section>
 
 <main class="grid" id="deviantsGrid"></main>
+
+<section id="labSection" class="lab-section" style="display:none"></section>
 
 <div class="empty-state" id="emptyState" style="display:none">
   <div class="empty-icon">◌</div>
@@ -104,10 +156,23 @@
 </div>
 
 <footer class="footer">
-  <p>Энциклопедия создана на основе официальных руководств и сообщества. Все права на игру принадлежат Starry Studio / NetEase.</p>
-  <p class="disclaimer">В игре Once Human «перки» девиантов реализованы через систему Усилителей настроения (Mood Boosters) и Черт (Traits). Данные актуальны на октябрь 2026 г.</p>
+  <div class="footer-legal">
+    <p><strong>Правовая информация и отказ от ответственности:</strong></p>
+    <p>
+      Данный веб-сайт является некоммерческим фанатским ресурсом, созданным исключительно в информационных и ознакомительных целях. 
+      Все текстовые материалы, характеристики девиантов, иконки и описания собраны из открытых публичных источников (Steam Community Guides, Once Human Fandom Wiki, публичные базы знаний).
+    </p>
+    <p class="disclaimer">
+      Все права на игру Once Human, товарные знаки, изображения, персонажей и связанные медиаматериалы принадлежат их законным правообладателям — <strong>Starry Studio</strong> и <strong>NetEase Games</strong>. 
+      Сайт никак не связан с разработчиками и не претендует на права интеллектуальной собственности. Использование материалов осуществляется в рамках добросовестного использования (Fair Use).
+    </p>
+    <p style="margin-top: 8px; font-size: 11px; color: var(--text-dim);">
+      Если вы являетесь правообладателем какого-либо контента и против его размещения, свяжитесь с нами для немедленного удаления.
+    </p>
+  </div>
 </footer>
-
+<button id="scrollTopBtn" class="scroll-top-btn" title="Наверх" aria-label="Прокрутить вверх">↑</button>
+<script src="fusion-sim.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
