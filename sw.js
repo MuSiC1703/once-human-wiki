@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oh-wiki-v46';
+const CACHE_NAME = 'oh-wiki-v47';
 
 const PRECACHE_ASSETS = [
   './',

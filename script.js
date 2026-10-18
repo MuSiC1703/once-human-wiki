@@ -52,9 +52,7 @@ function getTraitScope(name, devCategories) {
 function renderCategoryTags(d) {
   return (d.category || []).map(c => {
     if (c === 'crafting') {
-      return ARTISAN_DEVIANT_IDS.has(d.id)
-        ? '<span class="cat-tag cat-artisan">Ремесленный</span>'
-        : '<span class="cat-tag cat-crafting">Крафтовый</span>';
+      return '<span class="cat-tag cat-artisan">Ремесленный</span>';
     }
     const label = CATEGORIES[c] || (c === 'combat' ? 'Боевой' : (c === 'territory' ? 'Территориальный' : c));
     return `<span class="cat-tag cat-${escapeHtml(c)}">${escapeHtml(label)}</span>`;
@@ -512,10 +510,8 @@ function resetFilters() {
 function getFiltered() {
   let list = [...DEVIANTS];
 
-  if (state.category === 'artisan') {
-    list = list.filter(d => ARTISAN_DEVIANT_IDS.has(d.id));
-  } else if (state.category === 'crafting') {
-    list = list.filter(d => (d.category || []).includes('crafting') && !ARTISAN_DEVIANT_IDS.has(d.id));
+  if (state.category === 'artisan' || state.category === 'crafting') {
+    list = list.filter(d => (d.category || []).includes('crafting'));
   } else if (state.category !== 'all') {
     list = list.filter(d => (d.category || []).includes(state.category));
   }
@@ -580,8 +576,8 @@ function renderStats() {
   if (countAll) countAll.textContent = DEVIANTS.length;
   if (countCombat) countCombat.textContent = DEVIANTS.filter(d => (d.category || []).includes('combat')).length;
   if (countTerritory) countTerritory.textContent = DEVIANTS.filter(d => (d.category || []).includes('territory')).length;
-  if (countArtisan) countArtisan.textContent = DEVIANTS.filter(d => ARTISAN_DEVIANT_IDS.has(d.id)).length;
-  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting') && !ARTISAN_DEVIANT_IDS.has(d.id)).length;
+  if (countArtisan) countArtisan.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting')).length;
+  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting')).length;
 
   updateFavCount();
 }
