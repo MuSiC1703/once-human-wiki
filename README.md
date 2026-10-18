@@ -1,6 +1,6 @@
 # 🌌 Once Human — Deviants Wiki & Fusion Simulator
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-brightgreen?logo=github)](https://github.com)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-brightgreen?logo=github)](https://music1703.github.io/once-human-wiki/)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License: Fan Content](https://img.shields.io/badge/License-Fan%20Content%20%2F%20Fair%20Use-orange)](#-правовая-информация-и-отказ-от-ответственности-disclaimer)
 
