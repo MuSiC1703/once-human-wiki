@@ -3,6 +3,64 @@ let CATEGORIES = {};
 let META = {};
 let VARIANTS = {};
 
+const ARTISAN_DEVIANT_IDS = new Set([
+  'artisans-touch', 'party-monkey', 'orb-lightning', 'atomic',
+  'atomic-snail', 'gingerbread', 'gazocchio', 'frog', 'harveseed'
+]);
+
+const GENERAL_TRAIT_PREFIXES = [
+  'Cheer Up',
+  'Covert Energy',
+  'Rise and Shine',
+  'Optimist',
+  'Growing Pains',
+  'Save Energy',
+  'Carefree',
+  'Pumpkin Lantern'
+];
+
+const ARTISAN_TRAIT_NAMES = new Set([
+  'Master Pharmacist',
+  'Stardust Empowerment',
+  'The Joy of Slacking Off',
+  'Viscous Grip',
+  'Eureka Moment',
+  'Byproduct',
+  'Blinding Lumens'
+]);
+
+const CRAFTING_TRAIT_NAMES = new Set([
+  'Buy 1 Get 2',
+  'Come As One',
+  'Efficiency Above All',
+  'Efficiency First',
+  'Cold Surge'
+]);
+
+function getTraitScope(name, devCategories) {
+  for (const prefix of GENERAL_TRAIT_PREFIXES) {
+    if (name.startsWith(prefix)) return 'general';
+  }
+  if (/Optimis/i.test(name)) return 'general';
+  if (ARTISAN_TRAIT_NAMES.has(name)) return 'artisan';
+  if (CRAFTING_TRAIT_NAMES.has(name)) return 'crafting';
+  if (devCategories.has('combat')) return 'combat';
+  if (devCategories.has('territory')) return 'territory';
+  return 'general';
+}
+
+function renderCategoryTags(d) {
+  return (d.category || []).map(c => {
+    if (c === 'crafting') {
+      return ARTISAN_DEVIANT_IDS.has(d.id)
+        ? '<span class="cat-tag cat-artisan">Ремесленный</span>'
+        : '<span class="cat-tag cat-crafting">Крафтовый</span>';
+    }
+    const label = CATEGORIES[c] || (c === 'combat' ? 'Боевой' : (c === 'territory' ? 'Территориальный' : c));
+    return `<span class="cat-tag cat-${escapeHtml(c)}">${escapeHtml(label)}</span>`;
+  }).join('');
+}
+
 const ROLE_GROUPS = {
   damage: { label: 'Урон в бою', category: 'combat', roles: ['Ближний бой', 'Взрывной урон', 'Ледяной урон', 'Метка цели', 'Огонь', 'Урон', 'Усиление оружия'] },
   support: { label: 'Поддержка', roles: ['Воскрешение', 'Восстановление игрока', 'Восстановление рассудка', 'Восстановление энергии', 'Лечение', 'Отдых', 'Поддержка', 'Поддержка базы'] },
@@ -454,7 +512,11 @@ function resetFilters() {
 function getFiltered() {
   let list = [...DEVIANTS];
 
-  if (state.category !== 'all') {
+  if (state.category === 'artisan') {
+    list = list.filter(d => ARTISAN_DEVIANT_IDS.has(d.id));
+  } else if (state.category === 'crafting') {
+    list = list.filter(d => (d.category || []).includes('crafting') && !ARTISAN_DEVIANT_IDS.has(d.id));
+  } else if (state.category !== 'all') {
     list = list.filter(d => (d.category || []).includes(state.category));
   }
 
@@ -512,12 +574,14 @@ function renderStats() {
   const countAll = document.getElementById('countAll');
   const countCombat = document.getElementById('countCombat');
   const countTerritory = document.getElementById('countTerritory');
+  const countArtisan = document.getElementById('countArtisan');
   const countCrafting = document.getElementById('countCrafting');
 
   if (countAll) countAll.textContent = DEVIANTS.length;
   if (countCombat) countCombat.textContent = DEVIANTS.filter(d => (d.category || []).includes('combat')).length;
   if (countTerritory) countTerritory.textContent = DEVIANTS.filter(d => (d.category || []).includes('territory')).length;
-  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting')).length;
+  if (countArtisan) countArtisan.textContent = DEVIANTS.filter(d => ARTISAN_DEVIANT_IDS.has(d.id)).length;
+  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting') && !ARTISAN_DEVIANT_IDS.has(d.id)).length;
 
   updateFavCount();
 }
@@ -538,7 +602,7 @@ function renderTraits() {
           nameRu: trait.name_ru || trait.name,
           effects: new Set(),
           deviants: [],
-          categories: new Set()
+          devCategories: new Set()
         });
       }
       const group = grouped.get(key);
@@ -548,14 +612,15 @@ function renderTraits() {
       if (!group.deviants.some(entry => entry.id === deviant.id)) {
         group.deviants.push(deviant);
       }
-      (deviant.category || []).forEach(c => group.categories.add(c));
+      (deviant.category || []).forEach(c => group.devCategories.add(c));
     });
   });
 
   const query = (state.search || '').trim().toLowerCase();
   const allTraits = [...grouped.values()].map(t => ({
     ...t,
-    effects: [...t.effects]
+    effects: [...t.effects],
+    scopeCategory: getTraitScope(t.name, t.devCategories)
   }));
 
   // Фильтрация по поисковой строке
@@ -571,22 +636,29 @@ function renderTraits() {
     return haystack.includes(query);
   });
 
-  // Подсчёт количества черт по категориям девиантов: Все, Боевые, Территориальные, Ремесло / Крафт
+  // Подсчёт количества черт по категориям:
+  // 1. Все, 2. Общие, 3. Боевые, 4. Территориальные, 5. Ремесленные, 6. Крафтовые
   const counts = {
     all: searchedTraits.length,
-    combat: searchedTraits.filter(t => t.categories.has('combat')).length,
-    territory: searchedTraits.filter(t => t.categories.has('territory')).length,
-    crafting: searchedTraits.filter(t => t.categories.has('crafting')).length
+    general: searchedTraits.filter(t => t.scopeCategory === 'general').length,
+    combat: searchedTraits.filter(t => t.scopeCategory === 'combat').length,
+    territory: searchedTraits.filter(t => t.scopeCategory === 'territory').length,
+    artisan: searchedTraits.filter(t => t.scopeCategory === 'artisan').length,
+    crafting: searchedTraits.filter(t => t.scopeCategory === 'crafting').length
   };
 
   const activeScope = state.traitScope || 'all';
 
-  // Рендерим кнопки категорий перков в едином дизайне с карточками девиантов
+  // Рендерим кнопки категорий перков строго в заданном порядке:
+  // "Общие" — вторая вкладка сразу после "Все"!
   if (statsBar) {
     statsBar.innerHTML = `
       <div class="category-tabs-bar" role="tablist" aria-label="Категории перков" style="padding-top: 0;">
         <button class="category-btn traits-chip ${activeScope === 'all' ? 'active' : ''}" data-scope="all" type="button">
           <span>Все</span><b class="chip-count">${counts.all}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'general' ? 'active' : ''}" data-scope="general" type="button">
+          <span>🧬 Общие</span><b class="chip-count">${counts.general}</b>
         </button>
         <button class="category-btn traits-chip ${activeScope === 'combat' ? 'active' : ''}" data-scope="combat" type="button">
           <span>⚔️ Боевые</span><b class="chip-count">${counts.combat}</b>
@@ -594,8 +666,11 @@ function renderTraits() {
         <button class="category-btn traits-chip ${activeScope === 'territory' ? 'active' : ''}" data-scope="territory" type="button">
           <span>🏡 Территориальные</span><b class="chip-count">${counts.territory}</b>
         </button>
+        <button class="category-btn traits-chip ${activeScope === 'artisan' ? 'active' : ''}" data-scope="artisan" type="button">
+          <span>🔨 Ремесленные</span><b class="chip-count">${counts.artisan}</b>
+        </button>
         <button class="category-btn traits-chip ${activeScope === 'crafting' ? 'active' : ''}" data-scope="crafting" type="button">
-          <span>🔨 Ремесло / Крафт</span><b class="chip-count">${counts.crafting}</b>
+          <span>🧪 Крафтовые</span><b class="chip-count">${counts.crafting}</b>
         </button>
       </div>
     `;
@@ -610,7 +685,7 @@ function renderTraits() {
 
   // Фильтрация черт по выбранной категории
   const filteredTraits = searchedTraits.filter(trait => {
-    if (activeScope !== 'all' && !trait.categories.has(activeScope)) return false;
+    if (activeScope !== 'all' && trait.scopeCategory !== activeScope) return false;
     return true;
   });
 
@@ -621,15 +696,21 @@ function renderTraits() {
   }
   empty.style.display = 'none';
 
+  const scopeBadgeMap = {
+    general: '<span class="trait-scope-badge scope-general">🧬 Общий</span>',
+    combat: '<span class="trait-scope-badge scope-combat">⚔️ Боевой</span>',
+    territory: '<span class="trait-scope-badge scope-territory">🏡 Территориальный</span>',
+    artisan: '<span class="trait-scope-badge scope-artisan">🔨 Ремесленный</span>',
+    crafting: '<span class="trait-scope-badge scope-crafting">🧪 Крафтовый</span>'
+  };
+
   const renderCardHTML = (trait) => {
     return `
       <article class="trait-card trait-recommended">
         <div class="trait-card-heading">
           <h2>${escapeHtml(trait.nameRu)}</h2>
           <div class="trait-badges">
-            ${trait.categories.has('combat') ? '<span class="trait-scope-badge scope-combat">⚔️ Боевой</span>' : ''}
-            ${trait.categories.has('territory') ? '<span class="trait-scope-badge scope-territory">🏡 Территориальный</span>' : ''}
-            ${trait.categories.has('crafting') ? '<span class="trait-scope-badge scope-crafting">🔨 Ремесло / Крафт</span>' : ''}
+            ${scopeBadgeMap[trait.scopeCategory] || ''}
             <span class="trait-kind recommended">⭐ Топ выбор</span>
           </div>
         </div>
@@ -689,7 +770,7 @@ function renderCard(d) {
         <div class="card-title">${escapeHtml(d.name_ru)} <span class="card-title-en">${escapeHtml(d.name_en || '')}</span></div>
         ${favVariant ? `<div class="card-morph-selected-title">✨ Активен морф: <b>${escapeHtml(favVariant.name_ru)}</b></div>` : ''}
         <div class="card-category">
-          ${d.category.map(c => `<span class="cat-tag">${escapeHtml(CATEGORIES[c] || c)}</span>`).join('')}
+          ${renderCategoryTags(d)}
           ${previewRoles.map(role => `<span class="role-tag">${escapeHtml(role)}</span>`).join('')}
           ${extraRolesCount > 0 ? `<span class="role-tag role-tag-more" title="Ещё роли: ${escapeHtml(allRoles.slice(2).join(', '))}">+${extraRolesCount}</span>` : ''}
         </div>
@@ -762,7 +843,7 @@ function openModal(id) {
         <div class="en-name">${escapeHtml(d.name_en || '')}</div>
         <div class="purpose">${escapeHtml(d.shortDesc)}</div>
         <div class="card-category">
-          ${d.category.map(c => `<span class="cat-tag">${escapeHtml(CATEGORIES[c] || c)}</span>`).join('')}
+          ${renderCategoryTags(d)}
           ${(d.roles || []).map(role => `<span class="role-tag">${escapeHtml(role)}</span>`).join('')}
         </div>
       </div>
