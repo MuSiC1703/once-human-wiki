@@ -1,14 +1,12 @@
-const CACHE_NAME = 'oh-wiki-v37';
+const CACHE_NAME = 'oh-wiki-v43';
 
 const PRECACHE_ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  './fusion-sim.js',
   './manifest.json',
   './data/deviants.json',
-  './data/fusion_data.json',
   './data/variants.json',
   './icons/icon.svg',
   './icons/icon-192.png',

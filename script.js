@@ -295,26 +295,16 @@ function formatDate(iso) {
 }
 
 const state = {
-  search: '', category: 'all', role: 'all', scenario: 'all', source: 'all', confidence: 'all', sort: 'name',
-  favOnly: false,
-  colorblind: JSON.parse(localStorage.getItem('oh_colorblind') || 'false'),
-  favorites: JSON.parse(localStorage.getItem('oh_favorites') || '[]'),
-  compareList: JSON.parse(localStorage.getItem('oh_compare') || '[]'),
-  quickSection: null,
+  search: '',
+  category: 'all',
+  favoriteMorphs: JSON.parse(localStorage.getItem('oh_fav_morphs') || '{}'),
   view: 'deviants',
-  traitScope: 'all',
-  traitKind: 'all'
+  traitScope: 'all'
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
-  buildCategoryFilter();
-  buildRoleFilter();
   bindEvents();
-  initColorblindMode();
-  if (window.FusionLab) {
-    window.FusionLab.init(DEVIANTS);
-  }
   render();
   updateFavCount();
   registerServiceWorker();
@@ -341,63 +331,9 @@ function registerServiceWorker() {
   }
 }
 
-function buildCategoryFilter() {
-  const select = document.getElementById('categoryFilter');
-  Object.entries(CATEGORIES).forEach(([key, label]) => {
-    const opt = document.createElement('option');
-    opt.value = key;
-    opt.textContent = label;
-    select.appendChild(opt);
-  });
-}
-
-function buildRoleFilter() {
-  const select = document.getElementById('roleFilter');
-  const availableRoles = new Set(DEVIANTS.flatMap(deviant => deviant.roles || []));
-  Object.entries(ROLE_GROUPS).filter(([, group]) => group.roles.some(role => availableRoles.has(role))).forEach(([key, group]) => {
-    const option = document.createElement('option');
-    option.value = key;
-    option.textContent = group.label;
-    select.appendChild(option);
-  });
-}
-
 function debounce(fn, delay) {
   let timer;
   return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); };
-}
-
-function updateFilterCount() {
-  let count = 0;
-  if (state.category !== 'all') count++;
-  if (state.role !== 'all') count++;
-  if (state.scenario !== 'all') count++;
-  if (state.source !== 'all') count++;
-  if (state.confidence !== 'all') count++;
-  if (state.sort !== 'name') count++;
-
-  const badge = document.getElementById('filterCountBadge');
-  const toggleBtn = document.getElementById('filterToggleBtn');
-  if (badge) {
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'inline-flex' : 'none';
-  }
-  if (toggleBtn) {
-    toggleBtn.classList.toggle('has-active', count > 0);
-  }
-}
-
-function updateCompareBadge() {
-  const badge = document.getElementById('compareCountBadge');
-  const btn = document.getElementById('compareHubBtn');
-  const count = state.compareList.length;
-  if (badge) {
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'inline-flex' : 'none';
-  }
-  if (btn) {
-    btn.classList.toggle('active', count > 0);
-  }
 }
 
 function bindEvents() {
@@ -422,125 +358,45 @@ function bindEvents() {
     render();
   });
 
-  // Кнопка открытия/закрытия панели расширенных фильтров
-  const filterToggleBtn = document.getElementById('filterToggleBtn');
-  const filtersDrawer = document.getElementById('deviantFilters');
-  filterToggleBtn?.addEventListener('click', () => {
-    if (!filtersDrawer) return;
-    const isHidden = filtersDrawer.style.display === 'none';
-    filtersDrawer.style.display = isHidden ? 'block' : 'none';
-    filterToggleBtn.classList.toggle('is-open', isHidden);
-  });
-
-  // Кнопка сравнения в панели управления
-  document.getElementById('compareHubBtn')?.addEventListener('click', openCompareModal);
-
-  // Выпадающие списки в панели фильтров
-  ['categoryFilter', 'roleFilter', 'scenarioFilter', 'sourceFilter', 'confidenceFilter', 'sortSelect'].forEach(id => {
-    document.getElementById(id)?.addEventListener('change', e => {
-      if (id === 'categoryFilter') state.category = e.target.value;
-      if (id === 'roleFilter') state.role = e.target.value;
-      if (id === 'scenarioFilter') state.scenario = e.target.value;
-      if (id === 'sourceFilter') state.source = e.target.value;
-      if (id === 'confidenceFilter') state.confidence = e.target.value;
-      if (id === 'sortSelect') state.sort = e.target.value;
-      updateFilterCount();
-      render();
-    });
-  });
-
   document.getElementById('resetBtn')?.addEventListener('click', resetFilters);
 
-  // Интерактивные чипы-фильтры со встроенными счётчиками
-  document.querySelectorAll('.filter-chip[data-section]').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      state.favOnly = false;
-      document.getElementById('favToggle')?.classList.remove('active');
-      state.quickSection = chip.dataset.section === 'all' ? null : chip.dataset.section;
+  // Кнопки разделения девиантов: Все, Боевые, Территориальные, Ремесло / Крафт
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.category = btn.dataset.category || 'all';
       render();
     });
   });
 
-  // Чекбокс-чип избранного
-  document.getElementById('favToggle')?.addEventListener('click', () => {
-    state.favOnly = !state.favOnly;
-    const favChip = document.getElementById('favToggle');
-    favChip?.classList.toggle('active', state.favOnly);
-    if (state.favOnly) {
-      document.querySelectorAll('.filter-chip[data-section]').forEach(c => c.classList.remove('active'));
-    } else {
-      document.querySelector('.filter-chip[data-section="all"]')?.classList.add('active');
-      state.quickSection = null;
-    }
-    render();
-  });
-
-  // Вкладки разделов (Девианты, Перки, Лаборатория слияния)
+  // Вкладки разделов (Девианты, База перков)
   document.getElementById('deviantsView')?.addEventListener('click', () => { state.view = 'deviants'; render(); });
   document.getElementById('traitsView')?.addEventListener('click', () => { state.view = 'traits'; render(); });
-  document.getElementById('labView')?.addEventListener('click', () => { state.view = 'lab'; render(); });
 
   document.getElementById('modalClose')?.addEventListener('click', closeModal);
   document.getElementById('deviantModal')?.addEventListener('click', e => { if (e.target.id === 'deviantModal') closeModal(); });
-  document.getElementById('compareClose')?.addEventListener('click', closeCompare);
-  document.getElementById('compareModal')?.addEventListener('click', e => { if (e.target.id === 'compareModal') closeCompare(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeCompare(); } });
-  document.getElementById('colorblindToggle')?.addEventListener('click', toggleColorblindMode);
 
-  // Централизованное делегирование событий для грида (Event Delegation)
+  // Управление модальным окном видеогайда
+  document.getElementById('videoModalBtn')?.addEventListener('click', openVideoModal);
+  document.getElementById('videoModalClose')?.addEventListener('click', closeVideoModal);
+  document.getElementById('videoModal')?.addEventListener('click', e => { if (e.target.id === 'videoModal') closeVideoModal(); });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeVideoModal();
+    }
+  });
+
+  // Централизованное делегирование событий для грида
   const grid = document.getElementById('deviantsGrid');
   if (grid) {
     grid.addEventListener('click', (e) => {
-      const favBtn = e.target.closest('.fav-btn');
-      if (favBtn) {
-        e.stopPropagation();
-        toggleFavorite(favBtn.dataset.id);
-        return;
-      }
-
-      const compareBtn = e.target.closest('.compare-btn');
-      if (compareBtn) {
-        e.stopPropagation();
-        toggleCompare(compareBtn.dataset.id);
-        return;
-      }
-
       const traitRef = e.target.closest('.trait-reference');
       if (traitRef) {
         e.stopPropagation();
         openModal(traitRef.dataset.id);
-        return;
-      }
-
-      const scBadge = e.target.closest('.loc-sc-badge');
-      if (scBadge) {
-        e.stopPropagation();
-        const sc = scBadge.dataset.scenario;
-        if (sc) {
-          state.scenario = sc;
-          const sel = document.getElementById('scenarioFilter');
-          if (sel) sel.value = sc;
-          updateFilterCount();
-          render();
-          showToast(`Фильтр по сценарию: ${scBadge.textContent.trim()}`);
-        }
-        return;
-      }
-
-      const srcBadge = e.target.closest('.loc-src-badge');
-      if (srcBadge) {
-        e.stopPropagation();
-        const src = srcBadge.dataset.source;
-        if (src) {
-          state.source = src;
-          const sel = document.getElementById('sourceFilter');
-          if (sel) sel.value = src;
-          updateFilterCount();
-          render();
-          showToast(`Фильтр по источнику: ${srcBadge.textContent.trim()}`);
-        }
         return;
       }
 
@@ -561,7 +417,7 @@ function bindEvents() {
     });
 
     grid.addEventListener('keydown', (e) => {
-      if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.fav-btn') && !e.target.closest('.compare-btn')) {
+      if (e.key === 'Enter' || e.key === ' ') {
         const card = e.target.closest('.card');
         if (card) {
           e.preventDefault();
@@ -581,126 +437,56 @@ function bindEvents() {
 function resetFilters() {
   state.search = '';
   state.category = 'all';
-  state.role = 'all';
-  state.scenario = 'all';
-  state.source = 'all';
-  state.confidence = 'all';
-  state.sort = 'name';
-  state.favOnly = false;
-  state.quickSection = null;
   state.traitScope = 'all';
-  state.traitKind = 'all';
 
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.value = '';
   const searchClearBtn = document.getElementById('searchClearBtn');
   if (searchClearBtn) searchClearBtn.style.display = 'none';
 
-  ['categoryFilter', 'roleFilter', 'scenarioFilter', 'sourceFilter', 'confidenceFilter'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = 'all';
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.toggle('active', (btn.dataset.category === 'all' || btn.dataset.scope === 'all'));
   });
-  const sortSel = document.getElementById('sortSelect');
-  if (sortSel) sortSel.value = 'name';
 
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  document.querySelector('.filter-chip[data-section="all"]')?.classList.add('active');
-  document.getElementById('favToggle')?.classList.remove('active');
-
-  updateFilterCount();
-  render();
-}
-
-function toggleFavFilter() {
-  state.favOnly = !state.favOnly;
-  document.getElementById('favToggle')?.classList.toggle('active', state.favOnly);
-  render();
-}
-
-function handleQuickSection(section) {
-  state.quickSection = section === 'all' ? null : section;
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.filter-chip[data-section="${section}"]`)?.classList.add('active');
   render();
 }
 
 function getFiltered() {
   let list = [...DEVIANTS];
-  if (state.quickSection === 'combat') list = list.filter(d => d.category.includes('combat'));
-  else if (state.quickSection === 'base') list = list.filter(d => d.category.some(c => ['territory', 'crafting'].includes(c)));
-  else if (state.quickSection === 'winter') list = list.filter(d => getDeviantLocationInfo(d).scenario === 'winter');
-  else if (state.quickSection === 'silos') list = list.filter(d => getDeviantLocationInfo(d).sourceType === 'silo');
-  else if (state.quickSection === 'shiny') list = list.filter(d => d.variants && d.variants.length > 0);
 
-  if (state.category !== 'all') list = list.filter(d => d.category.includes(state.category));
-  if (state.role !== 'all') {
-    const roleGroup = ROLE_GROUPS[state.role];
-    list = list.filter(d => (!roleGroup?.category || d.category.includes(roleGroup.category)) && (d.roles || []).some(role => roleGroup?.roles.includes(role)));
+  if (state.category !== 'all') {
+    list = list.filter(d => (d.category || []).includes(state.category));
   }
-  if (state.scenario !== 'all') {
-    list = list.filter(d => {
-      const loc = getDeviantLocationInfo(d);
-      return loc.scenario === state.scenario || (state.scenario === 'manibus' && loc.scenario === 'all');
-    });
-  }
-  if (state.source !== 'all') {
-    list = list.filter(d => getDeviantLocationInfo(d).sourceType === state.source);
-  }
-  if (state.confidence !== 'all') list = list.filter(d => d.confidence === state.confidence);
-  if (state.favOnly) list = list.filter(d => state.favorites.includes(d.id));
-  
+
   if (state.search) {
     const q = state.search;
     list = list.filter(d => {
       const loc = getDeviantLocationInfo(d);
       const locText = [loc.spot, loc.spotShort, loc.scenarioLabel, loc.srcTitle, loc.coords || '', d.acquisition?.location || '', d.acquisition?.method || '', d.acquisition?.tips || ''].join(' ');
-      const traitsText = d.traits ? [...(d.traits.recommended || []), ...(d.traits.avoid || [])].map(t => (t.name || '') + ' ' + (t.name_ru || '') + ' ' + (t.effect || '')).join(' ') : '';
+      const traitsText = d.traits ? (d.traits.recommended || []).map(t => (t.name || '') + ' ' + (t.name_ru || '') + ' ' + (t.effect || '')).join(' ') : '';
       const variantsText = (d.variants || []).map(v => `${v.name_ru} ${v.name_en} ${v.trait?.name || ''} ${v.trait?.name_ru || ''} ${v.trait?.effect || ''} ${v.source || ''}`).join(' ');
       const haystack = [d.name_ru, d.name_en, d.shortDesc, d.fullDesc, ...(d.abilities || []), ...(d.category || []).map(c => CATEGORIES[c] || c), ...(d.roles || []), ...(d.moodBoosters || []), traitsText, locText, variantsText].join(' ').toLowerCase();
       return haystack.includes(q);
     });
   }
 
-  if (state.sort === 'name') list.sort((a, b) => a.name_ru.localeCompare(b.name_ru, 'ru'));
-  else if (state.sort === 'category') list.sort((a, b) => a.category[0].localeCompare(b.category[0]));
-
+  list.sort((a, b) => a.name_ru.localeCompare(b.name_ru, 'ru'));
   return list;
 }
 
 function render() {
   const isTraitsView = state.view === 'traits';
-  const isLabView = state.view === 'lab';
   const isDeviantsView = state.view === 'deviants';
 
-  const mainControls = document.getElementById('mainControls');
-  const chipFilterBar = document.getElementById('chipFilterBar');
-  const filterToggleBtn = document.getElementById('filterToggleBtn');
-  const compareHubBtn = document.getElementById('compareHubBtn');
-  const advancedDrawer = document.getElementById('deviantFilters');
+  const categoryTabsBar = document.getElementById('categoryTabsBar');
   const statsBar = document.getElementById('statsBar');
   const grid = document.getElementById('deviantsGrid');
   const empty = document.getElementById('emptyState');
-  const labSec = document.getElementById('labSection');
 
   document.getElementById('deviantsView')?.classList.toggle('active', isDeviantsView);
   document.getElementById('traitsView')?.classList.toggle('active', isTraitsView);
-  document.getElementById('labView')?.classList.toggle('active', isLabView);
 
-  if (labSec) labSec.style.display = isLabView ? 'block' : 'none';
-
-  if (isLabView) {
-    if (mainControls) mainControls.style.display = 'none';
-    if (grid) grid.style.display = 'none';
-    if (empty) empty.style.display = 'none';
-    window.FusionLab?.onShow();
-    return;
-  }
-
-  if (mainControls) mainControls.style.display = 'flex';
-  if (chipFilterBar) chipFilterBar.style.display = isDeviantsView ? 'flex' : 'none';
-  if (filterToggleBtn) filterToggleBtn.style.display = isDeviantsView ? 'inline-flex' : 'none';
-  if (compareHubBtn) compareHubBtn.style.display = isDeviantsView ? 'inline-flex' : 'none';
-  if (advancedDrawer && isTraitsView) advancedDrawer.style.display = 'none';
+  if (categoryTabsBar) categoryTabsBar.style.display = isDeviantsView ? 'flex' : 'none';
   if (statsBar) statsBar.style.display = isTraitsView ? 'flex' : 'none';
 
   if (grid) grid.style.display = '';
@@ -725,51 +511,15 @@ function render() {
 function renderStats() {
   const countAll = document.getElementById('countAll');
   const countCombat = document.getElementById('countCombat');
-  const countBase = document.getElementById('countBase');
-  const countWinter = document.getElementById('countWinter');
-  const countSilos = document.getElementById('countSilos');
-  const countShiny = document.getElementById('countShiny');
-  const countFav = document.getElementById('countFav');
+  const countTerritory = document.getElementById('countTerritory');
+  const countCrafting = document.getElementById('countCrafting');
 
   if (countAll) countAll.textContent = DEVIANTS.length;
-  if (countCombat) countCombat.textContent = DEVIANTS.filter(d => d.category.includes('combat')).length;
-  if (countBase) countBase.textContent = DEVIANTS.filter(d => d.category.some(c => ['territory', 'crafting'].includes(c))).length;
-  if (countWinter) countWinter.textContent = DEVIANTS.filter(d => getDeviantLocationInfo(d).scenario === 'winter').length;
-  if (countSilos) countSilos.textContent = DEVIANTS.filter(d => getDeviantLocationInfo(d).sourceType === 'silo').length;
-  if (countShiny) countShiny.textContent = DEVIANTS.filter(d => d.variants && d.variants.length > 0).length;
-  if (countFav) countFav.textContent = state.favorites.length;
+  if (countCombat) countCombat.textContent = DEVIANTS.filter(d => (d.category || []).includes('combat')).length;
+  if (countTerritory) countTerritory.textContent = DEVIANTS.filter(d => (d.category || []).includes('territory')).length;
+  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting')).length;
 
-  updateFilterCount();
-  updateCompareBadge();
-}
-
-const GENERAL_TRAIT_PREFIXES = [
-  'cheer up', 'covert energy', 'feeling blue', 'growing pains', 
-  'optimist', 'rise and shine', 'worn-out', 'power drain', 'save energy'
-];
-
-function getTraitScope(trait) {
-  const lowerName = (trait.name || '').toLowerCase();
-  if (GENERAL_TRAIT_PREFIXES.some(p => lowerName.startsWith(p))) {
-    return 'general';
-  }
-  
-  const cats = new Set();
-  (trait.deviants || []).forEach(d => (d.category || []).forEach(c => cats.add(c)));
-  
-  if (cats.has('combat') && !cats.has('territory') && !cats.has('crafting')) {
-    return 'combat';
-  }
-  if (cats.has('territory') && !cats.has('combat') && !cats.has('crafting')) {
-    return 'territory';
-  }
-  if (cats.has('crafting') && !cats.has('combat') && !cats.has('territory')) {
-    return 'crafting';
-  }
-  if (cats.has('territory') || cats.has('crafting')) {
-    return cats.has('crafting') ? 'crafting' : 'territory';
-  }
-  return 'general';
+  updateFavCount();
 }
 
 function renderTraits() {
@@ -778,37 +528,35 @@ function renderTraits() {
   const statsBar = document.getElementById('statsBar');
   const grouped = new Map();
 
+  // Собираем только рекомендованные черты девиантов (блок избегаемых убран)
   DEVIANTS.forEach(deviant => {
-    [['recommended', 'Рекомендуется'], ['avoid', 'Лучше избегать']].forEach(([kind, label]) => {
-      (deviant.traits?.[kind] || []).forEach(trait => {
-        const key = `${kind}|${trait.name}`;
-        if (!grouped.has(key)) {
-          grouped.set(key, {
-            kind,
-            label,
-            name: trait.name,
-            nameRu: trait.name_ru || trait.name,
-            effects: new Set(),
-            deviants: []
-          });
-        }
-        const group = grouped.get(key);
-        if (trait.effect) {
-          group.effects.add(trait.effect.trim());
-        }
-        if (!group.deviants.some(entry => entry.id === deviant.id)) {
-          group.deviants.push(deviant);
-        }
-      });
+    (deviant.traits?.recommended || []).forEach(trait => {
+      const key = trait.name;
+      if (!grouped.has(key)) {
+        grouped.set(key, {
+          name: trait.name,
+          nameRu: trait.name_ru || trait.name,
+          effects: new Set(),
+          deviants: [],
+          categories: new Set()
+        });
+      }
+      const group = grouped.get(key);
+      if (trait.effect) {
+        group.effects.add(trait.effect.trim());
+      }
+      if (!group.deviants.some(entry => entry.id === deviant.id)) {
+        group.deviants.push(deviant);
+      }
+      (deviant.category || []).forEach(c => group.categories.add(c));
     });
   });
 
   const query = (state.search || '').trim().toLowerCase();
-  const allTraits = [...grouped.values()].map(t => {
-    const item = { ...t, effects: [...t.effects] };
-    item.scope = getTraitScope(item);
-    return item;
-  });
+  const allTraits = [...grouped.values()].map(t => ({
+    ...t,
+    effects: [...t.effects]
+  }));
 
   // Фильтрация по поисковой строке
   const searchedTraits = allTraits.filter(trait => {
@@ -823,46 +571,32 @@ function renderTraits() {
     return haystack.includes(query);
   });
 
-  // Подсчёт количества черт по сферам применения для кнопок-чипов
+  // Подсчёт количества черт по категориям девиантов: Все, Боевые, Территориальные, Ремесло / Крафт
   const counts = {
     all: searchedTraits.length,
-    combat: searchedTraits.filter(t => t.scope === 'combat').length,
-    territory: searchedTraits.filter(t => t.scope === 'territory').length,
-    crafting: searchedTraits.filter(t => t.scope === 'crafting').length,
-    general: searchedTraits.filter(t => t.scope === 'general').length,
-    recommended: searchedTraits.filter(t => t.kind === 'recommended').length,
-    avoid: searchedTraits.filter(t => t.kind === 'avoid').length
+    combat: searchedTraits.filter(t => t.categories.has('combat')).length,
+    territory: searchedTraits.filter(t => t.categories.has('territory')).length,
+    crafting: searchedTraits.filter(t => t.categories.has('crafting')).length
   };
 
   const activeScope = state.traitScope || 'all';
-  const activeKind = state.traitKind || 'all';
 
-  // Рендерим интерактивную панель управления чертами в statsBar
+  // Рендерим кнопки категорий перков в едином дизайне с карточками девиантов
   if (statsBar) {
     statsBar.innerHTML = `
-      <div class="traits-toolbar">
-        <div class="traits-scopes" role="tablist" aria-label="Сфера действия черт">
-          <button class="traits-chip ${activeScope === 'all' ? 'active' : ''}" data-scope="all" type="button">
-            <span>Все</span> <b class="badge-count">${counts.all}</b>
-          </button>
-          <button class="traits-chip ${activeScope === 'combat' ? 'active' : ''}" data-scope="combat" type="button">
-            <span>⚔️ Боевые</span> <b class="badge-count">${counts.combat}</b>
-          </button>
-          <button class="traits-chip ${activeScope === 'territory' ? 'active' : ''}" data-scope="territory" type="button">
-            <span>🏭 Для базы</span> <b class="badge-count">${counts.territory}</b>
-          </button>
-          <button class="traits-chip ${activeScope === 'crafting' ? 'active' : ''}" data-scope="crafting" type="button">
-            <span>🧪 Крафтовые</span> <b class="badge-count">${counts.crafting}</b>
-          </button>
-          <button class="traits-chip ${activeScope === 'general' ? 'active' : ''}" data-scope="general" type="button">
-            <span>🧬 Общие</span> <b class="badge-count">${counts.general}</b>
-          </button>
-        </div>
-        <div class="traits-kinds" role="group" aria-label="Полярность черт">
-          <button class="traits-kind-btn ${activeKind === 'all' ? 'active' : ''}" data-kind="all" type="button">Все</button>
-          <button class="traits-kind-btn kind-recommended ${activeKind === 'recommended' ? 'active' : ''}" data-kind="recommended" type="button">✦ Рекомендуемые (${counts.recommended})</button>
-          <button class="traits-kind-btn kind-avoid ${activeKind === 'avoid' ? 'active' : ''}" data-kind="avoid" type="button">✕ Избегать (${counts.avoid})</button>
-        </div>
+      <div class="category-tabs-bar" role="tablist" aria-label="Категории перков" style="padding-top: 0;">
+        <button class="category-btn traits-chip ${activeScope === 'all' ? 'active' : ''}" data-scope="all" type="button">
+          <span>Все</span><b class="chip-count">${counts.all}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'combat' ? 'active' : ''}" data-scope="combat" type="button">
+          <span>⚔️ Боевые</span><b class="chip-count">${counts.combat}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'territory' ? 'active' : ''}" data-scope="territory" type="button">
+          <span>🏡 Территориальные</span><b class="chip-count">${counts.territory}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'crafting' ? 'active' : ''}" data-scope="crafting" type="button">
+          <span>🔨 Ремесло / Крафт</span><b class="chip-count">${counts.crafting}</b>
+        </button>
       </div>
     `;
 
@@ -872,19 +606,11 @@ function renderTraits() {
         renderTraits();
       });
     });
-
-    statsBar.querySelectorAll('.traits-kind-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        state.traitKind = btn.dataset.kind;
-        renderTraits();
-      });
-    });
   }
 
-  // Фильтрация черт по выбранной сфере и полярности
+  // Фильтрация черт по выбранной категории
   const filteredTraits = searchedTraits.filter(trait => {
-    if (activeScope !== 'all' && trait.scope !== activeScope) return false;
-    if (activeKind !== 'all' && trait.kind !== activeKind) return false;
+    if (activeScope !== 'all' && !trait.categories.has(activeScope)) return false;
     return true;
   });
 
@@ -895,22 +621,16 @@ function renderTraits() {
   }
   empty.style.display = 'none';
 
-  const SCOPE_META = {
-    combat: { label: 'Боевая', icon: '⚔️', css: 'scope-combat' },
-    territory: { label: 'Для базы', icon: '🏭', css: 'scope-territory' },
-    crafting: { label: 'Крафт', icon: '🧪', css: 'scope-crafting' },
-    general: { label: 'Общая', icon: '🧬', css: 'scope-general' }
-  };
-
   const renderCardHTML = (trait) => {
-    const sc = SCOPE_META[trait.scope] || SCOPE_META.general;
     return `
-      <article class="trait-card ${trait.kind === 'avoid' ? 'trait-avoid' : 'trait-recommended'}">
+      <article class="trait-card trait-recommended">
         <div class="trait-card-heading">
           <h2>${escapeHtml(trait.nameRu)}</h2>
           <div class="trait-badges">
-            <span class="trait-scope-badge ${sc.css}" title="Сфера применения">${sc.icon} ${sc.label}</span>
-            <span class="trait-kind ${escapeHtml(trait.kind)}">${escapeHtml(trait.label)}</span>
+            ${trait.categories.has('combat') ? '<span class="trait-scope-badge scope-combat">⚔️ Боевой</span>' : ''}
+            ${trait.categories.has('territory') ? '<span class="trait-scope-badge scope-territory">🏡 Территориальный</span>' : ''}
+            ${trait.categories.has('crafting') ? '<span class="trait-scope-badge scope-crafting">🔨 Ремесло / Крафт</span>' : ''}
+            <span class="trait-kind recommended">⭐ Топ выбор</span>
           </div>
         </div>
         ${trait.nameRu !== trait.name ? `<div class="trait-name-en">${escapeHtml(trait.name)}</div>` : ''}
@@ -918,7 +638,7 @@ function renderTraits() {
           ${trait.effects.map(eff => `<p class="trait-effect">${escapeHtml(eff)}</p>`).join('')}
         </div>
         <div class="trait-footer">
-          <div class="trait-deviants-label">Связанные девианты (${trait.deviants.length})</div>
+          <div class="trait-deviants-label">Подходит для девиантов (${trait.deviants.length})</div>
           <div class="trait-deviants">
             ${trait.deviants.map(dev => `
               <button class="trait-reference" data-id="${escapeHtml(dev.id)}" type="button" title="Открыть карточку: ${escapeHtml(dev.name_ru)}">${escapeHtml(dev.name_ru)}</button>
@@ -929,46 +649,26 @@ function renderTraits() {
     `;
   };
 
-  const recommended = filteredTraits
-    .filter(t => t.kind === 'recommended')
-    .sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));
-    
-  const avoid = filteredTraits
-    .filter(t => t.kind === 'avoid')
-    .sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));
+  const sortedTraits = [...filteredTraits].sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));
 
-  let html = '';
-  if (recommended.length > 0) {
-    html += `
-      <div class="traits-section-heading">
-        <h2 style="color: var(--accent-2); font-family: 'Cinzel', serif;">✦ Рекомендуемые черты (${recommended.length})</h2>
-      </div>
-      <div class="traits-subgrid">
-        ${recommended.map(renderCardHTML).join('')}
-      </div>
-    `;
-  }
-
-  if (avoid.length > 0) {
-    html += `
-      <div class="traits-section-heading" style="${recommended.length > 0 ? 'margin-top: 32px;' : ''}">
-        <h2 style="color: var(--danger); font-family: 'Cinzel', serif;">✕ Черты, которых лучше избегать (${avoid.length})</h2>
-      </div>
-      <div class="traits-subgrid">
-        ${avoid.map(renderCardHTML).join('')}
-      </div>
-    `;
-  }
-
-  grid.innerHTML = html;
+  grid.innerHTML = `
+    <div class="traits-subgrid" style="grid-column: 1 / -1; width: 100%;">
+      ${sortedTraits.map(renderCardHTML).join('')}
+    </div>
+  `;
 }
 
 function renderCard(d) {
-  const isFav = state.favorites.includes(d.id);
-  const isCompare = state.compareList.includes(d.id);
   const confLabel = { high: '✓', medium: '~', low: '!' }[d.confidence] || '';
   const confTitle = { high: 'Высокая достоверность', medium: 'Средняя достоверность', low: 'Низкая достоверность' }[d.confidence] || '';
-  const localImg = getDeviantImage(d);
+  
+  // Проверяем, есть ли у этого девианта сохранённый избранный морф
+  const favMorphId = state.favoriteMorphs[d.id];
+  const favVariant = (favMorphId && d.variants) ? d.variants.find(v => v.id === favMorphId) : null;
+
+  // Если выбран избранный морф — показываем картинку морфа, иначе базовую
+  const cardImg = favVariant ? favVariant.image : getDeviantImage(d);
+  const cardRemote = favVariant ? (favVariant.remoteImage || '') : (d.image || '');
 
   // Ограничиваем количество ролей на превью до 2 для чистоты интерфейса
   const allRoles = d.roles || [];
@@ -976,16 +676,18 @@ function renderCard(d) {
   const extraRolesCount = allRoles.length - previewRoles.length;
 
   return `
-    <article class="card" data-id="${escapeHtml(d.id)}" tabindex="0" role="button" aria-label="${escapeHtml(d.name_ru)}">
+    <article class="card ${favVariant ? 'has-fav-morph' : ''}" data-id="${escapeHtml(d.id)}" tabindex="0" role="button" aria-label="${escapeHtml(d.name_ru)}">
       <div class="card-img">
-        <img src="${escapeHtml(localImg)}" data-remote="${escapeHtml(d.image || '')}" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" loading="lazy">
-        <button class="compare-btn ${isCompare ? 'active' : ''}" data-id="${escapeHtml(d.id)}" title="Сравнить" type="button">⇄</button>
-        <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${escapeHtml(d.id)}" title="В избранное" type="button">★</button>
-        ${(d.variants && d.variants.length > 0) ? `<div class="card-shiny-badge" title="Имеет ${d.variants.length} редких морфов">🌈 Морфы (${d.variants.length})</div>` : ''}
+        <img src="${escapeHtml(cardImg)}" data-remote="${escapeHtml(cardRemote)}" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" loading="lazy">
+        ${favVariant 
+          ? `<div class="card-fav-morph-badge" title="Выбранный вами морф: ${escapeHtml(favVariant.name_ru)}">★ ${escapeHtml(favVariant.name_ru)}</div>`
+          : ((d.variants && d.variants.length > 0) ? `<div class="card-shiny-badge" title="Имеет ${d.variants.length} редких морфов">🌈 Морфы (${d.variants.length})</div>` : '')
+        }
         <div class="confidence-badge confidence-${escapeHtml(d.confidence)}" title="${escapeHtml(confTitle)}">${escapeHtml(confLabel)}</div>
       </div>
       <div class="card-body">
         <div class="card-title">${escapeHtml(d.name_ru)} <span class="card-title-en">${escapeHtml(d.name_en || '')}</span></div>
+        ${favVariant ? `<div class="card-morph-selected-title">✨ Активен морф: <b>${escapeHtml(favVariant.name_ru)}</b></div>` : ''}
         <div class="card-category">
           ${d.category.map(c => `<span class="cat-tag">${escapeHtml(CATEGORIES[c] || c)}</span>`).join('')}
           ${previewRoles.map(role => `<span class="role-tag">${escapeHtml(role)}</span>`).join('')}
@@ -997,17 +699,63 @@ function renderCard(d) {
   `;
 }
 
+function renderDeviantTraitsBlock(d) {
+  if (!d.traits) return '';
+  const recommended = d.traits.recommended || [];
+  if (recommended.length === 0) return '';
+
+  return `
+    <div class="morph-traits-wrapper">
+      <div class="morph-traits-header">
+        <span class="morph-traits-icon">🧬</span>
+        <span class="morph-traits-title">Врождённые черты при поимке (Рекомендуемые)</span>
+      </div>
+
+      <div class="traits-tier-group">
+        <div class="label traits-tier-label label-recommended">
+          ✓ Рекомендуемые черты (Искать при фарме):
+        </div>
+        <div class="perk-list">
+          ${recommended.map((trait, idx) => `
+            <div class="perk-item" style="border-left-color: ${idx === 0 ? 'var(--accent-2)' : '#4ade80'};">
+              <div class="perk-name">
+                ${escapeHtml(trait.name_ru || trait.name)}
+                ${idx === 0 
+                  ? '<span class="perk-priority" style="background: rgba(214, 160, 93, 0.2); color: var(--accent-2); border: 1px solid var(--accent-2);">👑 ТОП ВЫБОР</span>' 
+                  : '<span class="perk-priority" style="background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid #4ade80;">РЕКОМЕНДУЕТСЯ</span>'}
+              </div>
+              <div class="perk-desc" style="color: var(--text);">
+                <strong>Эффект:</strong> ${escapeHtml(trait.effect)}
+              </div>
+              ${trait.why ? `<div class="perk-why">💡 <strong>Зачем:</strong> ${escapeHtml(trait.why)}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function openModal(id) {
   const d = DEVIANTS.find(x => x.id === id);
   if (!d) return;
   const body = document.getElementById('modalBody');
-  const localImg = getDeviantImage(d);
+  const baseImg = getDeviantImage(d);
   const locInfo = getDeviantLocationInfo(d);
+
+  // Проверяем, есть ли избранный морф для этого девианта
+  const favMorphId = state.favoriteMorphs[d.id] || null;
+  const hasFavMorph = favMorphId && d.variants && d.variants.some(v => v.id === favMorphId);
+  const activeMorphId = hasFavMorph ? favMorphId : 'original';
+  const activeVariant = hasFavMorph ? d.variants.find(v => v.id === favMorphId) : null;
+
+  const currentDisplayImg = activeVariant ? activeVariant.image : baseImg;
+  const currentRemoteImg = activeVariant ? (activeVariant.remoteImage || '') : (d.image || '');
 
   body.innerHTML = `
     <div class="modal-header">
       <div class="modal-img">
-        <img src="${escapeHtml(localImg)}" data-remote="${escapeHtml(d.image || '')}" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" onerror="handleImageError(this)">
+        <img src="${escapeHtml(currentDisplayImg)}" data-remote="${escapeHtml(currentRemoteImg)}" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" onerror="handleImageError(this)" class="${activeVariant ? 'is-morph-active' : ''}">
       </div>
       <div class="modal-info">
         <h2>${escapeHtml(d.name_ru)}</h2>
@@ -1019,6 +767,46 @@ function openModal(id) {
         </div>
       </div>
     </div>
+
+    <div class="modal-section">
+      <h3>Описание и способности</h3>
+      <p>${escapeHtml(d.fullDesc)}</p>
+      <ul style="margin-top:10px">${(d.abilities || []).map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
+    </div>
+
+    ${(d.variants && d.variants.length > 0) ? `
+      <!-- Каталог редких морфов и цветовых вариаций с функцией избранного -->
+      <div class="modal-section modal-morph-section">
+        <div class="morph-section-header">
+          <div class="morph-title-wrap">
+            <span class="morph-sparkle-icon">✨</span>
+            <h3>Редкие Морфы и цветовые вариации (${d.variants.length})</h3>
+          </div>
+          <span class="morph-live-badge">🌈 Эксклюзивные скины</span>
+        </div>
+        <p class="morph-intro-text">
+          В Once Human некоторые девианты имеют альтернативный окрас (Shiny) с врождёнными эксклюзивными пассивными свойствами. Нажмите на форму, чтобы примерить скин и добавить его в избранное:
+        </p>
+
+        <div class="morph-tabs-bar" role="tablist" aria-label="Вариации девианта">
+          <button class="morph-tab-btn ${activeMorphId === 'original' ? 'active' : ''}" data-morph="original" type="button">
+            <span class="tab-icon">★</span>
+            <span class="tab-text">Оригинал (Базовый)</span>
+          </button>
+          ${d.variants.map((v, idx) => {
+            const isThisFav = state.favoriteMorphs[d.id] === v.id;
+            return `
+              <button class="morph-tab-btn ${activeMorphId === v.id ? 'active' : ''} ${isThisFav ? 'is-fav-tab' : ''}" data-morph="${escapeHtml(v.id)}" data-idx="${idx}" type="button">
+                <span class="tab-icon">${isThisFav ? '⭐' : '🌈'}</span>
+                <span class="tab-text">${escapeHtml(v.name_ru)}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="morph-display-box" id="morphDisplayBox"></div>
+      </div>
+    ` : ''}
 
     <!-- Интерактивная тактическая справка по локациям и поимке -->
     <div class="modal-section modal-location-card">
@@ -1035,94 +823,10 @@ function openModal(id) {
         </div>
       </div>
 
-      <div class="modal-loc-grid">
-        <div class="modal-loc-box spot-box">
-          <div class="loc-box-label">Рекомендуемое место спавна</div>
-          <div class="spot-title">${escapeHtml(locInfo.spot)}</div>
-          <div class="spot-desc">${escapeHtml(d.acquisition?.location || 'Открытый мир')}</div>
-        </div>
-
-        ${locInfo.coords ? `
-          <div class="modal-loc-box coords-box">
-            <div class="loc-box-label">Координаты на карте Once Human</div>
-            <div class="coords-action-row">
-              <div class="coords-chip">
-                <span class="coords-icon">🎯</span>
-                <span class="coords-value">[ ${escapeHtml(locInfo.coords)} ]</span>
-              </div>
-              <button type="button" class="btn-copy-coords" id="btnModalCopyCoords" data-coords="${escapeHtml(locInfo.coords)}" title="Скопировать координаты для карты или чата игры">
-                <svg class="copy-svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                  <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                </svg>
-                <span class="btn-copy-text">Копировать</span>
-              </button>
-            </div>
-            <div class="coords-hint">💡 Нажмите M в игре для перехода к точке или вставьте координаты в чат отряда</div>
-          </div>
-        ` : `
-          <div class="modal-loc-box coords-box general-spawn-box">
-            <div class="loc-box-label">Тип спавна</div>
-            <div class="general-spawn-title">${escapeHtml(locInfo.spotShort)}</div>
-            <div class="coords-hint">💡 Точная точка зависит от подземелья, эвента или ресурсов на карте</div>
-          </div>
-        `}
+      <div class="modal-loc-box method-box">
+        <div class="loc-box-label">⚡ Способ поимки</div>
+        <div class="method-desc">${escapeHtml(d.acquisition?.method || '—')}</div>
       </div>
-
-      <div class="modal-loc-steps">
-        <div class="loc-step-item">
-          <div class="step-badge method-badge">⚡ Способ поимки</div>
-          <div class="step-text">${escapeHtml(d.acquisition?.method || '—')}</div>
-        </div>
-        ${d.acquisition?.tips ? `
-          <div class="loc-step-item">
-            <div class="step-badge tip-badge">💡 Совет по фарму</div>
-            <div class="step-text">${escapeHtml(d.acquisition?.tips)}</div>
-          </div>
-        ` : ''}
-      </div>
-    </div>
-
-    ${(d.variants && d.variants.length > 0) ? `
-      <!-- Каталог редких морфов и цветовых вариаций -->
-      <div class="modal-section modal-morph-section">
-        <div class="morph-section-header">
-          <div class="morph-title-wrap">
-            <span class="morph-sparkle-icon">✨</span>
-            <h3>Редкие Морфы и цветовые вариации (${d.variants.length})</h3>
-          </div>
-          <span class="morph-live-badge">🌈 Эксклюзивные скины</span>
-        </div>
-        <p class="morph-intro-text">
-          В Once Human некоторые девианты имеют альтернативный окрас (Shiny) с врождёнными эксклюзивными пассивными свойствами. Нажмите на форму, чтобы примерить скин и изучить её бонус:
-        </p>
-
-        <div class="morph-tabs-bar" role="tablist" aria-label="Вариации девианта">
-          <button class="morph-tab-btn active" data-morph="original" type="button">
-            <span class="tab-icon">★</span>
-            <span class="tab-text">Оригинал (Базовый)</span>
-          </button>
-          ${d.variants.map((v, idx) => `
-            <button class="morph-tab-btn" data-morph="${escapeHtml(v.id)}" data-idx="${idx}" type="button">
-              <span class="tab-icon">🌈</span>
-              <span class="tab-text">${escapeHtml(v.name_ru)}</span>
-            </button>
-          `).join('')}
-        </div>
-
-        <div class="morph-display-box" id="morphDisplayBox">
-          <div class="morph-preview-card">
-            <div class="morph-card-badge">★ Стандартный вид</div>
-            <div class="morph-card-title">${escapeHtml(d.name_ru)}</div>
-            <div class="morph-card-sub">Базовая форма девианта с классическими характеристиками и условиями содержания.</div>
-          </div>
-        </div>
-      </div>
-    ` : ''}
-
-    <div class="modal-section">
-      <h3>Описание и способности</h3>
-      <p>${escapeHtml(d.fullDesc)}</p>
-      <ul style="margin-top:10px">${(d.abilities || []).map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
     </div>
 
     <div class="modal-section">
@@ -1139,236 +843,211 @@ function openModal(id) {
       </div>
     </div>
 
-    ${d.traits ? `
+    ${(!d.variants || d.variants.length === 0) && d.traits ? `
       <div class="modal-section">
-        <h3>🧬 Врождённые черты (Traits Tier-List)</h3>
-        <p style="font-size:13px; color:var(--text-dim); margin-bottom:12px; font-style:italic;">
-          Рекомендуемые и нежелательные черты характера при поимке девианта.
-        </p>
-
-        ${d.traits.recommended?.length ? `
-          <div class="label" style="color: #4ade80; margin-bottom: 8px; font-weight: 600;">
-            ✓ Рекомендуемые черты (Искать при фарме):
-          </div>
-          <div class="perk-list" style="margin-bottom: 16px;">
-            ${d.traits.recommended.map((trait, idx) => `
-              <div class="perk-item" style="border-left-color: ${idx === 0 ? 'var(--accent-2)' : '#4ade80'};">
-                <div class="perk-name">
-                  ${escapeHtml(trait.name_ru || trait.name)}
-                  ${idx === 0 
-                    ? '<span class="perk-priority" style="background: rgba(214, 160, 93, 0.2); color: var(--accent-2); border: 1px solid var(--accent-2);">👑 ТОП ВЫБОР</span>' 
-                    : '<span class="perk-priority" style="background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid #4ade80;">РЕКОМЕНДУЕТСЯ</span>'}
-                </div>
-                <div class="perk-desc" style="color: var(--text);">
-                  <strong>Эффект:</strong> ${escapeHtml(trait.effect)}
-                </div>
-                ${trait.why ? `<div class="perk-why">💡 <strong>Зачем:</strong> ${escapeHtml(trait.why)}</div>` : ''}
-              </div>
-            `).join('')}
-          </div>
-        ` : ''}
-
-        ${d.traits.avoid?.length ? `
-          <div class="label" style="color: var(--danger); margin-bottom: 8px; font-weight: 600;">
-            ✕ Черты-ловушки (Снижают эффективность):
-          </div>
-          <div class="perk-list">
-            ${d.traits.avoid.map(trait => `
-              <div class="perk-item" style="border-left-color: var(--danger); background: rgba(240, 68, 78, 0.05);">
-                <div class="perk-name" style="color: #ff9da4;">
-                  ${escapeHtml(trait.name_ru || trait.name)}
-                  <span class="perk-priority" style="background: rgba(240, 68, 78, 0.2); color: var(--danger); border: 1px solid var(--danger);">ИЗБЕГАТЬ</span>
-                </div>
-                <div class="perk-desc" style="color: var(--text-dim);">
-                  <strong>Эффект:</strong> ${escapeHtml(trait.effect)}
-                </div>
-                ${trait.why ? `<div class="perk-why" style="color: #ff858d;">⚠️ <strong>Минус:</strong> ${escapeHtml(trait.why)}</div>` : ''}
-              </div>
-            `).join('')}
-          </div>
-        ` : ''}
+        ${renderDeviantTraitsBlock(d)}
       </div>
     ` : ''}
-    <div class="modal-section">
-      <h3>Преимущества и недостатки</h3>
-      <div class="pros-cons">
-        <div class="pros"><h4>✓ Плюсы</h4><ul>${(d.pros || []).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul></div>
-        <div class="cons"><h4>✕ Минусы</h4><ul>${(d.cons || []).map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul></div>
-      </div>
-    </div>
-    ${d.bestFor ? `<div class="modal-section"><h3>Кому подойдёт</h3><p>${escapeHtml(d.bestFor)}</p></div>` : ''}
+
     <div class="sources">
       <strong>Источники:</strong> ${(d.sources || []).map(s => escapeHtml(s)).join(' · ')}<br>
       <strong>Дата проверки:</strong> ${escapeHtml(formatDate(d.lastChecked))}
     </div>
   `;
 
-  const modalCopyBtn = document.getElementById('btnModalCopyCoords');
-  if (modalCopyBtn) {
-    modalCopyBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      copyCoordinates(modalCopyBtn.dataset.coords, modalCopyBtn);
+
+  // Интерактивное переключение редких морфов и выбор избранного
+  function updateMorphView(morphId) {
+    const modalImgEl = body.querySelector('.modal-img img');
+    const morphDisplayBox = body.querySelector('#morphDisplayBox');
+    const morphBtns = body.querySelectorAll('.morph-tab-btn');
+
+    morphBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.morph === morphId);
     });
-  }
 
-  // Интерактивное переключение редких морфов (Shiny)
-  const modalImgEl = body.querySelector('.modal-img img');
-  const morphDisplayBox = body.querySelector('#morphDisplayBox');
-  const morphBtns = body.querySelectorAll('.morph-tab-btn');
-
-  morphBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      morphBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const morphId = btn.dataset.morph;
-
-      if (morphId === 'original') {
-        if (modalImgEl) {
-          modalImgEl.src = localImg;
-          modalImgEl.setAttribute('data-remote', d.image || '');
-          modalImgEl.classList.remove('is-morph-active');
-        }
-        if (morphDisplayBox) {
-          morphDisplayBox.innerHTML = `
-            <div class="morph-preview-card">
+    if (morphId === 'original') {
+      if (modalImgEl) {
+        modalImgEl.src = baseImg;
+        modalImgEl.setAttribute('data-remote', d.image || '');
+        modalImgEl.classList.remove('is-morph-active');
+      }
+      const hasCurrentFav = !!state.favoriteMorphs[d.id];
+      if (morphDisplayBox) {
+        morphDisplayBox.innerHTML = `
+          <div class="morph-preview-card">
+            <div class="morph-card-top">
               <div class="morph-card-badge">★ Стандартный вид</div>
-              <div class="morph-card-title">${escapeHtml(d.name_ru)}</div>
-              <div class="morph-card-sub">Базовая форма девианта с классическими характеристиками и условиями содержания.</div>
+              ${hasCurrentFav ? `
+                <button type="button" class="btn-morph-fav-action btn-reset-morph-fav" id="btnResetMorphFav">
+                  <span>↩ Вернуть базовый вид (убрать морф из избранного)</span>
+                </button>
+              ` : ''}
             </div>
-          `;
-        }
-      } else {
-        const idx = parseInt(btn.dataset.idx, 10);
-        const v = (d.variants || [])[idx];
-        if (!v) return;
-
-        if (modalImgEl) {
-          modalImgEl.src = v.image;
-          modalImgEl.setAttribute('data-remote', v.remoteImage || '');
-          modalImgEl.classList.add('is-morph-active');
-        }
-
-        if (morphDisplayBox) {
-          morphDisplayBox.innerHTML = `
-            <div class="morph-preview-card active-morph">
-              <div class="morph-card-top">
-                <div class="morph-card-badge morph-badge-rainbow">🌈 Редкий Морф</div>
-                <span class="morph-rarity">${escapeHtml(v.rarity || 'Редкая вариация')}</span>
-              </div>
-              <div class="morph-card-title">${escapeHtml(v.name_ru)} <span class="morph-en">(${escapeHtml(v.name_en)})</span></div>
-              
-              <div class="morph-trait-highlight">
-                <div class="morph-trait-header">
-                  <span class="morph-trait-label">Эксклюзивная черта морфа:</span>
-                  <span class="morph-trait-pill">✦ ${escapeHtml(v.trait?.name_ru || v.trait?.name || 'Эксклюзив')}</span>
-                </div>
-                <div class="morph-trait-effect"><strong>Эффект:</strong> ${escapeHtml(v.trait?.effect || '—')}</div>
-              </div>
-
-              <div class="morph-source-row">
-                <span class="morph-source-icon">📍</span>
-                <span class="morph-source-text"><strong>Где искать:</strong> ${escapeHtml(v.source || 'Открытый мир / Бункеры')}</span>
-              </div>
-            </div>
-          `;
+            <div class="morph-card-title">${escapeHtml(d.name_ru)}</div>
+            <div class="morph-card-sub">Базовая форма девианта с классическими характеристиками и условиями содержания.</div>
+            ${renderDeviantTraitsBlock(d)}
+          </div>
+        `;
+        const resetBtn = morphDisplayBox.querySelector('#btnResetMorphFav');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            delete state.favoriteMorphs[d.id];
+            localStorage.setItem('oh_fav_morphs', JSON.stringify(state.favoriteMorphs));
+            updateFavCount();
+            showToast(`Установлен базовый вид для ${d.name_ru}`);
+            body.querySelectorAll('.morph-tab-btn').forEach(b => {
+              b.classList.remove('is-fav-tab');
+              if (b.dataset.morph !== 'original') {
+                const icon = b.querySelector('.tab-icon');
+                if (icon) icon.textContent = '🌈';
+              }
+            });
+            updateMorphView('original');
+            updateGridCard(d.id);
+          });
         }
       }
+    } else {
+      const v = (d.variants || []).find(x => x.id === morphId);
+      if (!v) return;
+
+      if (modalImgEl) {
+        modalImgEl.src = v.image;
+        modalImgEl.setAttribute('data-remote', v.remoteImage || '');
+        modalImgEl.classList.add('is-morph-active');
+      }
+
+      const isFav = state.favoriteMorphs[d.id] === v.id;
+
+      if (morphDisplayBox) {
+        morphDisplayBox.innerHTML = `
+          <div class="morph-preview-card active-morph ${isFav ? 'is-favorited-card' : ''}">
+            <div class="morph-card-top">
+              <div class="morph-card-badge morph-badge-rainbow">🌈 Редкий Морф</div>
+              <button type="button" class="btn-morph-fav-action ${isFav ? 'active' : ''}" id="btnToggleMorphFav">
+                <span class="star-icon">${isFav ? '★' : '☆'}</span>
+                <span class="action-text">${isFav ? 'В избранном (Основной вид)' : 'Сделать этот морф основным'}</span>
+              </button>
+            </div>
+            <div class="morph-card-title">
+              ${escapeHtml(v.name_ru)} 
+              <span class="morph-en">(${escapeHtml(v.name_en)})</span>
+              <span class="morph-rarity">· ${escapeHtml(v.rarity || 'Редкая вариация')}</span>
+            </div>
+            
+            <div class="morph-trait-highlight">
+              <div class="morph-trait-header">
+                <span class="morph-trait-label">Эксклюзивная черта морфа:</span>
+                <span class="morph-trait-pill">✦ ${escapeHtml(v.trait?.name_ru || v.trait?.name || 'Эксклюзив')}</span>
+              </div>
+              <div class="morph-trait-effect"><strong>Эффект:</strong> ${escapeHtml(v.trait?.effect || '—')}</div>
+            </div>
+
+            <div class="morph-source-row">
+              <span class="morph-source-icon">📍</span>
+              <span class="morph-source-text"><strong>Где искать:</strong> ${escapeHtml(v.source || 'Открытый мир / Бункеры')}</span>
+            </div>
+            ${renderDeviantTraitsBlock(d)}
+          </div>
+        `;
+
+        const favBtn = morphDisplayBox.querySelector('#btnToggleMorphFav');
+        if (favBtn) {
+          favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.favoriteMorphs[d.id] === v.id) {
+              delete state.favoriteMorphs[d.id];
+              localStorage.setItem('oh_fav_morphs', JSON.stringify(state.favoriteMorphs));
+              updateFavCount();
+              showToast(`Морф "${v.name_ru}" убран из избранного`);
+            } else {
+              state.favoriteMorphs[d.id] = v.id;
+              localStorage.setItem('oh_fav_morphs', JSON.stringify(state.favoriteMorphs));
+              updateFavCount();
+              showToast(`⭐ "${v.name_ru}" выбран как основной вид девианта`);
+            }
+            body.querySelectorAll('.morph-tab-btn').forEach(b => {
+              const thisFav = state.favoriteMorphs[d.id] === b.dataset.morph;
+              b.classList.toggle('is-fav-tab', thisFav);
+              if (b.dataset.morph !== 'original') {
+                const icon = b.querySelector('.tab-icon');
+                if (icon) icon.textContent = thisFav ? '⭐' : '🌈';
+              }
+            });
+            updateMorphView(v.id);
+            updateGridCard(d.id);
+          });
+        }
+      }
+    }
+  }
+
+  if (d.variants && d.variants.length > 0) {
+    updateMorphView(activeMorphId);
+
+    const morphBtns = body.querySelectorAll('.morph-tab-btn');
+    morphBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateMorphView(btn.dataset.morph);
+      });
     });
-  });
+  }
 
   document.getElementById('deviantModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function closeModal() { document.getElementById('deviantModal').classList.remove('open'); document.body.style.overflow = ''; }
-
-function toggleFavorite(id) {
-  const idx = state.favorites.indexOf(id);
-  idx >= 0 ? state.favorites.splice(idx, 1) : state.favorites.push(id);
-  localStorage.setItem('oh_favorites', JSON.stringify(state.favorites));
-  updateFavCount(); render();
+function updateGridCard(id) {
+  const d = DEVIANTS.find(x => x.id === id);
+  if (!d) return;
+  const existingCard = document.querySelector(`.card[data-id="${id}"]`);
+  if (existingCard) {
+    const temp = document.createElement('div');
+    temp.innerHTML = renderCard(d);
+    existingCard.replaceWith(temp.firstElementChild);
+  }
 }
 
-function updateFavCount() { document.getElementById('favCount').textContent = state.favorites.length; }
-
-function toggleCompare(id) {
-  const idx = state.compareList.indexOf(id);
-  if (idx >= 0) state.compareList.splice(idx, 1);
-  else {
-    if (state.compareList.length >= 4) { alert('Максимум 4 девианта для сравнения'); return; }
-    state.compareList.push(id);
-  }
-  localStorage.setItem('oh_compare', JSON.stringify(state.compareList));
-  render();
+function closeModal() {
+  document.getElementById('deviantModal').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-function openCompareModal() {
-  const body = document.getElementById('compareBody');
-  if (state.compareList.length < 2) {
-    body.innerHTML = '<p style="padding:20px;color:var(--text-dim)">Выберите минимум 2 девианта для сравнения (нажмите кнопку ⇄ на карточках).</p>';
-  } else {
-    const items = state.compareList.map(id => DEVIANTS.find(d => d.id === id)).filter(Boolean);
-    const fields = [
-      ['Тип и роли', d => [...d.category.map(c => CATEGORIES[c] || c), ...(d.roles || [])].join(', ')],
-      ['Назначение', d => d.shortDesc],
-      ['Mood Boosters', d => (d.moodBoosters || []).join(', ') || '—'],
-      ['Плюсы', d => (d.pros || []).join('; ')],
-      ['Минусы', d => (d.cons || []).join('; ')],
-      ['Кому подойдёт', d => d.bestFor || '—']
-    ];
-    body.innerHTML = `
-      <div class="compare-table-wrapper">
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th style="width:20%">Параметр</th>
-              ${items.map(d => `<th>${escapeHtml(d.name_ru)}</th>`).join('')}
-            </tr>
-          </thead>
-          <tbody>
-            ${fields.map(([label, fn]) => `
-              <tr>
-                <td><strong>${escapeHtml(label)}</strong></td>
-                ${items.map(d => `<td>${escapeHtml(fn(d))}</td>`).join('')}
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    `;
-  }
-  document.getElementById('compareModal').classList.add('open');
+function openVideoModal() {
+  const videoModal = document.getElementById('videoModal');
+  const videoIframeWrap = document.getElementById('videoIframeWrap');
+  if (!videoModal || !videoIframeWrap) return;
+
+  videoIframeWrap.innerHTML = `
+    <iframe 
+      src="https://www.youtube-nocookie.com/embed/krGj5SokgQk?autoplay=1&rel=0" 
+      title="Видеогайд Once Human: Девианты (1vampire)" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      allowfullscreen>
+    </iframe>
+  `;
+  videoModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function closeCompare() { document.getElementById('compareModal').classList.remove('open'); document.body.style.overflow = ''; }
+function closeVideoModal() {
+  const videoModal = document.getElementById('videoModal');
+  const videoIframeWrap = document.getElementById('videoIframeWrap');
+  if (!videoModal) return;
 
-function initColorblindMode() {
-  const btn = document.getElementById('colorblindToggle');
-  const status = document.getElementById('cbStatus');
-  if (!btn || !status) return;
-
-  if (state.colorblind) {
-    document.body.classList.add('colorblind-mode');
-    btn.classList.add('active');
-    btn.setAttribute('aria-pressed', 'true');
-    status.textContent = 'ВКЛ';
-  } else {
-    document.body.classList.remove('colorblind-mode');
-    btn.classList.remove('active');
-    btn.setAttribute('aria-pressed', 'false');
-    status.textContent = 'ВЫКЛ';
+  videoModal.classList.remove('open');
+  if (videoIframeWrap) {
+    videoIframeWrap.innerHTML = '';
   }
+  document.body.style.overflow = '';
 }
 
-function toggleColorblindMode() {
-  state.colorblind = !state.colorblind;
-  localStorage.setItem('oh_colorblind', JSON.stringify(state.colorblind));
-  initColorblindMode();
-  showToast(state.colorblind 
-    ? '👁️ Контрастный режим ВКЛЮЧЁН (Адаптирован для дальтоников)' 
-    : '👁️ Контрастный режим ВЫКЛЮЧЕН (Стандартная тема)');
+function updateFavCount() {
+  const favEl = document.getElementById('favCount');
+  if (favEl) favEl.textContent = Object.keys(state.favoriteMorphs).length;
 }
 
 // Кнопка "Наверх"
