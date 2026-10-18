@@ -706,16 +706,21 @@ function renderTraits() {
 
   const renderCardHTML = (trait) => {
     return `
-      <article class="trait-card trait-recommended">
+      <article class="trait-card trait-card-${trait.scopeCategory}">
         <div class="trait-card-heading">
-          <h2>${escapeHtml(trait.nameRu)}</h2>
+          <div class="trait-title-group">
+            <h2 class="trait-name-ru">${escapeHtml(trait.nameRu)}</h2>
+            ${trait.nameRu !== trait.name ? `<div class="trait-name-en">${escapeHtml(trait.name)}</div>` : ''}
+          </div>
           <div class="trait-badges">
             ${scopeBadgeMap[trait.scopeCategory] || ''}
           </div>
         </div>
-        ${trait.nameRu !== trait.name ? `<div class="trait-name-en">${escapeHtml(trait.name)}</div>` : ''}
-        <div class="trait-effects-wrap">
-          ${trait.effects.map(eff => `<p class="trait-effect">${escapeHtml(eff)}</p>`).join('')}
+        <div class="trait-desc-box">
+          <div class="trait-desc-label">Описание:</div>
+          <div class="trait-desc-content">
+            ${trait.effects.map(eff => `<p>${escapeHtml(eff)}</p>`).join('')}
+          </div>
         </div>
       </article>
     `;

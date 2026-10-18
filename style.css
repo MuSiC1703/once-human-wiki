@@ -1197,15 +1197,94 @@ option:hover, option:focus {
 
 .trait-card {
   min-width: 0;
-  padding: 18px;
-  background: linear-gradient(145deg, rgba(48, 12, 17, 0.36), var(--bg-1) 44%);
+  padding: 16px 18px;
+  background: linear-gradient(145deg, rgba(48, 12, 17, 0.36), var(--bg-1) 50%);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent-2);
+  border-left: 4px solid var(--accent-2);
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: auto;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
-.trait-card.trait-avoid { border-left-color: var(--accent); }
-.trait-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.trait-card h2 { font-family: 'Cinzel', Georgia, serif; font-size: 16px; line-height: 1.35; margin: 0; }
+.trait-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(214, 160, 93, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.trait-card.trait-card-general {
+  border-left-color: #a855f7;
+  background: linear-gradient(145deg, rgba(168, 85, 247, 0.09), var(--bg-1) 55%);
+}
+.trait-card.trait-card-combat {
+  border-left-color: #ef4444;
+  background: linear-gradient(145deg, rgba(239, 68, 68, 0.09), var(--bg-1) 55%);
+}
+.trait-card.trait-card-territory {
+  border-left-color: #3b82f6;
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.09), var(--bg-1) 55%);
+}
+.trait-card.trait-card-artisan {
+  border-left-color: #14b8a6;
+  background: linear-gradient(145deg, rgba(20, 184, 166, 0.09), var(--bg-1) 55%);
+}
+.trait-card.trait-card-crafting {
+  border-left-color: #f59e0b;
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.09), var(--bg-1) 55%);
+}
+.trait-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.trait-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.trait-card h2, .trait-name-ru {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+.trait-name-en {
+  color: var(--text-dim);
+  font-size: 12px;
+  font-style: italic;
+}
+.trait-desc-box {
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.trait-desc-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent-2);
+}
+.trait-desc-content {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #e2e8f0;
+}
+.trait-desc-content p {
+  margin: 0;
+}
+.trait-desc-content p + p {
+  margin-top: 4px;
+}
 .trait-badges { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
 .trait-scope-badge {
   display: inline-flex;
@@ -2068,10 +2147,7 @@ option:hover, option:focus {
 }
 
 .trait-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 230px;
+  min-height: auto;
 }
 
 .trait-kind.recommended {
