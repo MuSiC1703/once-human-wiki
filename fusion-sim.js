@@ -225,7 +225,7 @@
   async function init(deviants) {
     state.deviantsList = deviants || [];
     try {
-      const res = await fetch('data/fusion_data.json');
+      const res = await fetch('data/fusion_data.json', { cache: 'no-cache' });
       if (res.ok) {
         state.fusionData = await res.json();
       } else {

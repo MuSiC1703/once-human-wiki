@@ -252,8 +252,8 @@ function showToast(message) {
 async function loadData() {
   try {
     const [response, varResponse] = await Promise.all([
-      fetch('data/deviants.json'),
-      fetch('data/variants.json').catch(() => null)
+      fetch('data/deviants.json', { cache: 'no-cache' }),
+      fetch('data/variants.json', { cache: 'no-cache' }).catch(() => null)
     ]);
 
     if (!response.ok) throw new Error(`HTTP ошибка: ${response.status}`);
@@ -322,7 +322,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function registerServiceWorker() {
   if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
-    navigator.serviceWorker.register('./sw.js').then(
+    let isRefreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        console.log('🔄 Активирована новая версия кэша! Перезагрузка страницы...');
+        window.location.reload();
+      }
+    });
+
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(
       (reg) => {
         console.log('✅ Service Worker активен:', reg.scope);
         reg.update();

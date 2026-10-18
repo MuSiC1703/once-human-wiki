@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oh-wiki-v36';
+const CACHE_NAME = 'oh-wiki-v37';
 
 const PRECACHE_ASSETS = [
   './',
@@ -157,7 +157,7 @@ self.addEventListener('fetch', (event) => {
 
   if (isCodeOrData) {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: 'no-cache' })
         .then((response) => {
           if (response && response.status === 200) {
             const clone = response.clone();
