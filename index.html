@@ -53,82 +53,120 @@
   </div>
 </header>
 
-<section class="controls">
-  <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="Поиск девианта, роли, способности или перки...">
-  </div>
-  <div class="filters" id="deviantFilters">
-    <div class="filter-group">
-      <label for="categoryFilter">Тип:</label>
-      <select id="categoryFilter">
-        <option value="all">Все типы</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label for="roleFilter">Роль:</label>
-      <select id="roleFilter">
-        <option value="all">Все роли</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label for="scenarioFilter">Сценарий:</label>
-      <select id="scenarioFilter">
-        <option value="all">Все сценарии</option>
-        <option value="winter">❄️ The Way of Winter</option>
-        <option value="manibus">🔥 Manibus</option>
-        <option value="prism">🔮 Prismverse / SCP</option>
-        <option value="collab">⚡ Коллаборации</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label for="sourceFilter">Источник:</label>
-      <select id="sourceFilter">
-        <option value="all">Все источники</option>
-        <option value="silo">🏛️ Силосы (Silos)</option>
-        <option value="monolith">⚔️ Монолиты (Monoliths)</option>
-        <option value="world">🌲 Открытый мир</option>
-        <option value="quest">📜 Задания Lowe</option>
-        <option value="gathering">⛏️ Сбор и рыбалка</option>
-        <option value="event">🛡️ Эвенты и PvP</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label for="confidenceFilter">Достоверность:</label>
-      <select id="confidenceFilter">
-        <option value="all">Все</option>
-        <option value="high">Высокая</option>
-        <option value="medium">Средняя</option>
-        <option value="low">Низкая</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label for="sortSelect">Сортировка:</label>
-      <select id="sortSelect">
-        <option value="name">По названию</option>
-        <option value="category">По типу</option>
-      </select>
-    </div>
-    <button class="btn btn-reset" id="resetBtn">✕ Сброс</button>
-    <button class="btn btn-fav" id="favToggle">★ Только избранное</button>
-  </div>
-</section>
-
-<section class="quick-sections">
-  <button class="quick-btn" data-section="all">Все девианты</button>
-  <button class="quick-btn" data-section="combat">⚔️ Боевые</button>
-  <button class="quick-btn" data-section="base">🏭 Для базы</button>
-  <button class="quick-btn" data-section="winter">❄️ Way of Winter</button>
-  <button class="quick-btn" data-section="silos">🏛️ Из Силосов</button>
-  <button class="quick-btn" data-section="compare">Сравнить</button>
-</section>
-
+<!-- ОСНОВНАЯ НАВИГАЦИЯ САЙТА -->
 <nav class="view-tabs" aria-label="Разделы энциклопедии">
-  <button class="view-tab active" id="deviantsView" type="button">Девианты</button>
-  <button class="view-tab" id="traitsView" type="button">Перки</button>
+  <button class="view-tab active" id="deviantsView" type="button">🧬 Девианты</button>
+  <button class="view-tab" id="traitsView" type="button">📜 База перков</button>
   <button class="view-tab" id="labView" type="button">🔬 Лаборатория слияния</button>
 </nav>
 
-<section class="stats-bar" id="statsBar"></section>
+<!-- ЕДИНЫЙ ЦЕНТР УПРАВЛЕНИЯ И ФИЛЬТРАЦИИ -->
+<section class="controls" id="mainControls">
+  <!-- Строка 1: Умный поиск + быстрые действия -->
+  <div class="search-action-bar">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Поиск девианта, роли, способности, локации..." autocomplete="off">
+      <button class="search-clear-btn" id="searchClearBtn" title="Очистить поиск" type="button" style="display: none;">✕</button>
+    </div>
+    <div class="search-actions">
+      <button class="btn btn-filter-toggle" id="filterToggleBtn" type="button" title="Открыть расширенные фильтры">
+        <span class="btn-icon">⚙️</span>
+        <span>Фильтры</span>
+        <span class="filter-count-badge" id="filterCountBadge" style="display: none;">0</span>
+      </button>
+      <button class="btn btn-compare-hub" id="compareHubBtn" type="button" title="Сравнить выбранных девиантов">
+        <span>⇄ Сравнить</span>
+        <span class="compare-badge" id="compareCountBadge" style="display: none;">0</span>
+      </button>
+      <button class="btn btn-reset" id="resetBtn" title="Сбросить все фильтры" type="button">✕ Сброс</button>
+    </div>
+  </div>
+
+  <!-- Строка 2: Интерактивные чипы-фильтры со встроенными счётчиками -->
+  <div class="chip-filter-bar" id="chipFilterBar" role="tablist" aria-label="Быстрые фильтры девиантов">
+    <button class="filter-chip active" data-section="all" type="button">
+      <span>Все</span><b class="chip-count" id="countAll">0</b>
+    </button>
+    <button class="filter-chip" data-section="combat" type="button">
+      <span>⚔️ Боевые</span><b class="chip-count" id="countCombat">0</b>
+    </button>
+    <button class="filter-chip" data-section="base" type="button">
+      <span>🏭 Для базы</span><b class="chip-count" id="countBase">0</b>
+    </button>
+    <button class="filter-chip" data-section="winter" type="button">
+      <span>❄️ Way of Winter</span><b class="chip-count" id="countWinter">0</b>
+    </button>
+    <button class="filter-chip" data-section="silos" type="button">
+      <span>🏛️ Из Бункеров</span><b class="chip-count" id="countSilos">0</b>
+    </button>
+    <button class="filter-chip chip-shiny" data-section="shiny" type="button" title="Девианты с редкими цветовыми вариациями (морфами)">
+      <span>🌈 Редкие Морфы</span><b class="chip-count" id="countShiny">0</b>
+    </button>
+    <button class="filter-chip chip-fav" id="favToggle" type="button">
+      <span>★ В избранном</span><b class="chip-count" id="countFav">0</b>
+    </button>
+  </div>
+
+  <!-- Строка 3: Выпадающая панель расширенных фильтров (скрыта по умолчанию) -->
+  <div class="advanced-filter-drawer" id="deviantFilters" style="display: none;">
+    <div class="drawer-grid">
+      <div class="filter-group">
+        <label for="categoryFilter">Категория:</label>
+        <select id="categoryFilter">
+          <option value="all">Все типы</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="roleFilter">Роль в игре:</label>
+        <select id="roleFilter">
+          <option value="all">Все роли</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="scenarioFilter">Сценарий:</label>
+        <select id="scenarioFilter">
+          <option value="all">Все сценарии</option>
+          <option value="winter">❄️ The Way of Winter</option>
+          <option value="manibus">🔥 Manibus</option>
+          <option value="prism">🔮 Prismverse / SCP</option>
+          <option value="collab">⚡ Коллаборации</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="sourceFilter">Источник поимки:</label>
+        <select id="sourceFilter">
+          <option value="all">Все источники</option>
+          <option value="silo">🏛️ Бункеры (Silos)</option>
+          <option value="monolith">⚔️ Монолиты (Monoliths)</option>
+          <option value="world">🌲 Открытый мир</option>
+          <option value="quest">📜 Задания Lowe</option>
+          <option value="gathering">⛏️ Сбор и рыбалка</option>
+          <option value="event">🛡️ Эвенты и PvP</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="confidenceFilter">Достоверность:</label>
+        <select id="confidenceFilter">
+          <option value="all">Все</option>
+          <option value="high">Высокая (✓)</option>
+          <option value="medium">Средняя (~)</option>
+          <option value="low">Низкая (!)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="sortSelect">Сортировка:</label>
+        <select id="sortSelect">
+          <option value="name">По названию (А–Я)</option>
+          <option value="category">По типу</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Статистика для режима перков (отображается при переключении на вкладку Перки) -->
+  <div class="stats-bar" id="statsBar" style="display: none;"></div>
+</section>
 
 <main class="grid" id="deviantsGrid"></main>
 

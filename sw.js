@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oh-wiki-v21';
+const CACHE_NAME = 'oh-wiki-v36';
 
 const PRECACHE_ASSETS = [
   './',
@@ -9,9 +9,48 @@ const PRECACHE_ASSETS = [
   './manifest.json',
   './data/deviants.json',
   './data/fusion_data.json',
+  './data/variants.json',
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './images/variants/atomic-snail-lightning.webp',
+  './images/variants/atomic-snail-lunar.webp',
+  './images/variants/beehive-pumpkin.webp',
+  './images/variants/bunny-aquarius.webp',
+  './images/variants/butterfly-starry.webp',
+  './images/variants/buzzy-radiant.webp',
+  './images/variants/cat-fortune.webp',
+  './images/variants/cat-ginger.webp',
+  './images/variants/digby-dice.webp',
+  './images/variants/digby-emerald.webp',
+  './images/variants/digby-prism.webp',
+  './images/variants/doll-witch.webp',
+  './images/variants/festering-rainbow.webp',
+  './images/variants/festering-rose.webp',
+  './images/variants/festering-starfish.webp',
+  './images/variants/grumpy-violet.webp',
+  './images/variants/h37-prototype.webp',
+  './images/variants/jelly-radiant.webp',
+  './images/variants/lonewolf-frost.webp',
+  './images/variants/lonewolf-magma.webp',
+  './images/variants/lonewolf-radiant.webp',
+  './images/variants/mr-wish-park.webp',
+  './images/variants/mr-wish-warrior.webp',
+  './images/variants/nutcracker-admiral.webp',
+  './images/variants/nutcracker-diamond.webp',
+  './images/variants/nutcracker-fairy.webp',
+  './images/variants/rainman-youth.webp',
+  './images/variants/spaceturner-cliff.webp',
+  './images/variants/teddy-morning.webp',
+  './images/variants/teddy-pink.webp',
+  './images/variants/voodoo-fluffy.webp',
+  './images/variants/whalepup-dry.webp',
+  './images/variants/zapamander-abyss.webp',
+  './images/variants/zapcam-fool.webp',
+  './images/variants/zapcam-light.webp',
+  './images/variants/zapcam-obituary.webp',
+  './images/variants/zeno-blade.webp',
+  './images/variants/zeno-evernight.webp',
   './images/artisans-touch.webp',
   './images/atomic-snail.webp',
   './images/atomic.webp',
@@ -108,12 +147,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Strategy 1: Data JSON - Network First, fallback to cache
-  if (url.pathname.endsWith('.json')) {
+  // Strategy 1: HTML, JS, CSS, JSON - Network First, fallback to cache
+  const isCodeOrData = url.pathname.endsWith('.html') ||
+                       url.pathname.endsWith('.js') ||
+                       url.pathname.endsWith('.css') ||
+                       url.pathname.endsWith('.json') ||
+                       url.pathname === '/' ||
+                       url.pathname.endsWith('/');
+
+  if (isCodeOrData) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          if (response.ok) {
+          if (response && response.status === 200) {
             const clone = response.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           }
@@ -124,7 +170,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Strategy 2: Images and static assets - Cache First, fallback to network
+  // Strategy 2: Images, icons and static media - Cache First, fallback to network
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -136,10 +182,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return networkResponse;
-      }).catch((err) => {
-        // If offline and request is an image, browser handles fallback or placeholder
-        return cachedResponse;
-      });
+      }).catch(() => cachedResponse);
     })
   );
 });

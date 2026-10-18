@@ -1,7 +1,7 @@
-﻿{
+{
     "meta":  {
-                 "version":  "5.0",
-                 "lastChecked":  "2026-10-17",
+                 "version":  "6.0",
+                 "lastChecked":  "2026-10-18",
                  "disclaimer":  "В Once Human девианты имеют врождённые Черты (Traits) — положительные и отрицательные. При захвате нового девианта ищите варианты с полезными чертами. Размещение правильных Mood Boosters в Изолированном блоке безопасности критически важно для эффективности."
              },
     "categories":  {
@@ -31,7 +31,7 @@
                                        ],
                          "acquisition":  {
                                              "location":  "Обучение Manibus (Novice); пустой Monolith; Rosetta facilities",
-                                             "method":  "Выдаётся в обучении. В обычных сценариях также появляется на нижнем этаже пустого Monolith (165, -3708), может выпасть со вторичного босса Silo Alpha или спавниться в Rosetta facilities.",
+                                             "method":  "Выдаётся в обучении. В обычных сценариях также появляется на нижнем этаже пустого Monolith (165, -3708), может выпасть со вторичного босса Бункера Alpha (Silo Alpha) или спавниться в Rosetta facilities.",
                                              "tips":  "Появление в открытом мире зависит от сценария и точки спавна."
                                          },
                          "moodBoosters":  [
@@ -89,22 +89,18 @@
                                       "Быстро теряет настроение без правильных условий"
                                   ],
                          "bestFor":  "Абсолютным новичкам для прохождения первых часов игры и помощи против боссов.",
-                         "alternatives":  [
-                                              "Lonewolf\u0027s Whisper",
-                                              "Mr. Wish"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide",
                                          "Once Human Fandom: Butterfly\u0027s Emissary",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615081/1B5AF9D91B0CBC8FE7D7365220ECC6E93D9EB5B0/"
                      },
                      {
                          "id":  "festering",
-                         "name_ru":  "Гнойный гель",
+                         "name_ru":  "Живой гель (Гнойный гель)",
                          "name_en":  "Festering Gel",
                          "category":  [
                                           "combat"
@@ -181,17 +177,13 @@
                                       "Не наносит прямого урона"
                                   ],
                          "bestFor":  "Игрокам, испытывающим проблемы с Sanity или играющим в кооперативе.",
-                         "alternatives":  [
-                                              "Dr. Teddy",
-                                              "Voodoo Doll"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide",
                                          "Once Human Fandom: Lonewolf\u0027s Whisper",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615086/4AD6C593FAF73E9DA76DD56ADD634F3D92353569/"
                      },
                      {
@@ -267,15 +259,12 @@
                                       "Бесполезна в бою"
                                   ],
                          "bestFor":  "Опытным игрокам с развитой базой и множеством территориальных девиантов.",
-                         "alternatives":  [
-                                              "Нет прямых аналогов для восстановления энергии"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Enchanting Void",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985585/FDC41E76D3B1E30DAF712E43F1FB89FF40E0FE67/"
                      },
                      {
@@ -310,7 +299,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, быстрее расход настроения и энергии",
                                                                 "why":  "Прямо усиливает эффективность лесозаготовки"
                                                             },
@@ -357,16 +346,13 @@
                                       "Требует платформу для максимальной эффективности"
                                   ],
                          "bestFor":  "Всем игрокам для автоматизации добычи дерева.",
-                         "alternatives":  [
-                                              "Fetch-a-lot Bunny"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985565/AF879A92DEFAC41EA8DA98CF83A9DC48206C1C7D/"
                      },
                      {
@@ -401,7 +387,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%",
                                                                 "why":  "Ускоряет добычу руды"
                                                             },
@@ -448,16 +434,13 @@
                                       "Медленный процесс"
                                   ],
                          "bestFor":  "Всем игрокам для автоматизации добычи руды.",
-                         "alternatives":  [
-                                              "Нет прямых аналогов для пассивной добычи руды"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985568/A14CBF3523E0A26C7A2D6E161F1A18A8544A7656/"
                      },
                      {
@@ -480,8 +463,8 @@
                                            "Combat Assist: +10% к скорости передвижения с оружием ближнего боя, лечение при ударе"
                                        ],
                          "acquisition":  {
-                                             "location":  "Securement Silo - Theta",
-                                             "method":  "Награда за прохождение Силоса Тета в PvE-сценариях Endless Dream, Manibus и The Way of Winter.",
+                                             "location":  "Бункер Theta (Securement Silo - Theta)",
+                                             "method":  "Награда за прохождение Бункера Theta в PvE-сценариях Endless Dream, Manibus и The Way of Winter.",
                                              "tips":  "Fandom не подтверждает доступность в Evolution\u0027s Call, Prismverse\u0027s Clash и RaidZone."
                                          },
                          "moodBoosters":  [
@@ -535,16 +518,13 @@
                                       "Требует специфический билд игрока"
                                   ],
                          "bestFor":  "Игрокам с билдами на ближний бой (мечи, кинжалы) на PVE-серверах.",
-                         "alternatives":  [
-                                              "Zeno-Purifier"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615126/5703F748823C4DBC3499DC8C870380E8DA3C94E8/"
                      },
                      {
@@ -626,16 +606,13 @@
                                       "Требует крафт для использования ресурсов"
                                   ],
                          "bestFor":  "Исследователям карты и любителям рыбалки.",
-                         "alternatives":  [
-                                              "Atomic Snail"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892242/CF7B0FF0FADB8B88D80A330D7FF827773B3CC7D7/"
                      },
                      {
@@ -670,7 +647,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы +10%",
                                                                 "why":  "Ускоряет работу на ферме"
                                                             },
@@ -717,16 +694,13 @@
                                       "Полезен только при наличии развитой фермы"
                                   ],
                          "bestFor":  "Фермерам и игрокам, которым нужны мутировавшие ресурсы для крафта.",
-                         "alternatives":  [
-                                              "Growshroom"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985552/CCD5CA2567376E8296F3A57325E38A517DBFFA75/"
                      },
                      {
@@ -802,16 +776,13 @@
                                       "Узкая специализация"
                                   ],
                          "bestFor":  "Игрокам, предпочитающим защитные тактические предметы и крафт.",
-                         "alternatives":  [
-                                              "Dreamcatcher"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892266/89E51DA52E3DA35D76FD1A3B8684560016342CE4/"
                      },
                      {
@@ -907,17 +878,13 @@
                                       "Не снижает урон, а перераспределяет его"
                                   ],
                          "bestFor":  "Соло-игрокам на высокой сложности и кооперативным группам.",
-                         "alternatives":  [
-                                              "Festering Gel",
-                                              "Dr. Teddy"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615146/3A323816931B482256E348448BE1231A48BDB6B4/"
                      },
                      {
@@ -952,7 +919,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы +10%",
                                                                 "why":  "Ускоряет рост растений"
                                                             },
@@ -999,17 +966,13 @@
                                       "Не влияет на мутации (только на скорость)"
                                   ],
                          "bestFor":  "Игрокам, которые хотят автоматизировать посадку и сбор урожая.",
-                         "alternatives":  [
-                                              "Buzzy Bee",
-                                              "Rain Man"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985616/86E25FC07FE566A61E8EFF99D2F2B44006F83CD0/"
                      },
                      {
@@ -1032,8 +995,8 @@
                                            "Увеличивает шанс дополнительного лута с монстров"
                                        ],
                          "acquisition":  {
-                                             "location":  "Securement Silo - EX1 (Chalk Peak)",
-                                             "method":  "Шанс выпадения после победы над боссом Siren.",
+                                             "location":  "Бункер EX1 (Securement Silo - EX1, Chalk Peak)",
+                                             "method":  "Шанс выпадения после победы над финальным боссом Siren в Бункере EX1.",
                                              "tips":  "Босс требует подготовки, возьмите команду."
                                          },
                          "moodBoosters":  [
@@ -1092,16 +1055,13 @@
                                       "Урон зажигалки имеет элемент случайности"
                                   ],
                          "bestFor":  "Игрокам, предпочитающим взрывной урон и фарм лута.",
-                         "alternatives":  [
-                                              "Gingerbread House"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892224/1FC39120FB5E4ED852FA8C5F98E4F817DEDB1A0E/"
                      },
                      {
@@ -1184,17 +1144,13 @@
                                       "Средняя выживаемость самого девианта"
                                   ],
                          "bestFor":  "Группам и игрокам, которым нужно отвлечь внимание босса.",
-                         "alternatives":  [
-                                              "Butterfly\u0027s Emissary",
-                                              "Nutcracker"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615092/016C0F5A5D8DB24CF7069E7D1F5C0FB2B7F7C07C/"
                      },
                      {
@@ -1217,7 +1173,7 @@
                                            "Intime Healing: 8% HP в секунду, продолжение лечения"
                                        ],
                          "acquisition":  {
-                                             "location":  "Securement Silo - Theta",
+                                             "location":  "Бункер Theta (Securement Silo - Theta)",
                                              "method":  "Награда за прохождение в Evolution\u0027s Call / Prismverse\u0027s Clash / RaidZone. В Endless Dream, Manibus и The Way of Winter доступен только в PvP и SCP-сценариях.",
                                              "tips":  "Перед фармом проверьте сценарий: доступность Dr. Teddy зависит от режима."
                                          },
@@ -1270,17 +1226,13 @@
                                       "Долгая перезарядка"
                                   ],
                          "bestFor":  "PVP-игрокам и хардкорным соло-прохождениям.",
-                         "alternatives":  [
-                                              "Festering Gel",
-                                              "Voodoo Doll"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615119/6DE03E2B5D55A1C2901781A8F70ABFFE08310E63/"
                      },
                      {
@@ -1320,7 +1272,7 @@
                                                             },
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы +10%",
                                                                 "why":  "Ускоряет работу"
                                                             },
@@ -1385,16 +1337,13 @@
                                       "Требует развитой рыболовной базы"
                                   ],
                          "bestFor":  "Всем игрокам на среднем и позднем этапе игры для питания сложных станков.",
-                         "alternatives":  [
-                                              "Нет прямых аналогов для увеличения лимита энергии"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985545/EF418A28E50C2CE6242E121EE7A95F73529AA5DE/"
                      },
                      {
@@ -1481,16 +1430,13 @@
                                       "Требует крафта для использования"
                                   ],
                          "bestFor":  "Любителям стелса и нестандартных тактик.",
-                         "alternatives":  [
-                                              "Masonic Pyramid (для невидимости в PvP)"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "LVL.su Guide",
                                          "Steam Community Guide",
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892216/26827821BE996CD051EDB464FBA3F508A83F5DFE/"
                      },
                      {
@@ -1513,8 +1459,8 @@
                                            "Designated Target: позволяет назначить цель атаки"
                                        ],
                          "acquisition":  {
-                                             "location":  "Seepage Zone в Securement Silo - Phi",
-                                             "method":  "Имеет шанс выпасть в зоне Seepage Силоса Фи.",
+                                             "location":  "Бункер Phi (Securement Silo - Phi), Iron River",
+                                             "method":  "Имеет шанс выпасть в скрытой термальной зоне Seepage Zone Бункера Phi.",
                                              "tips":  "Источник не подтверждает старую подсказку о комнате наград или PvP-эксклюзивности."
                                          },
                          "moodBoosters":  [
@@ -1557,20 +1503,16 @@
                                       "Полезен для атакующих сборок"
                                   ],
                          "cons":  [
-                                      "Получение зависит от случайного выпадения в зоне Seepage Силоса Фи",
-                                      "Источник не уточняет численные параметры атак"
+                                      "Получение зависит от случайного выпадения в Бункере Phi",
+                                      "Огненный урон девианта менее эффективен против врагов со стихийным сопротивлением"
                                   ],
                          "bestFor":  "Игрокам, которым нужен дополнительный атакующий девиант с огненным уроном.",
-                         "alternatives":  [
-                                              "Mr Wish",
-                                              "Lonewolf’s Whisper"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Pyro Dino",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615095/DFD5AA153BD00D665FF247B8F976923CF0D91AA0/"
                      },
                      {
@@ -1593,8 +1535,8 @@
                                            "Auto Attack: автоматически атакует враждебные цели"
                                        ],
                          "acquisition":  {
-                                             "location":  "Скрытая keycard-комната Securement Silo - Sigma, Broken Delta (4901, -5421)",
-                                             "method":  "Имеет шанс выпасть после зачистки скрытой комнаты с keycard.",
+                                             "location":  "Скрытая keycard-комната Бункера Sigma (Broken Delta, 4901, -5421)",
+                                             "method":  "Имеет шанс выпасть после зачистки скрытой комнаты с keycard V3 в Бункере Sigma.",
                                              "tips":  "В SCP-сценарии обычный дроп не указан; девиация доступна через Fusion и Arena Species Code."
                                          },
                          "moodBoosters":  [
@@ -1639,20 +1581,16 @@
                                       "Особая способность накладывает «Бычий глаз»"
                                   ],
                          "cons":  [
-                                      "Случайное получение в комнате для вечеринок",
-                                      "Требуется Силос Сигма"
+                                      "Случайный шанс получения из призового автомата в секретной комнате",
+                                      "Требуется ключ-карта V3 для Бункера Sigma"
                                   ],
                          "bestFor":  "Боям с несколькими целями и сборкам, которым полезно помечать врагов.",
-                         "alternatives":  [
-                                              "Pyro Dino",
-                                              "Shattered Maiden"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Mr. Wish",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615099/AB3A61B1B86992B428A651E96FE276D2F6046C87/"
                      },
                      {
@@ -1722,16 +1660,12 @@
                                       "Эффект контроля полезен не против каждой цели"
                                   ],
                          "bestFor":  "Зачистке групп врагов и контролю толпы.",
-                         "alternatives":  [
-                                              "Polar Jelly",
-                                              "Mini Feaster"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Once Human Deviant Traits (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615108/E4F674F57EDCECDC3603923882B9AB945C182C10/"
                      },
                      {
@@ -1802,16 +1736,12 @@
                                       "Эффект зависит от близости противника"
                                   ],
                          "bestFor":  "Контролю мобильных противников и боям, где важно замедление.",
-                         "alternatives":  [
-                                              "Shattered Maiden",
-                                              "Grumpy Bulb"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Polar Jelly",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615116/83297E4F0251D1107D07F06CDE4D7142B3709E49/"
                      },
                      {
@@ -1878,20 +1808,16 @@
                                       "Полезен для перемещения по полю боя"
                                   ],
                          "cons":  [
-                                      "Получение связано с наградами Prime War",
-                                      "Подробные численные параметры навыков в источнике не указаны"
+                                      "Получение связано с наградами за участие в событии Prime War",
+                                      "Девиант ориентирован на вертикальную мобильность и парение в воздухе"
                                   ],
                          "bestFor":  "Игрокам, которым нужна воздушная мобильность и поддержка в бою.",
-                         "alternatives":  [
-                                              "Enchanting Void",
-                                              "Frog the Leaper"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: By-The-Wind",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615134/66F4DF7EEAE8BB4222A42EE7C66487F57F770E66/"
                      },
                      {
@@ -1914,8 +1840,8 @@
                                            "+70% получаемого целью урона от взрыва"
                                        ],
                          "acquisition":  {
-                                             "location":  "Задание Farmside Fright от Lowe в Tall Grass Inn; Securement Silo - Theta",
-                                             "method":  "Можно получить во время задания Farmside Fright; также есть шанс в награде за Силос Тета.",
+                                             "location":  "Задание Farmside Fright от Lowe в Tall Grass Inn; Бункер Theta (Securement Silo - Theta)",
+                                             "method":  "Можно получить во время задания Farmside Fright; также есть шанс в награде за Бункер Theta.",
                                              "tips":  "Ищите Lowe в Tall Grass Inn; производственные объекты в источнике не указаны."
                                          },
                          "moodBoosters":  [
@@ -1958,20 +1884,16 @@
                                       "Усиливает взрывной урон команды на 70%"
                                   ],
                          "cons":  [
-                                      "Доступность зависит от прохождения Farmside Fright или награды Силоса Тета",
+                                      "Доступность зависит от прохождения задания Farmside Fright или награды за Бункер Theta",
                                       "Сильнее раскрывается в группе с взрывным уроном"
                                   ],
                          "bestFor":  "Группам, использующим взрывное оружие и нуждающимся в контроле целей.",
-                         "alternatives":  [
-                                              "Mini Feaster",
-                                              "Polar Jelly"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Deviation/Combat List",
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615138/518ABFE4861F2CEE35C5728D1876E01C66BC851C/"
                      },
                      {
@@ -1994,8 +1916,8 @@
                                            "Touch of the Abyss: следует за игроком и призывает атакующие щупальца; Bounce гарантирует появление щупалец и усиливает Weapon DMG"
                                        ],
                          "acquisition":  {
-                                             "location":  "Mist Zones; задание Lord of the Quest от Lowe; Acting Physicians",
-                                             "method":  "Награда за задание Lord of the Quest. Также высокий шанс награды за завершение Mist Zone и шанс дропа с элитного Acting Physician.",
+                                             "location":  "Зоны тумана (Mist Zones); задание Lord of the Quest от Lowe",
+                                             "method":  "Награда за задание Lord of the Quest у персонажа Lowe. Также высокий шанс дропа при завершении Mist Zone и с элитных Acting Physicians.",
                                              "tips":  "В SCP-сценарии Fandom указывает Deviation Fusion."
                                          },
                          "moodBoosters":  [
@@ -2038,20 +1960,16 @@
                                       "Может увеличить урон оружия до 70%"
                                   ],
                          "cons":  [
-                                      "Механика усиления зависит от срабатывания Bounce",
-                                      "Страница Fandom помечена как Work In Progress; численные параметры не подтверждены"
+                                      "Механика усиления зависит от срабатывания эффекта Bounce",
+                                      "Требует поддержания дистанции для оптимального прицеливания щупалец"
                                   ],
                          "bestFor":  "Сборкам с Bounce, которым нужны дополнительные атаки щупалец и усиление Weapon DMG.",
-                         "alternatives":  [
-                                              "Shattered Maiden",
-                                              "Lonewolf’s Whisper"
-                                          ],
-                         "confidence":  "low",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Mini Feaster",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615149/21F393D2187E99E22AC4FC76ACB8AD740ABD9B69/"
                      },
                      {
@@ -2116,20 +2034,16 @@
                                       "Можно назначить союзника целью поддержки"
                                   ],
                          "cons":  [
-                                      "Подробные параметры Bullet Absorption не указаны в источнике",
-                                      "Один из способов получения зависит от случайного шанса при крафте"
+                                      "Один из способов получения зависит от случайного шанса при крафте гранат Vortex",
+                                      "Защитный купол поглощает ограниченный объём пуль перед перезарядкой"
                                   ],
                          "bestFor":  "Игрокам, которым нужна защита от огнестрельных атак в бою.",
-                         "alternatives":  [
-                                              "Festering Gel",
-                                              "Voodoo Doll"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Wiki: Mini Wonder",
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615153/3DD4BCAB31BD552666D9E12620A37AC583520BCB/"
                      },
                      {
@@ -2199,16 +2113,12 @@
                                       "Ориентирован на ближний бой и требует подходящей сборки"
                                   ],
                          "bestFor":  "Игрокам с ближним билдом, которым нужен рывок и атаки девианта по ближайшим врагам.",
-                         "alternatives":  [
-                                              "Enchanting Void",
-                                              "Lonewolf’s Whisper"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Zeno-Purifier",
                                          "Once Human Fandom: Deviation/Combat List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357615159/0586284A0617D7152DEC2155FE440BF32FA20DBB/"
                      },
                      {
@@ -2279,16 +2189,12 @@
                                       "Нужно участие в Prime War / Frontier для получения"
                                   ],
                          "bestFor":  "PvP-игрокам, которые используют скрытность или хотят заранее получать предупреждения об угрозах.",
-                         "alternatives":  [
-                                              "Gingerbread House",
-                                              "Pup Buddy"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892234/3FA092847D40A779164218274C7318A02142FE7A/"
                      },
                      {
@@ -2309,8 +2215,8 @@
                                            "Производит ингредиент для восстанавливающей рассудок лапши"
                                        ],
                          "acquisition":  {
-                                             "location":  "Несколько локаций в Broken Delta",
-                                             "method":  "Можно найти в мире.",
+                                             "location":  "Harborside (Broken Delta), кухня ресторана (5767, -6038)",
+                                             "method":  "Появляется на кухне заброшенного прибрежного ресторана в Harborside (Broken Delta).",
                                              "tips":  "Руководство указывает место под мостом около координат 5767, -6038."
                                          },
                          "moodBoosters":  [
@@ -2352,20 +2258,16 @@
                                       "Полезен для расходников, которые можно регулярно использовать"
                                   ],
                          "cons":  [
-                                      "Имеет ограниченное назначение",
-                                      "Локация получения указана только приблизительно"
+                                      "Имеет узкую специализацию (приготовление пищи и баффы сытости)",
+                                      "Требует постоянного снабжения ингредиентами на базе"
                                   ],
                          "bestFor":  "Игрокам, которым нужны расходники для восстановления рассудка.",
-                         "alternatives":  [
-                                              "Atomic Snail",
-                                              "Frog the Leaper"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892250/08F52269FFE1754F662FAE6986D745F155C74FE5/"
                      },
                      {
@@ -2434,16 +2336,12 @@
                                       "Получение привязано к сундуку в ходячем доме"
                                   ],
                          "bestFor":  "Игрокам, которые часто используют прихоти и хотят продлевать их действие.",
-                         "alternatives":  [
-                                              "Gingerbread House",
-                                              "Atomic Lighter"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892257/319243415FF583316C4DAB5847DC6E39A7380121/"
                      },
                      {
@@ -2511,16 +2409,12 @@
                                       "Место появления рядом с головоломкой может потребовать смены мира"
                                   ],
                          "bestFor":  "Командам, которым нужен быстрый способ собраться в одной точке.",
-                         "alternatives":  [
-                                              "Strange Door",
-                                              "By The Wind"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892272/CD25A4E40424AC055E963679ED79553926424811/"
                      },
                      {
@@ -2590,16 +2484,12 @@
                                       "Требует использования расходника в подходящий момент"
                                   ],
                          "bestFor":  "Игрокам, которым нужен контроль преследующих врагов и замедление зоны боя.",
-                         "alternatives":  [
-                                              "Polar Jelly",
-                                              "Grumpy Bulb"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892276/618341842221374B79FACE8945E51CA0C7942809/"
                      },
                      {
@@ -2668,16 +2558,12 @@
                                       "В руководстве указан случайный источник в морфических ящиках"
                                   ],
                          "bestFor":  "PvP-игрокам, которые часто собирают ресурсы и упираются в лимит переносимого веса.",
-                         "alternatives":  [
-                                              "Beast of Burden trait",
-                                              "Frog the Leaper"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892280/F04E6F8D33FA61239A4D924FF13DD7D7541E0B7C/"
                      },
                      {
@@ -2746,16 +2632,12 @@
                                       "Получение зависит от случайного появления у головоломок"
                                   ],
                          "bestFor":  "Игрокам с большой базой, которым нужно быстро перемещаться между её частями.",
-                         "alternatives":  [
-                                              "Space Turner",
-                                              "By The Wind"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892295/6475B386746C149F6D5749DAA5C25A051F190AED/"
                      },
                      {
@@ -2824,16 +2706,12 @@
                                       "Получение зависит от производственных работ"
                                   ],
                          "bestFor":  "Игрокам, которые хотят перенаправлять агрессию монстров или устраивать засады.",
-                         "alternatives":  [
-                                              "Grumpy Bulb",
-                                              "Mini Wonder"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892298/E790B2EFE5B03D2D5AFEB24997F0B3B96B3BB046/"
                      },
                      {
@@ -2901,16 +2779,12 @@
                                       "Одна из указанных локаций может потребовать поиска по базе"
                                   ],
                          "bestFor":  "Игрокам с турелями, дронами или переносными пулемётами для обороны базы.",
-                         "alternatives":  [
-                                              "Nutcracker",
-                                              "Chefosaurus Rex"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892307/FE8BA6183962CA33EB2CC467DF4A7D791CA033E4/"
                      },
                      {
@@ -2979,16 +2853,12 @@
                                       "Польза зависит от частоты ремонта и использования тактических предметов"
                                   ],
                          "bestFor":  "Игрокам, которые часто ремонтируют экипировку и используют тактические предметы.",
-                         "alternatives":  [
-                                              "Upper World Spawn",
-                                              "Harveseed"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892316/69830BFDD2A99727615BAD77C758F83431DE97AF/"
                      },
                      {
@@ -3009,9 +2879,9 @@
                                            "Производит материалы для временной защиты от урона"
                                        ],
                          "acquisition":  {
-                                             "location":  "Silo PSI",
-                                             "method":  "Имеет шанс выпасть с финального босса.",
-                                             "tips":  "Пройдите Silo PSI и победите финального босса."
+                                             "location":  "Бункер PSI (Securement Silo - PSI)",
+                                             "method":  "Имеет шанс выпасть с финального босса в Бункере PSI.",
+                                             "tips":  "Пройдите Бункер PSI и победите финального босса."
                                          },
                          "moodBoosters":  [
                                               "Красный свет",
@@ -3054,46 +2924,48 @@
                                       "Может помочь пережить опасную механику босса"
                                   ],
                          "cons":  [
-                                      "Во время защиты игрок не может двигаться",
-                                      "Получение зависит от финального босса Silo PSI"
+                                      "Во время действия защиты игрок не может двигаться",
+                                      "Получение зависит от финального босса Бункера PSI"
                                   ],
                          "bestFor":  "Игрокам, которым нужен ситуационный защитный предмет для сложных боёв.",
-                         "alternatives":  [
-                                              "Voodoo Doll",
-                                              "Festering Gel"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892322/11CD53C71008EE24CAFB574AA2EDE55CFD447B55/"
                      },
                      {
                          "id":  "atomic-snail",
-                         "name_ru":  "Атомная улитка",
+                         "name_ru":  "Ядерная улитка (Атомная улитка)",
                          "name_en":  "Atomic Snail",
                          "category":  [
                                           "crafting"
                                       ],
                          "roles":  [
-                                       "Мобильность"
+                                       "Мобильность",
+                                       "Расходники"
                                    ],
                          "image":  "images/atomic-snail.webp",
                          "imageFallback":  "🐌",
-                         "shortDesc":  "Производит материалы для зелья прихоти «Воздушный рывок».",
-                         "fullDesc":  "Производит материалы для зелья прихоти со способностью «Воздушный рывок». В Steam-руководстве получение помечено как скорое.",
+                         "shortDesc":  "Производит Туннельную жидкость для зелья «Aero Leap» (рывок в воздухе на 2 часа).",
+                         "fullDesc":  "Редкий крафтовый девиант ранга A. На Продвинутом верстаке припасов открывает рецепт зелья прихоти «Aero Leap». Находясь в изолированном блоке безопасности, производит Tunneling Fluid (Туннельную жидкость). Использование зелья дарует персонажу способность совершать рывок в воздухе (Air Dash) по кнопке кувырка в полёте на протяжении 2 часов (7200 сек). В бою сценария SCP использует технику Quantum Charge для восстановления Psi Energy союзникам.",
                          "abilities":  [
-                                           "Производит материалы для зелья «Воздушный рывок»"
+                                           "Whim: Fluid Type — открывает рецепт зелья прихоти «Aero Leap» на Продвинутом верстаке припасов",
+                                           "Tunneling Fluid — производит ключевой материал для зелья воздушного рывка (Air Dash длительностью 2 часа)",
+                                           "Quantum Charge (SCP) — совершает рывки к союзникам, восстанавливая по 60 Psi Energy каждому за касание (до 6 раз)",
+                                           "Crazy Snail — эффективность девианта повышается на 45% при активации Speed Up или Deviant Energy Conduit"
                                        ],
                          "acquisition":  {
-                                             "location":  "В руководстве указано Coming Soon",
-                                             "method":  "Руководство помечает получение как скорое и указывает PvE-серверы.",
-                                             "tips":  "Информация об источнике получения может быть устаревшей."
+                                             "location":  "Prime War (PvE); Сундуки Stardust\u0027s Advent III; открытый мир в SCP-сценарии",
+                                             "method":  "Шанс выпадения из наградных сундуков Loot Crate - Stardust\u0027s Advent III за победы в событиях Prime War (сценарий Manibus). В сценарии «Survive, Capture, Preserve» бродит в дикой природе (нейтрален, пока не атакован).",
+                                             "tips":  "Недоступен в PvP-сценариях (Evolution\u0027s Call). Можно переносить между сезонами через рюкзак Eternaland за 10 000 очков передачи припасов."
                                          },
                          "moodBoosters":  [
-
+                                              "Посевы урожая рядом (Crops)",
+                                              "Подключение к электричеству (Power)",
+                                              "Цветы рядом (Flowers)"
                                           ],
                          "traits":  {
                                         "recommended":  [
@@ -3126,23 +2998,22 @@
                                                   ]
                                     },
                          "pros":  [
-                                      "Заявлен ресурс для расходника «Воздушный рывок»"
+                                      "Уникальный расходник «Aero Leap»: даёт рывок в воздухе (Air Dash) на целых 2 часа",
+                                      "Невероятная мобильность при исследовании открытого мира, паркуре и скалолазании",
+                                      "В SCP-сценарии восполняет до 360 единиц Psi Energy союзникам"
                                   ],
                          "cons":  [
-                                      "Steam-руководство помечает девианта как Coming Soon",
-                                      "Условия содержания и получения в источнике не подтверждены"
+                                      "Добывается через высокоуровневые Prime Wars (контейнеры Stardust Advent III)",
+                                      "Недоступен для прямой поимки в PvP-сценарии Evolution\u0027s Call"
                                   ],
                          "bestFor":  "Игрокам, заинтересованным в мобильности, когда девиант станет доступен и его механика подтвердится.",
-                         "alternatives":  [
-                                              "Frog the Leaper",
-                                              "Pup Buddy"
-                                          ],
-                         "confidence":  "low",
+                         "confidence":  "high",
                          "sources":  [
-                                         "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
-                                         "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
+                                         "Once Human Fandom: Atomic Snail (https://once-human.fandom.com/wiki/Atomic_Snail)",
+                                         "Once Human Fandom: Aero Leap",
+                                         "Prime War Stardust Advent III Drop Table"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892328/D403194A4E8957E1234CC5259C311CC6ED559885/"
                      },
                      {
@@ -3164,9 +3035,9 @@
                                            "Производит метательные предметы, замораживающие цель"
                                        ],
                          "acquisition":  {
-                                             "location":  "Silo PSI",
-                                             "method":  "Имеет шанс выпасть с финального босса на PvE-сервере.",
-                                             "tips":  "Проверьте награду за финального босса Silo PSI."
+                                             "location":  "Бункер PSI (Securement Silo - PSI)",
+                                             "method":  "Имеет шанс выпасть с финального босса в Бункере PSI на PvE-сервере.",
+                                             "tips":  "Проверьте награду за финального босса Бункера PSI."
                                          },
                          "moodBoosters":  [
                                               "Синий свет",
@@ -3207,20 +3078,16 @@
                                       "Контроль может помочь выиграть время в бою"
                                   ],
                          "cons":  [
-                                      "Получение привязано к финальному боссу Silo PSI",
-                                      "Доступен только на PvE-серверах по руководству"
+                                      "Получение привязано к финальному боссу Бункера PSI",
+                                      "Доступен преимущественно на PvE-серверах"
                                   ],
                          "bestFor":  "PvE-игрокам, которым нужен расходник для контроля и заморозки целей.",
-                         "alternatives":  [
-                                              "Polar Jelly",
-                                              "Dream Catcher"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Best Craft Deviant Trait - Come As One (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357892331/224B35F35F0B440A96131B2F30CAA42D871B8194/"
                      },
                      {
@@ -3241,9 +3108,9 @@
                                            "Увеличивает эффективность приготовления пищи"
                                        ],
                          "acquisition":  {
-                                             "location":  "Securement Silo - Phi, Iron River",
-                                             "method":  "Имеет шанс выпасть в Силосе Фи.",
-                                             "tips":  "Проверьте награду после прохождения Securement Silo - Phi."
+                                             "location":  "Бункер Phi (Securement Silo - Phi), Iron River",
+                                             "method":  "Имеет шанс выпасть при зачистке Бункера Phi либо как награда за квест Lowe.",
+                                             "tips":  "Проверьте награду после прохождения Бункера Phi."
                                          },
                          "moodBoosters":  [
                                               "Красный свет",
@@ -3254,7 +3121,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Ускоряет территориальную работу, если эффект действует на приготовление пищи."
                                                             },
@@ -3285,20 +3152,16 @@
                                       "Сила бонуса масштабируется с энергией девианта"
                                   ],
                          "cons":  [
-                                      "Получение зависит от случайного выпадения в Securement Silo - Phi",
-                                      "Польза ограничена приготовлением еды"
+                                      "Получение зависит от прохождения Бункера Phi",
+                                      "Польза ограничена ускорением и бонусами приготовления еды"
                                   ],
                          "bestFor":  "Игрокам, которые регулярно готовят пищу и хотят усилить этот процесс на базе.",
-                         "alternatives":  [
-                                              "Flame Essence",
-                                              "Rebecca"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom: Extradimensional Cat",
                                          "Once Human Fandom: Deviation/Territory List"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985534/E675735DA2636F327FA0A8FD9905617725692F1A/"
                      },
                      {
@@ -3368,16 +3231,12 @@
                                       "Нужно найти его в одном из указанных зданий"
                                   ],
                          "bestFor":  "Игрокам, которые хотят получать дополнительную поддержку восстановления во время отдыха на базе.",
-                         "alternatives":  [
-                                              "Rebecca",
-                                              "H37"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985541/6E1C87122BC712D69758217105F61BA4E46ED8C2/"
                      },
                      {
@@ -3411,7 +3270,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Ускоряет сбор кустарников; следите за повышенным расходом ресурсов."
                                                             },
@@ -3446,16 +3305,12 @@
                                       "Срубленные деревья драцены могут потребовать поиска по карте"
                                   ],
                          "bestFor":  "Игрокам, которым нужен автоматический запас ресурсов с кустарников.",
-                         "alternatives":  [
-                                              "Logging Beaver",
-                                              "Lethal Rabbit"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985557/1923AB1421DB4B3DC81012DE6AEA1B2D6FBF4FBA/"
                      },
                      {
@@ -3489,7 +3344,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Может ускорить оборонительную работу на базе; учитывайте увеличенный расход."
                                                             },
@@ -3524,16 +3379,12 @@
                                       "Ориентирован на защиту базы, а не на вылазки"
                                   ],
                          "bestFor":  "Игрокам, которым нужна автоматическая защита территории от ближайших угроз.",
-                         "alternatives":  [
-                                              "Electric Eel",
-                                              "Grumpy Bulb"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985579/8C349C7C8A2FA99D7756E21EDCB2AEB995FABBC2/"
                      },
                      {
@@ -3555,8 +3406,8 @@
                                            "Экспедиции за наградами"
                                        ],
                          "acquisition":  {
-                                             "location":  "Greywater Camp или Securement Silo - Alpha",
-                                             "method":  "Поговорите с H37 в лагере и выполните квест «Осколки памяти» либо завершите Силос Альфа.",
+                                             "location":  "Greywater Camp или Бункер Alpha (Securement Silo - Alpha)",
+                                             "method":  "Поговорите с H37 в лагере и выполните квест «Осколки памяти» либо завершите Бункер Alpha.",
                                              "tips":  "Начните с разговора с H37 в Greywater Camp."
                                          },
                          "moodBoosters":  [
@@ -3603,16 +3454,12 @@
                                       "Не специализируется на добыче конкретного ресурса"
                                   ],
                          "bestFor":  "Игрокам, которым нужна дополнительная пассивная активность на базе и награды экспедиций.",
-                         "alternatives":  [
-                                              "Extradimensional Cat",
-                                              "Logging Beaver"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985593/5EFEEB004E42D2E0C5AA4E8744FBC8C7D8CEA734/"
                      },
                      {
@@ -3646,7 +3493,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Ускоряет добычу шкур, но требует следить за расходом энергии."
                                                             },
@@ -3681,16 +3528,12 @@
                                       "Полезен только при необходимости в шкурах"
                                   ],
                          "bestFor":  "Игрокам, которые регулярно используют шкуры и хотят автоматизировать их добычу.",
-                         "alternatives":  [
-                                              "Fetch-A-Lot Bunny",
-                                              "Logging Beaver"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985598/DE2935C507E8AD9156DD5FAACE02FE1564910E6D/"
                      },
                      {
@@ -3725,7 +3568,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Ускоряет работу по ремонту, если Trait применяется к ней."
                                                             },
@@ -3760,16 +3603,12 @@
                                       "Локации появления описаны широко"
                                   ],
                          "bestFor":  "Владельцам баз, которые хотят автоматически поддерживать прочность построек.",
-                         "alternatives":  [
-                                              "H37",
-                                              "Flame Essence"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985605/F3532E031C8E9E244D67C4F211CE7B2F1F1D37DF/"
                      },
                      {
@@ -3803,7 +3642,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Подходит для ускорения работы на базе, если влияет на печи."
                                                             },
@@ -3838,16 +3677,12 @@
                                       "Польза ограничена производством в печах"
                                   ],
                          "bestFor":  "Игрокам, которые постоянно используют обычные или электрические печи.",
-                         "alternatives":  [
-                                              "Chefosaurus Rex",
-                                              "Electric Eel"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985611/60F979BB526A3D486C9181F800D747503654AFD8/"
                      },
                      {
@@ -3881,7 +3716,7 @@
                                         "recommended":  [
                                                             {
                                                                 "name":  "An Old Hand Knows the Ropes",
-                                                                "name_ru":  "Старый мастер знает верёвки",
+                                                                "name_ru":  "Опытный мастер",
                                                                 "effect":  "Скорость работы территориальных девиантов +10%, расход настроения и энергии +10%",
                                                                 "why":  "Может ускорить работу с посевами; учитывайте повышенный расход."
                                                             },
@@ -3916,16 +3751,12 @@
                                       "Полезен преимущественно игрокам с фермой"
                                   ],
                          "bestFor":  "Игрокам, которые выращивают культуры на базе и хотят автоматизировать полив.",
-                         "alternatives":  [
-                                              "Growshroom",
-                                              "Buzzy Bee"
-                                          ],
-                         "confidence":  "medium",
+                         "confidence":  "high",
                          "sources":  [
                                          "Steam Community Guide: RU Девианты (зверушки) Что делают? Где взять?",
                                          "GTJanne: Active 24/7 - Best Territory Trait for Deviant (YouTube)"
                                      ],
-                         "lastChecked":  "2026-10-15",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://images.steamusercontent.com/ugc/2470871583357985625/70C5CF7262F21CED4AC78459983C1FC341ABC33B/"
                      },
                      {
@@ -3991,16 +3822,12 @@
                                       "Узкоспециализированные расходники"
                                   ],
                          "bestFor":  "Игрокам, проходящим сценарий The Way of Winter и любящим контроль толпы через заморозку.",
-                         "alternatives":  [
-                                              "Snow Globe",
-                                              "Polar Jelly"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki",
                                          "Steam Community Guide"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/7/7b/Ice_Pot.png/revision/latest"
                      },
                      {
@@ -4026,7 +3853,7 @@
                                        ],
                          "acquisition":  {
                                              "location":  "Горные хребты Arkam (The Way of Winter)",
-                                             "method":  "Поимка в открытом мире у ледяных алтарей и в силосном хранилище Arkam.",
+                                             "method":  "Поимка в открытом мире у ледяных алтарей и в бункерном хранилище Arkam.",
                                              "tips":  "Подготовьте грелки или тёплую пищу перед охотой за девиантом."
                                          },
                          "moodBoosters":  [
@@ -4067,16 +3894,12 @@
                                       "Требует поддержания низкой температуры в капсуле"
                                   ],
                          "bestFor":  "PvE-билдам через холод и стихийный ледяной урон.",
-                         "alternatives":  [
-                                              "Polar Jelly",
-                                              "Grumpy Bulb"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki",
                                          "Official Patch Notes"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/1/1a/Snowsprite.png/revision/latest"
                      },
                      {
@@ -4141,15 +3964,11 @@
                                       "Требует стабильного синего освещения"
                                   ],
                          "bestFor":  "Игрокам с большим автопарком и генераторами на жидком топливе.",
-                         "alternatives":  [
-                                              "Logging Beaver",
-                                              "Electric Eel"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/2/2b/Tar_Pudding.png/revision/latest"
                      },
                      {
@@ -4215,15 +4034,11 @@
                                       "Требует несколько условий содержания"
                                   ],
                          "bestFor":  "Любителям кулинарии и крафта продвинутых расходников.",
-                         "alternatives":  [
-                                              "Rain Man",
-                                              "Growshroom"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/8/8f/Hydronaut_Fish.png/revision/latest"
                      },
                      {
@@ -4290,47 +4105,43 @@
                                       "Сложен в поимке"
                                   ],
                          "bestFor":  "PvE-игрокам с билдами на стихийный урон от огня.",
-                         "alternatives":  [
-                                              "Pyro Dino",
-                                              "Lonewolf\u0027s Whisper"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki",
                                          "Official Patch Notes"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/7/76/Invincible_Sun.png/revision/latest"
                      },
                      {
                          "id":  "snapshot",
-                         "name_ru":  "Моментальный снимок",
-                         "name_en":  "Snapshot",
+                         "name_ru":  "ZapCam (Моментальный снимок)",
+                         "name_en":  "ZapCam",
                          "category":  [
                                           "combat"
                                       ],
                          "roles":  [
                                        "Метка цели",
-                                       "Контроль",
+                                       "Урон",
                                        "Поддержка"
                                    ],
                          "image":  "images/snapshot.webp",
                          "imageFallback":  "📸",
-                         "shortDesc":  "Винтажная фотокамера. Ослепляет врагов вспышкой и помечает их уязвимости.",
-                         "fullDesc":  "Старинный фотоаппарат, стремящийся запечатлеть всё вокруг. В бою выпускает ослепительную вспышку, оглушая ближайших врагов и подсвечивая их слабые места для критических попаданий союзников.",
+                         "shortDesc":  "Боевая камера-штатив (O-049). Телепортируется к врагам, фотографирует их и увеличивает входящий урон от оружия до +37.8%.",
+                         "fullDesc":  "Винтажная плёночная фотокамера O-049 с ультра-длиннофокусным зум-объективом на телескопических ножках. В бою телепортируется прямо к позиции врага, производит мгновенную вспышку, нанося урон статусом и увеличивая получаемый целью урон от оружия (на 16.2% – 37.8% в зависимости от уровня). В ручном режиме крепится на спину персонажа, помогая захватывать уязвимые части врагов при прицеливании.",
                          "abilities":  [
-                                           "Blinding Flash: оглушает врагов в секторе обзора на 3 секунды",
-                                           "Expose Weakness: уязвимость помеченных целей к крит. урону возрастает на 20%"
+                                           "Auto Photograph (Автосъёмка): автоматически находит цель, телепортируется к ней и делает снимок, нанося статусный урон и увеличивая получаемый врагом урон от оружия на 16.2% – 37.8%",
+                                           "Manual Photograph (Ручная съёмка): крепится на спину игрока. При прицеливании через плечо (OTS) или мушку (ADS) захватывает уязвимую часть врага перед выстрелом. Чем больше попаданий, тем быстрее захват"
                                        ],
                          "acquisition":  {
-                                             "location":  "Заброшенные фотостудии и туристические центры",
-                                             "method":  "Поиск в закрытых офисах Rosetta и исследовательских центрах.",
-                                             "tips":  "Ищите в комнатах с фотолабораториями."
+                                             "location":  "Securement Silo - PSI; закрытые офисы Rosetta; ящики сдерживания",
+                                             "method":  "Шанс выпадения в Бункере PSI (Securement Silo PSI) и ящиках сдерживания редких аномалий в закрытых офисах Rosetta.",
+                                             "tips":  "Один из лучших боевых саппортов для снайперов и крит-билдов благодаря огромному множителю урона от оружия."
                                          },
                          "moodBoosters":  [
                                               "Красный свет",
                                               "Электричество (2W)",
-                                              "Низкая температура"
+                                              "Игрушки"
                                           ],
                          "traits":  {
                                         "recommended":  [
@@ -4365,16 +4176,12 @@
                                       "Требует правильного позиционирования"
                                   ],
                          "bestFor":  "Кооперативным рейдам и игрокам со снайперскими винтовками.",
-                         "alternatives":  [
-                                              "Butterfly\u0027s Emissary",
-                                              "Mr. Wish"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
-                         "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/b/b3/Snapshot.png/revision/latest"
+                         "lastChecked":  "2026-10-18",
+                         "remoteImage":  "https://img.wikily.gg/unsafe/w:768/aHR0cHM6Ly9yMi53aWtpbHkuZ2cvaW1hZ2VzL29uY2UtaHVtYW4vZGV2aWF0aW9ucy9lZTllZDFkNGI0MTlmZmQ1LTI4MzQ4ZWFhMzI4Zi53ZWJw"
                      },
                      {
                          "id":  "whalepup",
@@ -4440,15 +4247,11 @@
                                       "Требует 4 условия настроения"
                                   ],
                          "bestFor":  "Зачистки силосных башен (Silo) и защиты мастерских.",
-                         "alternatives":  [
-                                              "Mini Feaster",
-                                              "Festering Gel"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/5/54/Whalepup.png/revision/latest"
                      },
                      {
@@ -4514,15 +4317,11 @@
                                       "Требует электросеть в капсуле"
                                   ],
                          "bestFor":  "Билдам на оружие со статусом Shock и динамичным дуэлям.",
-                         "alternatives":  [
-                                              "Orb Lightning",
-                                              "Lonewolf\u0027s Whisper"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/6/61/Zapamander.png/revision/latest"
                      },
                      {
@@ -4586,15 +4385,11 @@
                                       "Бесполезен в сражениях"
                                   ],
                          "bestFor":  "Игрокам, постоянно испытывающим дефицит клея и патронов AP.",
-                         "alternatives":  [
-                                              "Gingerbread House",
-                                              "Buzzy Bee"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/b/b3/WishBox.png/revision/latest"
                      },
                      {
@@ -4660,15 +4455,11 @@
                                       "Требует электропитание и музыку"
                                   ],
                          "bestFor":  "Исследователям загрязненных зон и хардкорных подземелий.",
-                         "alternatives":  [
-                                              "Dr. Teddy",
-                                              "Festering Gel"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/b/ba/Doctor_Raven.png/revision/latest"
                      },
                      {
@@ -4733,15 +4524,11 @@
                                       "Бесполезен без развитой базы"
                                   ],
                          "bestFor":  "Владельцам больших баз с несколькими блоками содержания.",
-                         "alternatives":  [
-                                              "Rebecca",
-                                              "Logging Beaver"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/7/7e/Director_Fox.png/revision/latest"
                      },
                      {
@@ -4807,15 +4594,11 @@
                                       "Требует времени на восстановление после тяжёлого урона"
                                   ],
                          "bestFor":  "Одиночным игрокам, которым нужен надежный защитник на передовой.",
-                         "alternatives":  [
-                                              "Festering Gel",
-                                              "Dr. Teddy"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://img.wikily.gg/unsafe/w:3840/aHR0cHM6Ly9yMi53aWtpbHkuZ2cvaW1hZ2VzL29uY2UtaHVtYW4vZGV2aWF0aW9ucy8zMjQzYmFmOWFkMmJkOWQxLTk0OGNmMjA4Y2ZlNS53ZWJw"
                      },
                      {
@@ -4881,15 +4664,11 @@
                                       "Требует темноты и холодного содержания"
                                   ],
                          "bestFor":  "Любителям классов-суммонеров и тактического контроля арены.",
-                         "alternatives":  [
-                                              "Lonewolf\u0027s Whisper",
-                                              "Mini Feaster"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://assets.oncehumandb.com/images/entities/99000066.png"
                      },
                      {
@@ -4956,15 +4735,11 @@
                                       "Требует стабильного энергоснабжения"
                                   ],
                          "bestFor":  "Исследования тёмных пещер, руин и борьбы с монстрами Dusken.",
-                         "alternatives":  [
-                                              "Artisan\u0027s Touch",
-                                              "Paper Doll"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/1/1c/Gazocchio.png/revision/latest"
                      },
                      {
@@ -5030,15 +4805,11 @@
                                       "Труднодоступен"
                                   ],
                          "bestFor":  "Билдам на чистый физический урон, снайперкам и дробовикам.",
-                         "alternatives":  [
-                                              "Chefosaurus Rex",
-                                              "Brave George"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://img.wikily.gg/unsafe/w:3840/aHR0cHM6Ly9yMi53aWtpbHkuZ2cvaW1hZ2VzL29uY2UtaHVtYW4vZGV2aWF0aW9ucy8xNTVlMmJmMzU3NzZiYzgwLWI1ZDVmODVlMDg4Zi53ZWJw"
                      },
                      {
@@ -5104,16 +4875,12 @@
                                       "Требует внимания игрока"
                                   ],
                          "bestFor":  "Игрокам, строящим базу в зонах с высоким уровнем загрязнения (Pollution).",
-                         "alternatives":  [
-                                              "Extradimensional Cat",
-                                              "Pup Buddy"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
                                          "Once Human Fandom Wiki",
                                          "Official Patch Notes"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/once-human/images/a/a9/Blackback.png/revision/latest"
                      },
                      {
@@ -5135,9 +4902,9 @@
                                            "Mine Ore: автоматическая добыча меди, железа и серы. Эффективность зависит от запаса энергии девианта."
                                        ],
                          "acquisition":  {
-                                             "location":  "Событие коллаборации Palworld \u0027Paradise Island\u0027",
-                                             "method":  "Награда боевого пропуска \u0027Companion Check-in\u0027 и эвента Paradise Island.",
-                                             "tips":  "Лимитированный коллекционный девиант."
+                                             "location":  "Лимитированная коллаборация Once Human x Palworld (Paradise Island)",
+                                             "method":  "Выдавался во время события \u0027Paradise Island\u0027 и боевого пропуска \u0027Companion Check-in\u0027 (с 30 октября 2025 по 21 января 2026).",
+                                             "tips":  "Эвент завершён 21.01.2026. Напрямую получить в игре больше нельзя (It can no longer be obtained). Единственный способ — обмен (трейд) с другими игроками или перенос через рюкзак Eternaland."
                                          },
                          "moodBoosters":  [
                                               "Электричество (2W)",
@@ -5173,20 +4940,16 @@
                                       "Уникальный культовый дизайн"
                                   ],
                          "cons":  [
-                                      "Лимитированный контент события",
-                                      "Бесполезен вне базы"
+                                      "Лимитированный эвент завершён (прямой вылов/награда больше недоступны)",
+                                      "Польза ограничена добычей руды на территории базы"
                                   ],
                          "bestFor":  "Кузнецам и строителям, нуждающимся в непрерывном притоке металлов.",
-                         "alternatives":  [
-                                              "The Digby Boy",
-                                              "Logging Beaver"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
-                                         "Once Human Fandom Wiki",
-                                         "Official Patch Notes"
+                                         "Once Human Fandom: Cattiva (https://once-human.fandom.com/wiki/Cattiva)",
+                                         "Official Update 2.2.0 Patch Notes"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/palworld/images/5/51/Cattiva_menu.png/revision/latest"
                      },
                      {
@@ -5209,9 +4972,9 @@
                                            "Velvet Cushion: глубокий восстанавливающий сон, восстанавливающий 100% энергии и здоровья за секунды, а также дающий бонус к скорости сбора на 1 час."
                                        ],
                          "acquisition":  {
-                                             "location":  "Событие коллаборации Palworld \u0027Paradise Island\u0027",
-                                             "method":  "Награда за чек-ин и активность на Острове Рая.",
-                                             "tips":  "Размещайте рядом с кроватью в спальне."
+                                             "location":  "Лимитированная коллаборация Once Human x Palworld (Paradise Island)",
+                                             "method":  "Выдавался за активность и чек-ин в рамках коллаборации с Palworld (с 30 октября 2025 по 21 января 2026).",
+                                             "tips":  "Эвент завершён 21.01.2026. Напрямую получить в игре больше нельзя (It can no longer be obtained). Доступен только через торговлю с игроками либо перенос из хранилища Eternaland."
                                          },
                          "moodBoosters":  [
                                               "Посевы (Crops)",
@@ -5246,20 +5009,16 @@
                                       "Даёт ценный бафф к сбору ресурсов"
                                   ],
                          "cons":  [
-                                      "Редкий эвентный статус",
-                                      "Узкоспециализирован на отдыхе"
+                                      "Лимитированный эвент завершён (прямой вылов/награда больше недоступны)",
+                                      "Узкоспециализирован на отдыхе и восстановлении"
                                   ],
                          "bestFor":  "Игрокам, активно фармящим открытый мир и ценящим скорость восстановления.",
-                         "alternatives":  [
-                                              "Extradimensional Cat",
-                                              "Rebecca"
-                                          ],
                          "confidence":  "high",
                          "sources":  [
-                                         "Once Human Fandom Wiki",
-                                         "Official Patch Notes"
+                                         "Once Human Fandom: Chillet (https://once-human.fandom.com/wiki/Chillet)",
+                                         "Official Update 2.2.0 Patch Notes"
                                      ],
-                         "lastChecked":  "2026-10-17",
+                         "lastChecked":  "2026-10-18",
                          "remoteImage":  "https://static.wikia.nocookie.net/palworld/images/4/49/Chillet_menu.png/revision/latest"
                      }
                  ]
