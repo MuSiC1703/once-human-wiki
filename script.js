@@ -711,20 +711,11 @@ function renderTraits() {
           <h2>${escapeHtml(trait.nameRu)}</h2>
           <div class="trait-badges">
             ${scopeBadgeMap[trait.scopeCategory] || ''}
-            <span class="trait-kind recommended">⭐ Топ выбор</span>
           </div>
         </div>
         ${trait.nameRu !== trait.name ? `<div class="trait-name-en">${escapeHtml(trait.name)}</div>` : ''}
         <div class="trait-effects-wrap">
           ${trait.effects.map(eff => `<p class="trait-effect">${escapeHtml(eff)}</p>`).join('')}
-        </div>
-        <div class="trait-footer">
-          <div class="trait-deviants-label">Подходит для девиантов (${trait.deviants.length})</div>
-          <div class="trait-deviants">
-            ${trait.deviants.map(dev => `
-              <button class="trait-reference" data-id="${escapeHtml(dev.id)}" type="button" title="Открыть карточку: ${escapeHtml(dev.name_ru)}">${escapeHtml(dev.name_ru)}</button>
-            `).join('')}
-          </div>
         </div>
       </article>
     `;
