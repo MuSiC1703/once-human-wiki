@@ -4,6 +4,14 @@
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License: Fan Content](https://img.shields.io/badge/License-Fan%20Content%20%2F%20Fair%20Use-orange)](#-правовая-информация-и-отказ-от-ответственности-disclaimer)
 
+<p align="center">
+  <a href="https://music1703.github.io/once-human-wiki/">
+    <img src="images/banner.jpg" alt="Once Human Deviants Wiki & Shiny Morphs Catalog" width="100%">
+  </a>
+</p>
+
+> 🌐 **[👉 Открыть интерактивную энциклопедию девиантов онлайн](https://music1703.github.io/once-human-wiki/)**
+
 Интерактивная русскоязычная база знаний, каталог редких цветовых вариаций (**Shiny / Morph Deviants**) и симулятор лаборатории скрещивания (**Fusion Chamber**) для постапокалиптической онлайн-игры **Once Human**.
 
 Сайт доступен прямо в браузере, адаптирован для ПК и мобильных устройств, а также работает в качестве прогрессивного веб-приложения (**PWA**) даже без постоянного интернет-соединения.
