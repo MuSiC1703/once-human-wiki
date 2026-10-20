@@ -506,7 +506,7 @@
               <button class="drawer-cat-btn active" data-cat="all" title="Все девианты">🦋 Все</button>
               <button class="drawer-cat-btn" data-cat="combat" title="Боевые девианты">⚔️ Боевые</button>
               <button class="drawer-cat-btn" data-cat="territory" title="Территориальные">🏭 База</button>
-              <button class="drawer-cat-btn" data-cat="crafting" title="Крафтовые">🧪 Крафт</button>
+              <button class="drawer-cat-btn" data-cat="crafting" title="Ремесленные девианты">🔨 Ремесленные</button>
             </div>
 
             <div class="drawer-search-wrap">

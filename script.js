@@ -2,75 +2,8 @@ let DEVIANTS = [];
 let CATEGORIES = {};
 let META = {};
 let VARIANTS = {};
+let PERKS = {};
 
-const ARTISAN_DEVIANT_IDS = new Set([
-  'artisans-touch', 'party-monkey', 'orb-lightning', 'atomic',
-  'atomic-snail', 'gingerbread', 'gazocchio', 'frog', 'harveseed'
-]);
-
-const GENERAL_TRAIT_PREFIXES = [
-  'Cheer Up',
-  'Covert Energy',
-  'Rise and Shine',
-  'Optimist',
-  'Growing Pains',
-  'Save Energy',
-  'Carefree',
-  'Pumpkin Lantern'
-];
-
-const ARTISAN_TRAIT_NAMES = new Set([
-  'Master Pharmacist',
-  'Stardust Empowerment',
-  'The Joy of Slacking Off',
-  'Viscous Grip',
-  'Eureka Moment',
-  'Byproduct',
-  'Blinding Lumens'
-]);
-
-const CRAFTING_TRAIT_NAMES = new Set([
-  'Buy 1 Get 2',
-  'Come As One',
-  'Efficiency Above All',
-  'Efficiency First',
-  'Cold Surge'
-]);
-
-function getTraitScope(name, devCategories) {
-  for (const prefix of GENERAL_TRAIT_PREFIXES) {
-    if (name.startsWith(prefix)) return 'general';
-  }
-  if (/Optimis/i.test(name)) return 'general';
-  if (ARTISAN_TRAIT_NAMES.has(name)) return 'artisan';
-  if (CRAFTING_TRAIT_NAMES.has(name)) return 'crafting';
-  if (devCategories.has('combat')) return 'combat';
-  if (devCategories.has('territory')) return 'territory';
-  return 'general';
-}
-
-function renderCategoryTags(d) {
-  return (d.category || []).map(c => {
-    if (c === 'crafting') {
-      return '<span class="cat-tag cat-artisan">Ремесленный</span>';
-    }
-    const label = CATEGORIES[c] || (c === 'combat' ? 'Боевой' : (c === 'territory' ? 'Территориальный' : c));
-    return `<span class="cat-tag cat-${escapeHtml(c)}">${escapeHtml(label)}</span>`;
-  }).join('');
-}
-
-const ROLE_GROUPS = {
-  damage: { label: 'Урон в бою', category: 'combat', roles: ['Ближний бой', 'Взрывной урон', 'Ледяной урон', 'Метка цели', 'Огонь', 'Урон', 'Усиление оружия'] },
-  support: { label: 'Поддержка', roles: ['Воскрешение', 'Восстановление игрока', 'Восстановление рассудка', 'Восстановление энергии', 'Лечение', 'Отдых', 'Поддержка', 'Поддержка базы'] },
-  control: { label: 'Контроль', roles: ['Заморозка', 'Контроль', 'Контроль врагов', 'Контроль толпы', 'Ловушки', 'Отвлечение', 'Приманка'] },
-  defense: { label: 'Защита', roles: ['Защита', 'Защита базы', 'Защитный расходник', 'Перенос урона'] },
-  resources: { label: 'Сбор ресурсов', roles: ['Добыча древесины', 'Добыча нефти', 'Добыча руды', 'Добыча шкур', 'Награды', 'Сбор растений', 'Фарм ресурсов', 'Экспедиции'] },
-  farming: { label: 'Фермерство', roles: ['Мутация культур', 'Полив', 'Посадка и сбор', 'Приготовление пищи', 'Фермерство'] },
-  production: { label: 'Производство и расходники', roles: ['Маскировка', 'Метательное оружие', 'Переработка топлива', 'Продление прихотей', 'Работа печей', 'Ремонт', 'Ремонт базы', 'Тактические предметы', 'Тактический расходник', 'Усиление турелей и дронов'] },
-  utility: { label: 'Мобильность и утилиты', roles: ['Мобильность', 'Переносимый вес', 'PvP', 'Рыбалка', 'Скрытность', 'Телепортация', 'Телепортация базы', 'Телепортация команды', 'Энергоснабжение базы'] }
-};
-
-// Функция санитизации данных для безопасного вывода в HTML
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -81,12 +14,10 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// Приоритет локальных кэшированных картинок (WebP) перед удаленным CDN
 function getDeviantImage(d) {
   return d.id ? `images/${d.id}.webp` : (d.image || '');
 }
 
-// Каскадная обработка ошибок загрузки изображений (Local -> CDN -> Эмодзи)
 function handleImageError(img) {
   if (!img) return;
   const remote = img.getAttribute('data-remote');
@@ -98,195 +29,25 @@ function handleImageError(img) {
   const parent = img.parentElement;
   if (parent) {
     const fallback = img.getAttribute('data-fallback') || '◈';
-    parent.innerHTML = `<div class="placeholder">${escapeHtml(fallback)}</div>`;
+    img.style.display = 'none';
+    let ph = parent.querySelector('.placeholder');
+    if (!ph) {
+      ph = document.createElement('div');
+      ph.className = 'placeholder';
+      parent.appendChild(ph);
+    }
+    ph.textContent = fallback;
+    ph.style.display = 'flex';
   }
 }
 
-// ==========================================
-// ИНТЕРАКТИВНЫЕ ЛОКАЦИИ, СЦЕНАРИИ И КООРДИНАТЫ
-// ==========================================
-
-const SCENARIO_DEFS = {
-  all: { id: 'all', label: 'Все сценарии', title: 'Все сценарии (Manibus, Evolution, WoW)', icon: '🌐', class: 'sc-all' },
-  winter: { id: 'winter', label: 'Way of Winter', title: 'Сценарий The Way of Winter (Аркам)', icon: '❄️', class: 'sc-winter' },
-  manibus: { id: 'manibus', label: 'Manibus', title: 'Сценарий Manibus (Novice / Hard)', icon: '🔥', class: 'sc-manibus' },
-  prism: { id: 'prism', label: 'Prismverse / SCP', title: 'Сценарий Prismverse\'s Clash / SCP', icon: '🔮', class: 'sc-prism' },
-  collab: { id: 'collab', label: 'Коллаборация', title: 'Особое событие / Коллаборация (Palworld)', icon: '⚡', class: 'sc-collab' }
-};
-
-const SOURCE_DEFS = {
-  silo: { id: 'silo', label: 'Бункер (Silo)', title: 'Бункер сдерживания (Securement Silo)', icon: '🏛️', class: 'src-silo', spawnNote: 'Инстанс подземелья (Securement Silo)' },
-  monolith: { id: 'monolith', label: 'Монолит', title: 'Монолит (Мировой босс)', icon: '⚔️', class: 'src-monolith', spawnNote: 'Мировой босс / Монолит' },
-  world: { id: 'world', label: 'Открытый мир', title: 'Открытый мир / Исследование', icon: '🌲', class: 'src-world', spawnNote: 'Точки спавна в открытом мире' },
-  quest: { id: 'quest', label: 'Квест Lowe', title: 'Сюжетное задание / Задание Lowe', icon: '📜', class: 'src-quest', spawnNote: 'Награда за цепочку заданий' },
-  gathering: { id: 'gathering', label: 'Сбор / Ресурсы', title: 'Сбор ресурсов, рыбалка или фермерство', icon: '⛏️', class: 'src-gathering', spawnNote: 'Добыча руды, рыбалка, огород или рубка' },
-  event: { id: 'event', label: 'Эвент / PvP', title: 'Публичные эвенты и PvP активности', icon: '🛡️', class: 'src-event', spawnNote: 'Публичные события и испытания' }
-};
-
-const DEVIANT_LOCATION_DATA = {
-  'butterfly': { scenario: 'manibus', sourceType: 'world', spot: 'Пустой Monolith / Обучение', spotShort: 'Monolith (165, -3708)', coords: '165, -3708', easyTip: 'Обучение Manibus (Novice) или нижний этаж пустого Монолита' },
-  'festering': { scenario: 'all', sourceType: 'monolith', spot: 'Monolith of Greed', spotShort: 'Monolith of Greed', coords: '6480, -5620', easyTip: 'Победа над Ravenous Hunter на сложности Normal или Hard' },
-  'rebecca': { scenario: 'all', sourceType: 'silo', spot: 'LEA Research Lab', spotShort: 'LEA Lab', coords: '5320, -1450', easyTip: 'Финальный босс секретной лаборатории LEA в Red Sands' },
-  'beaver': { scenario: 'all', sourceType: 'world', spot: 'Meyer’s Market (Доки)', spotShort: 'Meyer’s Docks', coords: '5760, -6750', easyTip: 'Деревянные мостки у реки к югу от рынка Мейера в Broken Delta' },
-  'digby': { scenario: 'all', sourceType: 'gathering', spot: 'Рудные узлы мира', spotShort: 'Рудные жилы', coords: null, easyTip: 'Добыча медной или серебряной руды в любой точке карты' },
-  'enchanting': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - Theta', spotShort: 'Silo Theta', coords: '340, -1200', easyTip: 'Награда за прохождение Бункера Theta в Red Sands' },
-  'frog': { scenario: 'all', sourceType: 'world', spot: 'Broken Delta / Озеро', spotShort: 'Broken Delta', coords: '5652, -3856', easyTip: 'Юго-восток от Refinery Pollution Point у водоема' },
-  'beehive': { scenario: 'all', sourceType: 'world', spot: 'Citrus County (Сады)', spotShort: 'Citrus County', coords: '5930, -5080', easyTip: 'Фермы Dayton Wetlands и Sutherland Family Orchard' },
-  'harveseed': { scenario: 'all', sourceType: 'monolith', spot: 'Gaia Cliff Monolith', spotShort: 'Gaia Cliff', coords: '4320, -6050', easyTip: 'Победа над боссом Треантом (Treant) в Broken Delta' },
-  'voodoo': { scenario: 'all', sourceType: 'world', spot: 'Coastside Plaza / Sunbury', spotShort: 'Coastside Plaza', coords: '7300, -4810', easyTip: 'Крыша школы Sunbury Middle School или Coastside Plaza' },
-  'growshroom': { scenario: 'all', sourceType: 'gathering', spot: 'Пещера Sunbury', spotShort: 'Пещера Sunbury', coords: '5230, -6980', easyTip: 'Сбор любых грибов или пещера над школой Sunbury' },
-  'atomic': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - EX1', spotShort: 'Silo EX1', coords: '1850, -3250', easyTip: 'Финальный босс в Бункере EX1 (Chalk Peak)' },
-  'lonewolf': { scenario: 'all', sourceType: 'monolith', spot: 'Monolith of Thirst', spotShort: 'Monolith of Thirst', coords: '850, -4200', easyTip: 'Победа над Shadow Hunter в Chalk Peak' },
-  'teddy': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - Theta', spotShort: 'Silo Theta', coords: '340, -1200', easyTip: 'Скрытый сундук после босса в Бункере Theta' },
-  'eel': { scenario: 'all', sourceType: 'gathering', spot: 'Любые водоёмы мира', spotShort: 'Рыбалка', coords: null, easyTip: 'Рыбалка на тесто или специализированную наживку' },
-  'gingerbread': { scenario: 'all', sourceType: 'world', spot: 'Dayton / Broken Delta', spotShort: 'Dayton / Delta', coords: '5900, -6100', easyTip: 'Пряничные домики в стартовых зонах Dayton Wetlands' },
-  'pyro-dino': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - Phi', spotShort: 'Silo Phi', coords: '4250, -4100', easyTip: 'Секретная Seepage Zone в Бункере Phi (Iron River)' },
-  'mr-wish': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - Sigma', spotShort: 'Silo Sigma', coords: '4901, -5421', easyTip: 'Скрытая keycard-комната с игровыми автоматами в Бункере Sigma' },
-  'grumpy-bulb': { scenario: 'all', sourceType: 'gathering', spot: 'Домашний огород', spotShort: 'Грядки базы', coords: null, easyTip: 'Сбор урожая на домашнем участке при посадке семян' },
-  'polar-jelly': { scenario: 'all', sourceType: 'event', spot: 'Эвент Cargo Scramble', spotShort: 'Cargo Scramble', coords: null, easyTip: 'Участие в публичном динамическом событии с медузой на грузовике' },
-  'by-the-wind': { scenario: 'prism', sourceType: 'event', spot: 'Prime War / Frontier', spotShort: 'Prime War', coords: null, easyTip: 'Награда за победу над боссами Великой Войны на рубеже' },
-  'shattered-maiden': { scenario: 'all', sourceType: 'silo', spot: 'Silo Theta / Квест Lowe', spotShort: 'Silo Theta', coords: '340, -1200', easyTip: 'Задание Farmside Fright от Lowe в Tall Grass Inn или Бункер Theta' },
-  'mini-feaster': { scenario: 'all', sourceType: 'quest', spot: 'Квест Lowe / Mist Zones', spotShort: 'Mist Zones', coords: null, easyTip: 'Задание Lord of the Quest или зачистка зон тумана' },
-  'mini-wonder': { scenario: 'all', sourceType: 'quest', spot: 'Blackfell / Крафт гранат', spotShort: 'Blackfell', coords: '4150, -1400', easyTip: 'Квест Lowe в Blackfell или крафт Vortex Generator' },
-  'zeno-purifier': { scenario: 'manibus', sourceType: 'world', spot: 'Season Goals / Оружие', spotShort: 'Season Goals', coords: null, easyTip: 'Выполнение целей Challenge 1-го сезона Manibus' },
-  'masonic-pyramid': { scenario: 'prism', sourceType: 'event', spot: 'Prime War (PvP)', spotShort: 'Prime War PvP', coords: null, easyTip: 'Участие в PvP-версии эвента Prime War на рубежах' },
-  'hug-in-a-bowl': { scenario: 'all', sourceType: 'world', spot: 'Broken Delta', spotShort: 'Broken Delta', coords: '5767, -6038', easyTip: 'Лапшичные и кухни в поселениях Broken Delta' },
-  'disco-ball': { scenario: 'all', sourceType: 'world', spot: 'Ходячий дом (Bus)', spotShort: 'Walking House', coords: null, easyTip: 'Поражение светофоров ходячего автобуса в Dayton / Delta' },
-  'space-turner': { scenario: 'all', sourceType: 'world', spot: 'Дверные загадки Dayton', spotShort: 'Dayton Wetlands', coords: '6200, -5400', easyTip: 'Решение пространственных головоломок с дверями' },
-  'dream-catcher': { scenario: 'all', sourceType: 'monolith', spot: 'Монолит Миража', spotShort: 'Mirage Monolith', coords: '2900, -3900', easyTip: 'Победа над третьим боссом Арахсиамом в Mirage Monolith' },
-  'pup-buddy': { scenario: 'all', sourceType: 'world', spot: 'Морфические ящики Dayton', spotShort: 'Brookham (Dayton)', coords: '5670, -5380', easyTip: 'Поиск скрытых морфических сундуков в Brookham' },
-  'strange-door': { scenario: 'all', sourceType: 'world', spot: 'Дверные аномалии Iron River', spotShort: 'Iron River', coords: '5050, -4380', easyTip: 'Прохождение пространственных дверных порталов' },
-  'party-monkey': { scenario: 'all', sourceType: 'world', spot: 'Заводы Iron River', spotShort: 'Iron River', coords: '4850, -3950', easyTip: 'Выполнение производственных работ в Iron River' },
-  'orb-lightning': { scenario: 'all', sourceType: 'world', spot: 'Военная база Gaia', spotShort: 'Gaia Base', coords: '3900, -4600', easyTip: 'Помещение у неработающих лифтов на военной базе Gaia' },
-  'artisans-touch': { scenario: 'all', sourceType: 'world', spot: 'Blackfell Fallen Zone', spotShort: 'Blackfell Zone', coords: '4150, -1400', easyTip: 'Дроп с мини-босса «Скорняк» или «Прогноз погоды»' },
-  'upper-world-spawn': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - PSI', spotShort: 'Silo PSI', coords: '2100, -2800', easyTip: 'Финальный босс в Бункере PSI' },
-  'atomic-snail': { scenario: 'all', sourceType: 'event', spot: 'Prime War / Сундуки Stardust III', spotShort: 'Prime War III', coords: null, easyTip: 'Сундуки Stardust Advent III в Prime War либо открытый мир в SCP-сценарии' },
-  'snow-globe': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - PSI', spotShort: 'Silo PSI', coords: '2100, -2800', easyTip: 'Дроп с финального босса в Бункере PSI' },
-  'chefosaurus-rex': { scenario: 'all', sourceType: 'silo', spot: 'Securement Silo - Phi', spotShort: 'Silo Phi', coords: '4250, -4100', easyTip: 'Успешная зачистка Бункера Фи в Iron River' },
-  'extradimensional-cat': { scenario: 'all', sourceType: 'world', spot: 'Поселения (Deadsville)', spotShort: 'Deadsville / Market', coords: '6020, -5680', easyTip: 'Возле Worldstone или внутри зданий Deadsville и Meyer’s Market' },
-  'fetch-a-lot-bunny': { scenario: 'all', sourceType: 'gathering', spot: 'Деревья Драцены', spotShort: 'Драцена (Лес)', coords: null, easyTip: 'Рубка деревьев драцены вольфрамовым топором' },
-  'nutcracker': { scenario: 'all', sourceType: 'monolith', spot: 'Forsaken Monolith', spotShort: 'Forsaken Monolith', coords: '4200, -1180', easyTip: 'Победа над пятым боссом Менсдевораном' },
-  'h37': { scenario: 'all', sourceType: 'silo', spot: 'Silo Alpha / Greywater', spotShort: 'Silo Alpha', coords: '7120, -4930', easyTip: 'Квест «Осколки памяти» в Greywater Camp или Бункер Альфа' },
-  'lethal-rabbit': { scenario: 'all', sourceType: 'gathering', spot: 'Дикие кролики по миру', spotShort: 'Охота на кроликов', coords: null, easyTip: 'Охота и свежевание диких кроликов на равнинах' },
-  'paper-doll': { scenario: 'all', sourceType: 'world', spot: 'Breezy Shores / High Banks', spotShort: 'Breezy Shores', coords: '5750, -6400', easyTip: 'Поиск на крышах и в спальнях заброшенных домов' },
-  'flame-essence': { scenario: 'all', sourceType: 'world', spot: 'Sutherland / Greywater', spotShort: 'Sutherland Plant', coords: '5100, -3150', easyTip: 'Трубы химзавода Сазерленда или промзона Greywater' },
-  'rain-man': { scenario: 'all', sourceType: 'world', spot: 'Sutherland Chemical Plant', spotShort: 'Sutherland Plant', coords: '5410, -5520', easyTip: 'Победа над мини-боссом Rainfall Reaper' },
-  'ice-pot': { scenario: 'winter', sourceType: 'world', spot: 'The Way of Winter (Arkam)', spotShort: 'Arkam (Зима)', coords: '-2850, 3100', easyTip: 'Исследование ледяных монолитов и руин биома Arkam' },
-  'snowsprite': { scenario: 'winter', sourceType: 'world', spot: 'Хребты Arkam (Way of Winter)', spotShort: 'Хребты Arkam', coords: '-2400, 3500', easyTip: 'Ледяные алтари и бункерное хранилище в снежных горах Arkam' },
-  'tar-pudding': { scenario: 'winter', sourceType: 'world', spot: 'Нефтяные вышки (WoW / Red Sands)', spotShort: 'Нефтяные вышки', coords: '5200, -2100', easyTip: 'Нефтяные насосы и битумные озёра на севере или в Red Sands' },
-  'hydronaut-fish': { scenario: 'all', sourceType: 'gathering', spot: 'Побережья и доки', spotShort: 'Морская рыбалка', coords: null, easyTip: 'Рыбалка на редкие блесны или контейнеры в доках' },
-  'invincible-sun': { scenario: 'all', sourceType: 'monolith', spot: 'Монолиты высокой сложности', spotShort: 'Мастер-монолиты', coords: null, easyTip: 'Эвенты Starfall и победа над эндгейм-боссами высокой сложности' },
-  'snapshot': { scenario: 'all', sourceType: 'world', spot: 'Фотостудии и офисы Rosetta', spotShort: 'Офисы Rosetta', coords: null, easyTip: 'Поиск в закрытых офисах Rosetta и исследовательских центрах' },
-  'whalepup': { scenario: 'all', sourceType: 'event', spot: 'Сезонные рейдовые награды', spotShort: 'Сезонные рейды', coords: null, easyTip: 'Высокоуровневые испытания и сезонные рейдовые эвенты' },
-  'zapamander': { scenario: 'all', sourceType: 'world', spot: 'Электростанции Chalk Peak', spotShort: 'Chalk Peak', coords: '1400, -3600', easyTip: 'Зоны грозовых аномалий и ЛЭП возле электростанций' },
-  'wish-box': { scenario: 'all', sourceType: 'world', spot: 'Пространственные сундуки', spotShort: 'Тайники загадок', coords: null, easyTip: 'Решение пространственных загадок и тайников' },
-  'doctor-raven': { scenario: 'all', sourceType: 'world', spot: 'Лаборатории Red Sands', spotShort: 'Red Sands Labs', coords: '4950, -1650', easyTip: 'Фармацевтические клиники и больницы Red Sands' },
-  'director-fox': { scenario: 'all', sourceType: 'world', spot: 'Небоскрёбы Blackfell', spotShort: 'Blackfell HQ', coords: '4250, -1350', easyTip: 'Штаб-квартиры корпораций и бизнес-центры Blackfell' },
-  'brave-george': { scenario: 'all', sourceType: 'world', spot: 'Wish Land / Аттракционы', spotShort: 'Wish Land', coords: '-650, 4400', easyTip: 'Детские парки и средневековые аттракционы Wish Land' },
-  'soul-summoner': { scenario: 'all', sourceType: 'world', spot: 'Кладбища и склепы', spotShort: 'Склепы (Ночь)', coords: '1900, -4800', easyTip: 'Ночные призрачные аномалии в туманных ущельях' },
-  'gazocchio': { scenario: 'winter', sourceType: 'quest', spot: 'Vena Fjord / Wish Land - West', spotShort: 'Vena Fjord', coords: '-320, 4820', easyTip: 'Квест Lowe «Deviation - Gazocchio» в Vena Fjord (Way of Winter)' },
-  'behemoth': { scenario: 'prism', sourceType: 'event', spot: 'Сценарий SCP / Fusion Pod', spotShort: 'SCP / Fusion Pod', coords: null, easyTip: 'Синтез девиантов в Лаборатории слияния или покупка Species Code' },
-  'blackback': { scenario: 'collab', sourceType: 'quest', spot: 'Коллаборация / Задания Lowe', spotShort: 'Задания Lowe', coords: null, easyTip: 'Специальные задания спасения у персонажа Lowe' },
-  'cattiva': { scenario: 'collab', sourceType: 'event', spot: 'Коллаборация Palworld (Архив)', spotShort: 'Эвент завершён', coords: null, easyTip: 'Событие завершено 21.01.2026. Доступен только обмен между игроками или Eternaland' },
-  'chillet': { scenario: 'collab', sourceType: 'event', spot: 'Коллаборация Palworld (Архив)', spotShort: 'Эвент завершён', coords: null, easyTip: 'Событие завершено 21.01.2026. Доступен только обмен между игроками или Eternaland' }
-};
-
-function getDeviantLocationInfo(d) {
-  if (!d) return {};
-  const meta = DEVIANT_LOCATION_DATA[d.id] || {};
-  let scenario = meta.scenario;
-  let sourceType = meta.sourceType;
-  let spot = meta.spot;
-  let spotShort = meta.spotShort;
-  let coords = meta.coords;
-  let easyTip = meta.easyTip;
-
-  const locText = [d.acquisition?.location, d.acquisition?.method, d.acquisition?.tips].filter(Boolean).join(' ');
-
-  if (!coords) {
-    const coordsMatch = locText.match(/(-?\d{2,5}\s*,\s*-?\d{2,5})/);
-    if (coordsMatch) {
-      coords = coordsMatch[1].replace(/\s+/g, ' ');
-    }
-  }
-
-  if (!scenario) {
-    if (/winter|arkam|ледян/i.test(locText)) scenario = 'winter';
-    else if (/palworld|paradise island|otherworldly/i.test(locText)) scenario = 'collab';
-    else if (/prime war|scp|pvp|frontier/i.test(locText)) scenario = 'prism';
-    else if (/manibus/i.test(locText)) scenario = 'manibus';
-    else scenario = 'all';
-  }
-
-  if (!sourceType) {
-    if (/silo|силос|бункер|секретн.*лаборатори/i.test(locText)) sourceType = 'silo';
-    else if (/monolith|монолит/i.test(locText)) sourceType = 'monolith';
-    else if (/квест|lowe|задани/i.test(locText)) sourceType = 'quest';
-    else if (/рыбал|рудн|гриб|дерев|кролик|огород|крафт/i.test(locText)) sourceType = 'gathering';
-    else if (/эвент|event|cargo|prime war|battle pass|чек-ин/i.test(locText)) sourceType = 'event';
-    else sourceType = 'world';
-  }
-
-  const scDef = SCENARIO_DEFS[scenario] || SCENARIO_DEFS.all;
-  const srcDef = SOURCE_DEFS[sourceType] || SOURCE_DEFS.world;
-
-  return {
-    scenario,
-    scenarioLabel: scDef.label,
-    scenarioTitle: scDef.title,
-    scIcon: scDef.icon,
-    scClass: scDef.class,
-    sourceType,
-    srcLabel: srcDef.label,
-    srcTitle: srcDef.title,
-    srcIcon: srcDef.icon,
-    srcClass: srcDef.class,
-    spawnNote: srcDef.spawnNote,
-    spot: spot || d.acquisition?.location || srcDef.title,
-    spotShort: spotShort || spot || srcDef.label,
-    coords: coords || null,
-    easyTip: easyTip || d.acquisition?.tips || 'Проверьте локацию на карте'
-  };
-}
-
-function copyCoordinates(coords, el) {
-  if (!coords) return;
-  const cleanCoords = coords.trim();
-  navigator.clipboard.writeText(cleanCoords).then(() => {
-    onCoordsCopied(cleanCoords, el);
-  }).catch(() => {
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = cleanCoords;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      onCoordsCopied(cleanCoords, el);
-    } catch (e) {
-      showToast(`Координаты: ${cleanCoords}`);
-    }
-  });
-}
-
-function onCoordsCopied(coords, el) {
-  if (el) {
-    const origHtml = el.innerHTML;
-    el.classList.add('copied');
-    const textEl = el.querySelector('.btn-copy-text');
-    if (textEl) {
-      textEl.textContent = '✔ Скопировано!';
-    } else {
-      el.textContent = '✔ Скопировано!';
-    }
-    setTimeout(() => {
-      el.classList.remove('copied');
-      el.innerHTML = origHtml;
-    }, 2200);
-  }
-  showToast(`📍 Координаты [${coords}] скопированы в буфер обмена!`);
+function renderCategoryTags(d) {
+  return (d.category || []).map(c => {
+    if (c === 'combat') return '<span class="cat-tag cat-combat">⚔️ Боевой</span>';
+    if (c === 'territory') return '<span class="cat-tag cat-territory">🏡 Территориальный</span>';
+    if (c === 'crafting' || c === 'artisan') return '<span class="cat-tag cat-artisan">🔨 Ремесленный</span>';
+    return `<span class="cat-tag">${escapeHtml(c)}</span>`;
+  }).join('');
 }
 
 function showToast(message) {
@@ -305,23 +66,33 @@ function showToast(message) {
   }, 2800);
 }
 
+function formatDate(iso) {
+  if (!iso) return '—';
+  const parts = iso.split('-');
+  if (parts.length === 3) {
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+  }
+  return iso;
+}
+
 async function loadData() {
   try {
-    const [response, varResponse] = await Promise.all([
+    const [devRes, varRes, perkRes] = await Promise.all([
       fetch('data/deviants.json', { cache: 'no-cache' }),
-      fetch('data/variants.json', { cache: 'no-cache' }).catch(() => null)
+      fetch('data/variants.json', { cache: 'no-cache' }).catch(() => null),
+      fetch('data/perks.json', { cache: 'no-cache' }).catch(() => null)
     ]);
 
-    if (!response.ok) throw new Error(`HTTP ошибка: ${response.status}`);
-    
-    const data = await response.json();
-    DEVIANTS = data.deviants || [];
-    CATEGORIES = data.categories || {};
-    META = data.meta || {};
-    
-    if (varResponse && varResponse.ok) {
+    if (!devRes.ok) throw new Error(`HTTP ошибка: ${devRes.status}`);
+
+    const devData = await devRes.json();
+    DEVIANTS = devData.deviants || [];
+    CATEGORIES = devData.categories || {};
+    META = devData.meta || {};
+
+    if (varRes && varRes.ok) {
       try {
-        const varData = await varResponse.json();
+        const varData = await varRes.json();
         VARIANTS = varData.variants || {};
         DEVIANTS.forEach(d => {
           if (VARIANTS[d.id]) {
@@ -334,20 +105,23 @@ async function loadData() {
       }
     }
 
+    if (perkRes && perkRes.ok) {
+      try {
+        PERKS = await perkRes.json();
+        console.log('📜 Загружена официальная база перков');
+      } catch (err) {
+        console.warn('⚠️ Ошибка парсинга data/perks.json:', err);
+      }
+    }
+
     document.getElementById('lastUpdate').textContent = formatDate(META.lastChecked);
     document.getElementById('totalCount').textContent = DEVIANTS.length;
-    console.log(`✅ Успешно загружено ${DEVIANTS.length} девиантов из data/deviants.json`);
+    console.log(`✅ Успешно загружено ${DEVIANTS.length} девиантов из таблицы`);
   } catch (e) {
     console.error('❌ Ошибка загрузки данных:', e);
     document.getElementById('deviantsGrid').innerHTML =
-      '<div class="empty-state"><h3>Ошибка загрузки данных</h3><p>Убедитесь, что вы открыли файл через Live Server (правая кнопка мыши -> Open with Live Server), а не двойным кликом.</p></div>';
+      '<div class="empty-state"><h3>Ошибка загрузки данных</h3><p>Убедитесь, что вы открыли сайт через Live Server.</p></div>';
   }
-}
-
-function formatDate(iso) {
-  if (!iso) return '—';
-  const [y, m, d] = iso.split('-');
-  return `${d}.${m}.${y}`;
 }
 
 const state = {
@@ -355,7 +129,7 @@ const state = {
   category: 'all',
   favoriteMorphs: JSON.parse(localStorage.getItem('oh_fav_morphs') || '{}'),
   view: 'deviants',
-  traitScope: 'all'
+  perkScope: 'all'
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -401,7 +175,7 @@ function bindEvents() {
       state.search = e.target.value.toLowerCase().trim();
       if (searchClearBtn) searchClearBtn.style.display = state.search ? 'inline-flex' : 'none';
       render();
-    }, 250));
+    }, 200));
   }
 
   searchClearBtn?.addEventListener('click', () => {
@@ -416,7 +190,6 @@ function bindEvents() {
 
   document.getElementById('resetBtn')?.addEventListener('click', resetFilters);
 
-  // Кнопки разделения девиантов: Все, Боевые, Территориальные, Ремесло / Крафт
   document.querySelectorAll('.category-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
@@ -426,14 +199,12 @@ function bindEvents() {
     });
   });
 
-  // Вкладки разделов (Девианты, База перков)
   document.getElementById('deviantsView')?.addEventListener('click', () => { state.view = 'deviants'; render(); });
   document.getElementById('traitsView')?.addEventListener('click', () => { state.view = 'traits'; render(); });
 
   document.getElementById('modalClose')?.addEventListener('click', closeModal);
   document.getElementById('deviantModal')?.addEventListener('click', e => { if (e.target.id === 'deviantModal') closeModal(); });
 
-  // Управление модальным окном видеогайда
   document.getElementById('videoModalBtn')?.addEventListener('click', openVideoModal);
   document.getElementById('videoModalClose')?.addEventListener('click', closeVideoModal);
   document.getElementById('videoModal')?.addEventListener('click', e => { if (e.target.id === 'videoModal') closeVideoModal(); });
@@ -445,58 +216,35 @@ function bindEvents() {
     }
   });
 
-  // Централизованное делегирование событий для грида
   const grid = document.getElementById('deviantsGrid');
   if (grid) {
-    grid.addEventListener('click', (e) => {
-      const traitRef = e.target.closest('.trait-reference');
-      if (traitRef) {
-        e.stopPropagation();
-        openModal(traitRef.dataset.id);
-        return;
-      }
-
-      const coordsBadge = e.target.closest('.loc-coords-badge');
-      if (coordsBadge) {
-        e.stopPropagation();
-        const coords = coordsBadge.dataset.coords;
-        if (coords) {
-          copyCoordinates(coords, coordsBadge);
-        }
-        return;
-      }
-
+    grid.addEventListener('click', e => {
       const card = e.target.closest('.card');
-      if (card) {
+      if (card && card.dataset.id) {
         openModal(card.dataset.id);
       }
     });
 
-    grid.addEventListener('keydown', (e) => {
+    grid.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         const card = e.target.closest('.card');
-        if (card) {
+        if (card && card.dataset.id) {
           e.preventDefault();
           openModal(card.dataset.id);
         }
       }
     });
-
-    grid.addEventListener('error', (e) => {
-      if (e.target && e.target.tagName === 'IMG') {
-        handleImageError(e.target);
-      }
-    }, true);
   }
 }
 
 function resetFilters() {
   state.search = '';
   state.category = 'all';
-  state.traitScope = 'all';
+  state.perkScope = 'all';
 
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.value = '';
+
   const searchClearBtn = document.getElementById('searchClearBtn');
   if (searchClearBtn) searchClearBtn.style.display = 'none';
 
@@ -511,7 +259,7 @@ function getFiltered() {
   let list = [...DEVIANTS];
 
   if (state.category === 'artisan' || state.category === 'crafting') {
-    list = list.filter(d => (d.category || []).includes('crafting'));
+    list = list.filter(d => (d.category || []).includes('crafting') || (d.category || []).includes('artisan'));
   } else if (state.category !== 'all') {
     list = list.filter(d => (d.category || []).includes(state.category));
   }
@@ -519,11 +267,30 @@ function getFiltered() {
   if (state.search) {
     const q = state.search;
     list = list.filter(d => {
-      const loc = getDeviantLocationInfo(d);
-      const locText = [loc.spot, loc.spotShort, loc.scenarioLabel, loc.srcTitle, loc.coords || '', d.acquisition?.location || '', d.acquisition?.method || '', d.acquisition?.tips || ''].join(' ');
-      const traitsText = d.traits ? (d.traits.recommended || []).map(t => (t.name || '') + ' ' + (t.name_ru || '') + ' ' + (t.effect || '')).join(' ') : '';
-      const variantsText = (d.variants || []).map(v => `${v.name_ru} ${v.name_en} ${v.trait?.name || ''} ${v.trait?.name_ru || ''} ${v.trait?.effect || ''} ${v.source || ''}`).join(' ');
-      const haystack = [d.name_ru, d.name_en, d.shortDesc, d.fullDesc, ...(d.abilities || []), ...(d.category || []).map(c => CATEGORIES[c] || c), ...(d.roles || []), ...(d.moodBoosters || []), traitsText, locText, variantsText].join(' ').toLowerCase();
+      const variantsText = (d.variants || []).map(v => `${v.name_ru} ${v.fullName_ru || ''} ${v.perk1 || ''} ${v.perk2 || ''} ${v.perk3 || ''} ${v.location || ''}`).join(' ');
+      const skillsText = d.skills ? `${d.skills.skill1 || ''} ${d.skills.skill2 || ''} ${(d.skills.mechanics || []).join(' ')}` : '';
+      const abilityText = d.ability || '';
+      const craftText = `${d.materials || ''} ${d.craftItems || ''}`;
+      const containmentText = (d.containment || []).join(' ');
+      const catText = (d.category || []).map(c => c === 'combat' ? 'боевой' : (c === 'territory' ? 'территориальный' : 'ремесленный крафтовый')).join(' ');
+
+      const haystack = [
+        d.name_ru,
+        d.name_en,
+        d.shortDesc,
+        d.fullDesc,
+        d.location,
+        d.perk1,
+        d.perk2,
+        d.perk3,
+        skillsText,
+        abilityText,
+        craftText,
+        containmentText,
+        catText,
+        variantsText
+      ].filter(Boolean).join(' ').toLowerCase();
+
       return haystack.includes(q);
     });
   }
@@ -570,242 +337,42 @@ function renderStats() {
   const countAll = document.getElementById('countAll');
   const countCombat = document.getElementById('countCombat');
   const countTerritory = document.getElementById('countTerritory');
-  const countArtisan = document.getElementById('countArtisan');
-  const countCrafting = document.getElementById('countCrafting');
+  const countCrafting = document.getElementById('countCrafting') || document.getElementById('countArtisan');
 
   if (countAll) countAll.textContent = DEVIANTS.length;
   if (countCombat) countCombat.textContent = DEVIANTS.filter(d => (d.category || []).includes('combat')).length;
   if (countTerritory) countTerritory.textContent = DEVIANTS.filter(d => (d.category || []).includes('territory')).length;
-  if (countArtisan) countArtisan.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting')).length;
-  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting')).length;
+  if (countCrafting) countCrafting.textContent = DEVIANTS.filter(d => (d.category || []).includes('crafting') || (d.category || []).includes('artisan')).length;
 
   updateFavCount();
 }
 
-function renderTraits() {
-  const grid = document.getElementById('deviantsGrid');
-  const empty = document.getElementById('emptyState');
-  const statsBar = document.getElementById('statsBar');
-  const grouped = new Map();
-
-  // Собираем только рекомендованные черты девиантов (блок избегаемых убран)
-  DEVIANTS.forEach(deviant => {
-    (deviant.traits?.recommended || []).forEach(trait => {
-      const key = trait.name;
-      if (!grouped.has(key)) {
-        grouped.set(key, {
-          name: trait.name,
-          nameRu: trait.name_ru || trait.name,
-          effects: new Set(),
-          deviants: [],
-          devCategories: new Set()
-        });
-      }
-      const group = grouped.get(key);
-      if (trait.effect) {
-        group.effects.add(trait.effect.trim());
-      }
-      if (!group.deviants.some(entry => entry.id === deviant.id)) {
-        group.deviants.push(deviant);
-      }
-      (deviant.category || []).forEach(c => group.devCategories.add(c));
-    });
-  });
-
-  const query = (state.search || '').trim().toLowerCase();
-  const allTraits = [...grouped.values()].map(t => ({
-    ...t,
-    effects: [...t.effects],
-    scopeCategory: getTraitScope(t.name, t.devCategories)
-  }));
-
-  // Фильтрация по поисковой строке
-  const searchedTraits = allTraits.filter(trait => {
-    if (!query) return true;
-    const haystack = [
-      trait.name,
-      trait.nameRu,
-      ...trait.effects,
-      ...trait.deviants.map(d => d.name_ru),
-      ...trait.deviants.map(d => d.name_en || '')
-    ].join(' ').toLowerCase();
-    return haystack.includes(query);
-  });
-
-  // Подсчёт количества черт по категориям:
-  // 1. Все, 2. Общие, 3. Боевые, 4. Территориальные, 5. Ремесленные, 6. Крафтовые
-  const counts = {
-    all: searchedTraits.length,
-    general: searchedTraits.filter(t => t.scopeCategory === 'general').length,
-    combat: searchedTraits.filter(t => t.scopeCategory === 'combat').length,
-    territory: searchedTraits.filter(t => t.scopeCategory === 'territory').length,
-    artisan: searchedTraits.filter(t => t.scopeCategory === 'artisan').length,
-    crafting: searchedTraits.filter(t => t.scopeCategory === 'crafting').length
-  };
-
-  const activeScope = state.traitScope || 'all';
-
-  // Рендерим кнопки категорий перков строго в заданном порядке:
-  // "Общие" — вторая вкладка сразу после "Все"!
-  if (statsBar) {
-    statsBar.innerHTML = `
-      <div class="category-tabs-bar" role="tablist" aria-label="Категории перков" style="padding-top: 0;">
-        <button class="category-btn traits-chip ${activeScope === 'all' ? 'active' : ''}" data-scope="all" type="button">
-          <span>Все</span><b class="chip-count">${counts.all}</b>
-        </button>
-        <button class="category-btn traits-chip ${activeScope === 'general' ? 'active' : ''}" data-scope="general" type="button">
-          <span>🧬 Общие</span><b class="chip-count">${counts.general}</b>
-        </button>
-        <button class="category-btn traits-chip ${activeScope === 'combat' ? 'active' : ''}" data-scope="combat" type="button">
-          <span>⚔️ Боевые</span><b class="chip-count">${counts.combat}</b>
-        </button>
-        <button class="category-btn traits-chip ${activeScope === 'territory' ? 'active' : ''}" data-scope="territory" type="button">
-          <span>🏡 Территориальные</span><b class="chip-count">${counts.territory}</b>
-        </button>
-        <button class="category-btn traits-chip ${activeScope === 'artisan' ? 'active' : ''}" data-scope="artisan" type="button">
-          <span>🔨 Ремесленные</span><b class="chip-count">${counts.artisan}</b>
-        </button>
-        <button class="category-btn traits-chip ${activeScope === 'crafting' ? 'active' : ''}" data-scope="crafting" type="button">
-          <span>🧪 Крафтовые</span><b class="chip-count">${counts.crafting}</b>
-        </button>
-      </div>
-    `;
-
-    statsBar.querySelectorAll('.traits-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        state.traitScope = chip.dataset.scope;
-        renderTraits();
-      });
-    });
-  }
-
-  // Фильтрация черт по выбранной категории
-  const filteredTraits = searchedTraits.filter(trait => {
-    if (activeScope !== 'all' && trait.scopeCategory !== activeScope) return false;
-    return true;
-  });
-
-  if (!filteredTraits.length) {
-    grid.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  const scopeBadgeMap = {
-    general: '<span class="trait-scope-badge scope-general">🧬 Общий</span>',
-    combat: '<span class="trait-scope-badge scope-combat">⚔️ Боевой</span>',
-    territory: '<span class="trait-scope-badge scope-territory">🏡 Территориальный</span>',
-    artisan: '<span class="trait-scope-badge scope-artisan">🔨 Ремесленный</span>',
-    crafting: '<span class="trait-scope-badge scope-crafting">🧪 Крафтовый</span>'
-  };
-
-  const renderCardHTML = (trait) => {
-    return `
-      <article class="trait-card trait-card-${trait.scopeCategory}">
-        <div class="trait-card-heading">
-          <div class="trait-title-group">
-            <h2 class="trait-name-ru">${escapeHtml(trait.nameRu)}</h2>
-            ${trait.nameRu !== trait.name ? `<div class="trait-name-en">${escapeHtml(trait.name)}</div>` : ''}
-          </div>
-          <div class="trait-badges">
-            ${scopeBadgeMap[trait.scopeCategory] || ''}
-          </div>
-        </div>
-        <div class="trait-desc-box">
-          <div class="trait-desc-label">Описание:</div>
-          <div class="trait-desc-content">
-            ${trait.effects.map(eff => `<p>${escapeHtml(eff)}</p>`).join('')}
-          </div>
-        </div>
-      </article>
-    `;
-  };
-
-  const sortedTraits = [...filteredTraits].sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));
-
-  grid.innerHTML = `
-    <div class="traits-subgrid" style="grid-column: 1 / -1; width: 100%;">
-      ${sortedTraits.map(renderCardHTML).join('')}
-    </div>
-  `;
-}
-
 function renderCard(d) {
-  const confLabel = { high: '✓', medium: '~', low: '!' }[d.confidence] || '';
-  const confTitle = { high: 'Высокая достоверность', medium: 'Средняя достоверность', low: 'Низкая достоверность' }[d.confidence] || '';
-  
-  // Проверяем, есть ли у этого девианта сохранённый избранный морф
   const favMorphId = state.favoriteMorphs[d.id];
   const favVariant = (favMorphId && d.variants) ? d.variants.find(v => v.id === favMorphId) : null;
 
-  // Если выбран избранный морф — показываем картинку морфа, иначе базовую
   const cardImg = favVariant ? favVariant.image : getDeviantImage(d);
   const cardRemote = favVariant ? (favVariant.remoteImage || '') : (d.image || '');
-
-  // Ограничиваем количество ролей на превью до 2 для чистоты интерфейса
-  const allRoles = d.roles || [];
-  const previewRoles = allRoles.slice(0, 2);
-  const extraRolesCount = allRoles.length - previewRoles.length;
+  const morphCount = (Array.isArray(d.variants) && d.variants.length > 0) ? d.variants.length : 0;
 
   return `
     <article class="card ${favVariant ? 'has-fav-morph' : ''}" data-id="${escapeHtml(d.id)}" tabindex="0" role="button" aria-label="${escapeHtml(d.name_ru)}">
       <div class="card-img">
-        <img src="${escapeHtml(cardImg)}" data-remote="${escapeHtml(cardRemote)}" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" loading="lazy">
+        <img src="${escapeHtml(cardImg)}" data-remote="${escapeHtml(cardRemote)}" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" loading="lazy" onerror="handleImageError(this)">
         ${favVariant 
-          ? `<div class="card-fav-morph-badge" title="Выбранный вами морф: ${escapeHtml(favVariant.name_ru)}">★ ${escapeHtml(favVariant.name_ru)}</div>`
-          : ((d.variants && d.variants.length > 0) ? `<div class="card-shiny-badge" title="Имеет ${d.variants.length} редких морфов">🌈 Морфы (${d.variants.length})</div>` : '')
+          ? `<div class="card-fav-morph-badge" title="Выбранный вами морф: ${escapeHtml(favVariant.name_ru)}">⭐ ${escapeHtml(favVariant.name_ru)}</div>`
+          : (morphCount > 0 ? `<div class="card-shiny-badge" title="Имеет ${morphCount} редких морфов">✨ Морфы: ${morphCount}</div>` : '')
         }
-        <div class="confidence-badge confidence-${escapeHtml(d.confidence)}" title="${escapeHtml(confTitle)}">${escapeHtml(confLabel)}</div>
       </div>
       <div class="card-body">
         <div class="card-title">${escapeHtml(d.name_ru)} <span class="card-title-en">${escapeHtml(d.name_en || '')}</span></div>
         ${favVariant ? `<div class="card-morph-selected-title">✨ Активен морф: <b>${escapeHtml(favVariant.name_ru)}</b></div>` : ''}
         <div class="card-category">
           ${renderCategoryTags(d)}
-          ${previewRoles.map(role => `<span class="role-tag">${escapeHtml(role)}</span>`).join('')}
-          ${extraRolesCount > 0 ? `<span class="role-tag role-tag-more" title="Ещё роли: ${escapeHtml(allRoles.slice(2).join(', '))}">+${extraRolesCount}</span>` : ''}
         </div>
         <div class="card-desc">${escapeHtml(d.shortDesc)}</div>
       </div>
     </article>
-  `;
-}
-
-function renderDeviantTraitsBlock(d) {
-  if (!d.traits) return '';
-  const recommended = d.traits.recommended || [];
-  if (recommended.length === 0) return '';
-
-  return `
-    <div class="morph-traits-wrapper">
-      <div class="morph-traits-header">
-        <span class="morph-traits-icon">🧬</span>
-        <span class="morph-traits-title">Врождённые черты при поимке (Рекомендуемые)</span>
-      </div>
-
-      <div class="traits-tier-group">
-        <div class="label traits-tier-label label-recommended">
-          ✓ Рекомендуемые черты (Искать при фарме):
-        </div>
-        <div class="perk-list">
-          ${recommended.map((trait, idx) => `
-            <div class="perk-item" style="border-left-color: ${idx === 0 ? 'var(--accent-2)' : '#4ade80'};">
-              <div class="perk-name">
-                ${escapeHtml(trait.name_ru || trait.name)}
-                ${idx === 0 
-                  ? '<span class="perk-priority" style="background: rgba(214, 160, 93, 0.2); color: var(--accent-2); border: 1px solid var(--accent-2);">👑 ТОП ВЫБОР</span>' 
-                  : '<span class="perk-priority" style="background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid #4ade80;">РЕКОМЕНДУЕТСЯ</span>'}
-              </div>
-              <div class="perk-desc" style="color: var(--text);">
-                <strong>Эффект:</strong> ${escapeHtml(trait.effect)}
-              </div>
-              ${trait.why ? `<div class="perk-why">💡 <strong>Зачем:</strong> ${escapeHtml(trait.why)}</div>` : ''}
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
   `;
 }
 
@@ -814,9 +381,7 @@ function openModal(id) {
   if (!d) return;
   const body = document.getElementById('modalBody');
   const baseImg = getDeviantImage(d);
-  const locInfo = getDeviantLocationInfo(d);
 
-  // Проверяем, есть ли избранный морф для этого девианта
   const favMorphId = state.favoriteMorphs[d.id] || null;
   const hasFavMorph = favMorphId && d.variants && d.variants.some(v => v.id === favMorphId);
   const activeMorphId = hasFavMorph ? favMorphId : 'original';
@@ -836,31 +401,89 @@ function openModal(id) {
         <div class="purpose">${escapeHtml(d.shortDesc)}</div>
         <div class="card-category">
           ${renderCategoryTags(d)}
-          ${(d.roles || []).map(role => `<span class="role-tag">${escapeHtml(role)}</span>`).join('')}
         </div>
       </div>
     </div>
 
+    <!-- БЛОК 1: СПОСОБНОСТИ И МЕХАНИКИ -->
     <div class="modal-section">
-      <h3>Описание и способности</h3>
-      <p>${escapeHtml(d.fullDesc)}</p>
-      <ul style="margin-top:10px">${(d.abilities || []).map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
+      <h3>⚡ Способности и механика</h3>
+      ${d.category.includes('combat') && d.skills ? `
+        <div class="skill-row">
+          <div class="skill-key-badge">E</div>
+          <div class="skill-body">
+            <strong>Скилл 1:</strong>
+            ${escapeHtml(d.skills.skill1 || '—')}
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-key-badge skill-key-x">X</div>
+          <div class="skill-body">
+            <strong>Скилл 2 (Рейтинг навыка - 5):</strong>
+            ${escapeHtml(d.skills.skill2 || '—')}
+          </div>
+        </div>
+        ${(d.skills.mechanics && Array.isArray(d.skills.mechanics) && d.skills.mechanics.length > 0) ? `
+          <div class="mechanics-box">
+            <div class="mechanics-title">🎯 Механика навыков:</div>
+            <ul class="mechanics-list">
+              ${d.skills.mechanics.map(m => `<li>${escapeHtml(m)}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      ` : ''}
+
+      ${d.category.includes('territory') ? `
+        <div class="skill-row">
+          <div class="skill-key-badge" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">🏡</div>
+          <div class="skill-body">
+            <strong>Способность:</strong>
+            ${escapeHtml(d.ability || '—')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${d.category.includes('crafting') ? `
+        <div class="craft-detail-box">
+          <div class="craft-box-item">
+            <div class="craft-label">📦 Производимые материалы:</div>
+            <div class="craft-text">${escapeHtml(d.materials || '—')}</div>
+          </div>
+          <div class="craft-box-item">
+            <div class="craft-label">🔨 Создаваемые предметы:</div>
+            <div class="craft-text">${escapeHtml(d.craftItems || '—')}</div>
+          </div>
+        </div>
+      ` : ''}
     </div>
 
-    ${(d.variants && d.variants.length > 0) ? `
-      <!-- Каталог редких морфов и цветовых вариаций с функцией избранного -->
-      <div class="modal-section modal-morph-section">
-        <div class="morph-section-header">
-          <div class="morph-title-wrap">
-            <span class="morph-sparkle-icon">✨</span>
-            <h3>Редкие Морфы и цветовые вариации (${d.variants.length})</h3>
-          </div>
-          <span class="morph-live-badge">🌈 Эксклюзивные скины</span>
-        </div>
-        <p class="morph-intro-text">
-          В Once Human некоторые девианты имеют альтернативный окрас (Shiny) с врождёнными эксклюзивными пассивными свойствами. Нажмите на форму, чтобы примерить скин и добавить его в избранное:
-        </p>
+    <!-- БЛОК 3: УСЛОВИЯ СОДЕРЖАНИЯ (MOOD BOOSTERS) -->
+    <div class="modal-section">
+      <h3>🔆 Предпочтения в колбе (Условия содержания)</h3>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:10px; font-style:italic;">
+        Обеспечьте эти условия в Изолированном блоке безопасности для максимальной эффективности и быстрого восстановления.
+      </p>
+      <div class="containment-chips">
+        ${(() => {
+          const chips = Array.isArray(d.containment)
+            ? d.containment
+            : (typeof d.containment === 'string' && d.containment.trim() ? [d.containment.trim()] : []);
+          return chips.length > 0
+            ? chips.map(c => `<div class="containment-chip">✓ ${escapeHtml(c)}</div>`).join('')
+            : '<div class="containment-chip">Стандартные условия содержания</div>';
+        })()}
+      </div>
+    </div>
 
+    <!-- БЛОК 3: МОРФЫ И ВАРИАЦИИ -->
+    <div class="modal-section modal-morph-section">
+      <div class="morph-section-header">
+        <div class="morph-title-wrap">
+          <span class="morph-sparkle-icon">✨</span>
+          <h3>${(Array.isArray(d.variants) && d.variants.length > 0) ? `Морфы и вариации (${d.variants.length})` : 'Рекомендованные перки и получение'}</h3>
+        </div>
+      </div>
+      ${(Array.isArray(d.variants) && d.variants.length > 0) ? `
         <div class="morph-tabs-bar" role="tablist" aria-label="Вариации девианта">
           <button class="morph-tab-btn ${activeMorphId === 'original' ? 'active' : ''}" data-morph="original" type="button">
             <span class="tab-icon">★</span>
@@ -869,69 +492,49 @@ function openModal(id) {
           ${d.variants.map((v, idx) => {
             const isThisFav = state.favoriteMorphs[d.id] === v.id;
             return `
-              <button class="morph-tab-btn ${activeMorphId === v.id ? 'active' : ''} ${isThisFav ? 'is-fav-tab' : ''}" data-morph="${escapeHtml(v.id)}" data-idx="${idx}" type="button">
-                <span class="tab-icon">${isThisFav ? '⭐' : '🌈'}</span>
+              <button class="morph-tab-btn ${activeMorphId === v.id ? 'active' : ''} ${isThisFav ? 'is-fav-tab' : ''} ${v.isBestChoice ? 'is-best-tab' : ''}" data-morph="${escapeHtml(v.id)}" data-idx="${idx}" type="button">
+                <span class="tab-icon">${isThisFav ? '⭐' : (v.isBestChoice ? '👑' : '✨')}</span>
                 <span class="tab-text">${escapeHtml(v.name_ru)}</span>
               </button>
             `;
           }).join('')}
         </div>
+      ` : ''}
 
-        <div class="morph-display-box" id="morphDisplayBox"></div>
-      </div>
-    ` : ''}
+      <div class="morph-display-box" id="morphDisplayBox"></div>
+    </div>
 
-    <!-- Интерактивная тактическая справка по локациям и поимке -->
+    <!-- БЛОК: ГДЕ ПОЛУЧИТЬ -->
     <div class="modal-section modal-location-card">
       <div class="modal-loc-header">
         <div class="modal-loc-title-group">
           <div class="modal-loc-main-title">
             <span class="loc-header-pin">📍</span>
-            <h3>Где и как поймать (Локации и сценарии)</h3>
+            <h3>Где получить</h3>
           </div>
-          <div class="modal-loc-pills">
-            <span class="loc-pill ${locInfo.scClass}">${locInfo.scIcon} ${escapeHtml(locInfo.scenarioTitle)}</span>
-            <span class="loc-pill ${locInfo.srcClass}">${locInfo.srcIcon} ${escapeHtml(locInfo.srcTitle)}</span>
-          </div>
+          <span class="loc-pill sc-all" id="modalLocFormBadge">★ Базовая форма</span>
         </div>
       </div>
 
       <div class="modal-loc-box method-box">
-        <div class="loc-box-label">⚡ Способ поимки</div>
-        <div class="method-desc">${escapeHtml(d.acquisition?.method || '—')}</div>
+        <div class="loc-box-label" id="modalLocLabel">Местоположение / Источник:</div>
+        <div class="method-desc" id="modalLocDesc">${escapeHtml(d.location || 'Открытый мир / Исследование / Бункеры')}</div>
       </div>
-    </div>
-
-    <div class="modal-section">
-      <h3>🔆 Условия содержания (Mood Boosters)</h3>
-      <p style="font-size:13px; color:var(--text-dim); margin-bottom:12px; font-style:italic;">Разместите девианта в Изолированном блоке безопасности и обеспечьте указанные условия настроения для 100% эффективности.</p>
-      <div class="perk-list">
-        ${(d.moodBoosters || []).map(m => `
-          <div class="perk-item">
-            <div class="perk-name">${escapeHtml(m)} <span class="perk-priority">ОБЯЗАТЕЛЬНО</span></div>
-            <div class="perk-desc">Разместите этот источник настроения рядом с блоком безопасности.</div>
-            <div class="perk-why">Без этого условия девиант будет терять настроение, что снизит его эффективность.</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-
-    ${(!d.variants || d.variants.length === 0) && d.traits ? `
-      <div class="modal-section">
-        ${renderDeviantTraitsBlock(d)}
-      </div>
-    ` : ''}
-
-    <div class="sources">
-      <strong>Источники:</strong> ${(d.sources || []).map(s => escapeHtml(s)).join(' · ')}<br>
-      <strong>Дата проверки:</strong> ${escapeHtml(formatDate(d.lastChecked))}
     </div>
   `;
 
-
-  // Интерактивное переключение редких морфов и выбор избранного
   function updateMorphView(morphId) {
-    const modalImgEl = body.querySelector('.modal-img img');
+    const modalImgWrap = body.querySelector('.modal-img');
+    let modalImgEl = modalImgWrap ? modalImgWrap.querySelector('img') : null;
+    if (modalImgWrap) {
+      const ph = modalImgWrap.querySelector('.placeholder');
+      if (ph) ph.remove();
+      if (!modalImgEl) {
+        modalImgWrap.insertAdjacentHTML('afterbegin', `<img src="" alt="${escapeHtml(d.name_ru)}" data-fallback="${escapeHtml(d.imageFallback || '◈')}" onerror="handleImageError(this)">`);
+        modalImgEl = modalImgWrap.querySelector('img');
+      }
+      modalImgEl.style.display = '';
+    }
     const morphDisplayBox = body.querySelector('#morphDisplayBox');
     const morphBtns = body.querySelectorAll('.morph-tab-btn');
 
@@ -939,10 +542,25 @@ function openModal(id) {
       btn.classList.toggle('active', btn.dataset.morph === morphId);
     });
 
+    const locDescEl = body.querySelector('#modalLocDesc');
+    const locBadgeEl = body.querySelector('#modalLocFormBadge');
+    if (locDescEl) {
+      if (morphId === 'original') {
+        locDescEl.textContent = d.location || 'Открытый мир / Исследование / Бункеры';
+        if (locBadgeEl) locBadgeEl.textContent = '★ Базовая форма';
+      } else {
+        const v = (d.variants || []).find(x => x.id === morphId);
+        if (v) {
+          locDescEl.textContent = v.location || d.location || 'Открытый мир / Исследование / Бункеры';
+          if (locBadgeEl) locBadgeEl.textContent = `✨ ${v.name_ru}`;
+        }
+      }
+    }
+
     if (morphId === 'original') {
       if (modalImgEl) {
+        modalImgEl.setAttribute('data-remote', d.remoteImage || d.image || '');
         modalImgEl.src = baseImg;
-        modalImgEl.setAttribute('data-remote', d.image || '');
         modalImgEl.classList.remove('is-morph-active');
       }
       const hasCurrentFav = !!state.favoriteMorphs[d.id];
@@ -950,7 +568,7 @@ function openModal(id) {
         morphDisplayBox.innerHTML = `
           <div class="morph-preview-card">
             <div class="morph-card-top">
-              <div class="morph-card-badge">★ Стандартный вид</div>
+              <div class="morph-card-badge">★ Базовая форма (Оригинал)</div>
               ${hasCurrentFav ? `
                 <button type="button" class="btn-morph-fav-action btn-reset-morph-fav" id="btnResetMorphFav">
                   <span>↩ Вернуть базовый вид (убрать морф из избранного)</span>
@@ -958,8 +576,47 @@ function openModal(id) {
               ` : ''}
             </div>
             <div class="morph-card-title">${escapeHtml(d.name_ru)}</div>
-            <div class="morph-card-sub">Базовая форма девианта с классическими характеристиками и условиями содержания.</div>
-            ${renderDeviantTraitsBlock(d)}
+            <div class="morph-card-sub">Стандартная форма девианта с базовыми характеристиками и условиями содержания.</div>
+
+            ${d.isBestChoice ? `
+              <div class="modal-choice-banner is-best" style="margin-top: 6px; margin-bottom: 8px; padding: 8px 12px;">
+                <span class="choice-star" style="font-size: 18px;">👑</span>
+                <div class="choice-text">
+                  <strong style="color: #fde68a; font-size: 13px;">⭐ ЛУЧШИЙ ВЫБОР: ДА</strong>
+                  <span style="font-size: 11.5px;">Базовая форма девианта официально рекомендована в качестве лучшего варианта!</span>
+                </div>
+              </div>
+            ` : `
+              <div class="modal-choice-banner is-normal" style="margin-top: 6px; margin-bottom: 8px; padding: 8px 12px;">
+                <span class="choice-star" style="font-size: 16px;">✦</span>
+                <div class="choice-text">
+                  <strong style="font-size: 13px;">ЛУЧШИЙ ВЫБОР: НЕТ</strong>
+                  <span style="font-size: 11.5px;">Базовый вариант девианта.</span>
+                </div>
+              </div>
+            `}
+
+            ${d.location ? `
+              <div class="morph-source-row">
+                <span class="morph-source-icon">📍</span>
+                <span class="morph-source-text"><strong>Где получить:</strong> ${escapeHtml(d.location)}</span>
+              </div>
+            ` : ''}
+            
+            <div class="perks-grid-3" style="margin-top: 10px;">
+              <div class="perk-col-card">
+                <div class="perk-col-label">Перк 1 (Основной)</div>
+                <div class="perk-col-val">${escapeHtml(d.perk1 || '—')}</div>
+              </div>
+              <div class="perk-col-card">
+                <div class="perk-col-label">Перк 2 (${d.category.includes('combat') ? 'Боевой' : (d.category.includes('territory') ? 'Территориальный' : 'Ремесленный')})</div>
+                <div class="perk-col-val">${escapeHtml(d.perk2 || '—')}</div>
+              </div>
+              <div class="perk-col-card">
+                <div class="perk-col-label">Перк 3 (Крафтовый)</div>
+                <div class="perk-col-val">${escapeHtml(d.perk3 || '—')}</div>
+              </div>
+            </div>
           </div>
         `;
         const resetBtn = morphDisplayBox.querySelector('#btnResetMorphFav');
@@ -974,7 +631,8 @@ function openModal(id) {
               b.classList.remove('is-fav-tab');
               if (b.dataset.morph !== 'original') {
                 const icon = b.querySelector('.tab-icon');
-                if (icon) icon.textContent = '🌈';
+                const vMatch = (d.variants || []).find(x => x.id === b.dataset.morph);
+                if (icon) icon.textContent = (vMatch && vMatch.isBestChoice) ? '👑' : '✨';
               }
             });
             updateMorphView('original');
@@ -987,8 +645,8 @@ function openModal(id) {
       if (!v) return;
 
       if (modalImgEl) {
-        modalImgEl.src = v.image;
         modalImgEl.setAttribute('data-remote', v.remoteImage || '');
+        modalImgEl.src = v.image;
         modalImgEl.classList.add('is-morph-active');
       }
 
@@ -998,31 +656,55 @@ function openModal(id) {
         morphDisplayBox.innerHTML = `
           <div class="morph-preview-card active-morph ${isFav ? 'is-favorited-card' : ''}">
             <div class="morph-card-top">
-              <div class="morph-card-badge morph-badge-rainbow">🌈 Редкий Морф</div>
+              <div class="morph-card-badge morph-badge-rainbow">✨ Редкий Морф</div>
               <button type="button" class="btn-morph-fav-action ${isFav ? 'active' : ''}" id="btnToggleMorphFav">
                 <span class="star-icon">${isFav ? '★' : '☆'}</span>
                 <span class="action-text">${isFav ? 'В избранном (Основной вид)' : 'Сделать этот морф основным'}</span>
               </button>
             </div>
-            <div class="morph-card-title">
-              ${escapeHtml(v.name_ru)} 
-              <span class="morph-en">(${escapeHtml(v.name_en)})</span>
-              <span class="morph-rarity">· ${escapeHtml(v.rarity || 'Редкая вариация')}</span>
-            </div>
             
-            <div class="morph-trait-highlight">
-              <div class="morph-trait-header">
-                <span class="morph-trait-label">Эксклюзивная черта морфа:</span>
-                <span class="morph-trait-pill">✦ ${escapeHtml(v.trait?.name_ru || v.trait?.name || 'Эксклюзив')}</span>
-              </div>
-              <div class="morph-trait-effect"><strong>Эффект:</strong> ${escapeHtml(v.trait?.effect || '—')}</div>
+            <div class="morph-card-title">
+              ${escapeHtml(v.fullName_ru || v.name_ru)}
             </div>
+
+            <!-- СТАТУС ЛУЧШИЙ ВЫБОР -->
+            ${v.isBestChoice ? `
+              <div class="modal-choice-banner is-best" style="margin-top: 6px; margin-bottom: 8px; padding: 8px 12px;">
+                <span class="choice-star" style="font-size: 18px;">👑</span>
+                <div class="choice-text">
+                  <strong style="color: #fde68a; font-size: 13px;">⭐ ЛУЧШИЙ ВЫБОР: ДА</strong>
+                  <span style="font-size: 11.5px;">Этот морф официально отмечен в таблице как один из лучших выборов!</span>
+                </div>
+              </div>
+            ` : `
+              <div class="modal-choice-banner is-normal" style="margin-top: 6px; margin-bottom: 8px; padding: 8px 12px;">
+                <span class="choice-star" style="font-size: 16px;">✦</span>
+                <div class="choice-text">
+                  <strong style="font-size: 13px;">ЛУЧШИЙ ВЫБОР: НЕТ</strong>
+                  <span style="font-size: 11.5px;">Альтернативная косметическая вариация.</span>
+                </div>
+              </div>
+            `}
 
             <div class="morph-source-row">
               <span class="morph-source-icon">📍</span>
-              <span class="morph-source-text"><strong>Где искать:</strong> ${escapeHtml(v.source || 'Открытый мир / Бункеры')}</span>
+              <span class="morph-source-text"><strong>Где получить:</strong> ${escapeHtml(v.location || 'Открытый мир / Исследование')}</span>
             </div>
-            ${renderDeviantTraitsBlock(d)}
+
+            <div class="perks-grid-3" style="margin-top: 10px;">
+              <div class="perk-col-card">
+                <div class="perk-col-label">Перк 1 (Основной)</div>
+                <div class="perk-col-val">${escapeHtml(v.perk1 || '—')}</div>
+              </div>
+              <div class="perk-col-card">
+                <div class="perk-col-label">Перк 2</div>
+                <div class="perk-col-val">${escapeHtml(v.perk2 || '—')}</div>
+              </div>
+              <div class="perk-col-card">
+                <div class="perk-col-label">Перк 3 (Крафтовый)</div>
+                <div class="perk-col-val">${escapeHtml(v.perk3 || '—')}</div>
+              </div>
+            </div>
           </div>
         `;
 
@@ -1046,7 +728,8 @@ function openModal(id) {
               b.classList.toggle('is-fav-tab', thisFav);
               if (b.dataset.morph !== 'original') {
                 const icon = b.querySelector('.tab-icon');
-                if (icon) icon.textContent = thisFav ? '⭐' : '🌈';
+                const vMatch = (d.variants || []).find(x => x.id === b.dataset.morph);
+                if (icon) icon.textContent = thisFav ? '⭐' : ((vMatch && vMatch.isBestChoice) ? '👑' : '✨');
               }
             });
             updateMorphView(v.id);
@@ -1057,17 +740,15 @@ function openModal(id) {
     }
   }
 
-  if (d.variants && d.variants.length > 0) {
-    updateMorphView(activeMorphId);
+  updateMorphView(activeMorphId);
 
-    const morphBtns = body.querySelectorAll('.morph-tab-btn');
-    morphBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        updateMorphView(btn.dataset.morph);
-      });
+  const morphBtns = body.querySelectorAll('.morph-tab-btn');
+  morphBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateMorphView(btn.dataset.morph);
     });
-  }
+  });
 
   document.getElementById('deviantModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1087,6 +768,144 @@ function updateGridCard(id) {
 function closeModal() {
   document.getElementById('deviantModal').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function renderTraits() {
+  const grid = document.getElementById('deviantsGrid');
+  const empty = document.getElementById('emptyState');
+  const statsBar = document.getElementById('statsBar');
+
+  if (!PERKS || Object.keys(PERKS).length === 0) {
+    grid.innerHTML = '<div class="empty-state"><h3>Перки загружаются...</h3></div>';
+    return;
+  }
+
+  const allItems = [];
+
+  (PERKS.general || []).forEach(p => allItems.push({ ...p, category: 'general', catLabel: '🧬 Основной', badgeClass: 'scope-general' }));
+  (PERKS.combat || []).forEach(p => allItems.push({ ...p, category: 'combat', catLabel: '⚔️ Боевой', badgeClass: 'scope-combat' }));
+  (PERKS.territory || []).forEach(p => allItems.push({ ...p, category: 'territory', catLabel: '🏡 Территориальный', badgeClass: 'scope-territory' }));
+  (PERKS.artisan || []).forEach(p => allItems.push({ ...p, category: 'artisan', catLabel: '🔨 Ремесленный', badgeClass: 'scope-artisan' }));
+  (PERKS.crafting_animal || []).forEach(p => allItems.push({ ...p, category: 'crafting', subCategory: 'animal', catLabel: '🧪 Крафтовый (Животное)', badgeClass: 'scope-crafting', isCraftDual: true }));
+  (PERKS.crafting_furniture || []).forEach(p => allItems.push({ ...p, category: 'crafting', subCategory: 'furniture', catLabel: '🧪 Крафтовый (Мебель)', badgeClass: 'scope-crafting', isCraftDual: true }));
+  (PERKS.chaos || []).forEach(p => allItems.push({ ...p, category: 'chaos', catLabel: '🌀 Хаосный', badgeClass: 'scope-chaos' }));
+
+  const query = (state.search || '').trim().toLowerCase();
+
+  const searched = allItems.filter(p => {
+    if (!query) return true;
+    const haystack = [
+      p.name,
+      p.description || '',
+      p.combatEffect || '',
+      p.territoryEffect || '',
+      p.catLabel
+    ].join(' ').toLowerCase();
+    return haystack.includes(query);
+  });
+
+  const counts = {
+    all: searched.length,
+    general: searched.filter(p => p.category === 'general').length,
+    combat: searched.filter(p => p.category === 'combat').length,
+    territory: searched.filter(p => p.category === 'territory').length,
+    artisan: searched.filter(p => p.category === 'artisan').length,
+    crafting: searched.filter(p => p.category === 'crafting').length,
+    chaos: searched.filter(p => p.category === 'chaos').length
+  };
+
+  const activeScope = state.perkScope || 'all';
+
+  if (statsBar) {
+    statsBar.innerHTML = `
+      <div class="category-tabs-bar" role="tablist" aria-label="Категории перков" style="padding-top: 0;">
+        <button class="category-btn traits-chip ${activeScope === 'all' ? 'active' : ''}" data-scope="all" type="button">
+          <span>Все</span><b class="chip-count">${counts.all}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'general' ? 'active' : ''}" data-scope="general" type="button">
+          <span>🧬 Основные</span><b class="chip-count">${counts.general}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'combat' ? 'active' : ''}" data-scope="combat" type="button">
+          <span>⚔️ Боевые</span><b class="chip-count">${counts.combat}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'territory' ? 'active' : ''}" data-scope="territory" type="button">
+          <span>🏡 Территориальные</span><b class="chip-count">${counts.territory}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'artisan' ? 'active' : ''}" data-scope="artisan" type="button">
+          <span>🔨 Ремесленные</span><b class="chip-count">${counts.artisan}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'crafting' ? 'active' : ''}" data-scope="crafting" type="button">
+          <span>🧪 Крафтовые</span><b class="chip-count">${counts.crafting}</b>
+        </button>
+        <button class="category-btn traits-chip ${activeScope === 'chaos' ? 'active' : ''}" data-scope="chaos" type="button">
+          <span>🌀 Хаосные</span><b class="chip-count">${counts.chaos}</b>
+        </button>
+      </div>
+    `;
+
+    statsBar.querySelectorAll('.traits-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        state.perkScope = chip.dataset.scope;
+        renderTraits();
+      });
+    });
+  }
+
+  const filtered = searched.filter(p => {
+    if (activeScope !== 'all' && p.category !== activeScope) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  filtered.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+
+  grid.innerHTML = `
+    <div class="traits-subgrid" style="grid-column: 1 / -1; width: 100%;">
+      ${filtered.map(p => `
+        <article class="trait-card trait-card-${escapeHtml(p.category)}">
+          <div class="trait-card-heading">
+            ${p.icon ? `
+              <div class="trait-icon-frame">
+                <img src="${escapeHtml(p.icon)}" alt="${escapeHtml(p.name)}" class="trait-icon-img" loading="lazy" />
+              </div>
+            ` : ''}
+            <div class="trait-title-group">
+              <h2 class="trait-name-ru">${escapeHtml(p.name)}</h2>
+              <div class="trait-badges">
+                <span class="trait-scope-badge ${escapeHtml(p.badgeClass)}">${escapeHtml(p.catLabel)}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="trait-desc-box">
+            ${p.isCraftDual ? `
+              <div class="craft-effect-box">
+                <div class="craft-effect-row">
+                  <div class="effect-heading">⚔️ На боевых девиантах:</div>
+                  <p>${escapeHtml(p.combatEffect || '—')}</p>
+                </div>
+                <div class="craft-effect-row">
+                  <div class="effect-heading">🏡 На территориальных и ремесленных девиантах:</div>
+                  <p>${escapeHtml(p.territoryEffect || '—')}</p>
+                </div>
+              </div>
+            ` : `
+              <div class="trait-desc-label">Описание:</div>
+              <div class="trait-desc-content">
+                <p>${escapeHtml(p.description)}</p>
+              </div>
+            `}
+          </div>
+        </article>
+      `).join('')}
+    </div>
+  `;
 }
 
 function openVideoModal() {
@@ -1123,12 +942,13 @@ function updateFavCount() {
   if (favEl) favEl.textContent = Object.keys(state.favoriteMorphs).length;
 }
 
-// Кнопка "Наверх"
 const scrollTopBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
-}, { passive: true });
+if (scrollTopBtn) {
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
 
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
