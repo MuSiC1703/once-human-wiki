@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oh-wiki-v74';
+const CACHE_NAME = 'oh-wiki-v76';
 
 const PRECACHE_ASSETS = [
   './',
@@ -222,7 +222,19 @@ const PRECACHE_ASSETS = [
   './images/perks/temperature_lord.png',
   './images/perks/top_grenadier.png',
   './images/perks/vile_symbiosis.png',
-  './images/perks/warm_flame.png'
+  './images/perks/warm_flame.png',
+  // Newly added deviant and morphs (v76)
+  './images/duet.webp',
+  './images/variants/space-turner-96101306.webp',
+  './images/variants/wish-box-96106006.webp',
+  './images/variants/shattered-maiden-96104905.webp',
+  './images/variants/whalepup-dont-get-wet.webp',
+  './images/variants/h37-96102106.webp',
+  './images/variants/gingerbread-96102206.webp',
+  './images/variants/snow-globe-96103607.webp',
+  './images/variants/director-fox-96107006.webp',
+  './images/variants/mr-wish-96103404.webp',
+  './images/variants/rebecca-chaos.webp',
 ];
 
 // Install: precache core shell
