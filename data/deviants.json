@@ -1784,9 +1784,9 @@
       "fullDesc": "Защищает территорию персонажа игрока от вторжения врагов.",
       "ability": "Изменяйте погодные эффекты на территории в режиме реального времени. Это означает, что как игроки на территории, так и размещенные объекты будут подвержены влиянию Duet.",
       "containment": [
-        "Используйте красный свет",
-        "Подключите к источнику питания",
-        "Разместите игрушки вокруг"
+        "Используйте синий свет",
+        "Играйте на пианино",
+        "Включите музыкальное радио"
       ],
       "remoteImage": "https://img.wikily.gg/unsafe/w:640/aHR0cHM6Ly9tZWRpYS53aWtpbHkuZ2cvMzg2MzUwNzQtZTE1Mi00NDczLTk4YTQtMDc4ZmY3Njg1MDk2LzIwMjYtMTAtMjQvOTk3MjllZGYtNmRhMS00MTlmLTk1MzYtNzczY2M0ZmMyMTFhLW9oLWRldmlhdGlvbi1yZW5kZXItOTkwMDAwNzcud2VicA"
     }
